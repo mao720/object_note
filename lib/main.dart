@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  Get.lazyPut<ThemeController>(() => ThemeController());
   runApp(const MyApp());
 }
 
@@ -11,6 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeController.to.getThemeModeFromPreferences();
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -24,6 +28,11 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        fontFamily: 'LXGWWenKaiLite',
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'LXGWWenKaiLite',
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -32,8 +41,35 @@ class MyApp extends StatelessWidget {
 
 class Controller extends GetxController {
   var count = 0.obs;
+}
 
-  increment() => count++;
+class ThemeController extends GetxController {
+  static ThemeController get to => Get.find();
+
+  var themeMode = ThemeMode.system.obs;
+
+  Future<void> setThemeMode(ThemeMode themeMode) async {
+    Get.changeThemeMode(themeMode);
+    this.themeMode(themeMode);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (kDebugMode) {
+      print(themeMode.toString());
+    }
+    await prefs.setString('theme', themeMode.toString().split('.')[1]);
+  }
+
+  getThemeModeFromPreferences() async {
+    ThemeMode themeMode;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String themeText = prefs.getString('theme') ?? 'system';
+    try {
+      themeMode =
+          ThemeMode.values.firstWhere((e) => describeEnum(e) == themeText);
+    } catch (e) {
+      themeMode = ThemeMode.system;
+    }
+    setThemeMode(themeMode);
+  }
 }
 
 class MyHomePage extends StatelessWidget {
@@ -45,7 +81,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Instantiate your class using Get.put() to make it available for all "child" routes there.
     final Controller c = Get.put(Controller());
-
+    ThemeController themeController = ThemeController.to;
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -56,16 +92,64 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             const Text(
               'You have pushed the button this many times:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              'You have pushed the button this many times:',
+              style: TextStyle(fontWeight: FontWeight.normal),
             ),
             Obx(() => Text(
                   '${c.count}',
                   style: Theme.of(context).textTheme.headline4,
                 )),
+            Center(
+              child: Text(
+                'System Brightness: ${Get.mediaQuery.platformBrightness.toString()}',
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Center(
+              child: Text(
+                'Theme Brightness: ${Get.theme.brightness.toString()}',
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'ThemeMode',
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.left,
+            ),
+            RadioListTile(
+              title: const Text('system'),
+              value: ThemeMode.system,
+              groupValue: themeController.themeMode.value,
+              onChanged: (value) {
+                themeController.setThemeMode(ThemeMode.system);
+              },
+            ),
+            RadioListTile(
+              title: const Text('dark'),
+              value: ThemeMode.dark,
+              groupValue: themeController.themeMode.value,
+              onChanged: (value) {
+                themeController.setThemeMode(ThemeMode.dark);
+              },
+            ),
+            RadioListTile(
+              title: const Text('light'),
+              value: ThemeMode.light,
+              groupValue: themeController.themeMode.value,
+              onChanged: (value) async {
+                themeController.setThemeMode(ThemeMode.light);
+              },
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: c.increment,
+        onPressed: () => c.count++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
