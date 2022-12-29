@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
         fontFamily: 'LXGWWenKaiLite',
       ),
       darkTheme: ThemeData(
@@ -52,9 +52,6 @@ class ThemeController extends GetxController {
     Get.changeThemeMode(themeMode);
     this.themeMode(themeMode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (kDebugMode) {
-      print(themeMode.toString());
-    }
     await prefs.setString('theme', themeMode.toString().split('.')[1]);
   }
 
@@ -87,66 +84,66 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              'You have pushed the button this many times:',
-              style: TextStyle(fontWeight: FontWeight.normal),
-            ),
-            Obx(() => Text(
+        child: Obx(() => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'You have pushed the button this many times:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  'You have pushed the button this many times:',
+                  style: TextStyle(fontWeight: FontWeight.normal),
+                ),
+                Text(
                   '${c.count}',
                   style: Theme.of(context).textTheme.headline4,
-                )),
-            Center(
-              child: Text(
-                'System Brightness: ${Get.mediaQuery.platformBrightness.toString()}',
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Center(
-              child: Text(
-                'Theme Brightness: ${Get.theme.brightness.toString()}',
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'ThemeMode',
-              style: TextStyle(fontSize: 20),
-              textAlign: TextAlign.left,
-            ),
-            RadioListTile(
-              title: const Text('system'),
-              value: ThemeMode.system,
-              groupValue: themeController.themeMode.value,
-              onChanged: (value) {
-                themeController.setThemeMode(ThemeMode.system);
-              },
-            ),
-            RadioListTile(
-              title: const Text('dark'),
-              value: ThemeMode.dark,
-              groupValue: themeController.themeMode.value,
-              onChanged: (value) {
-                themeController.setThemeMode(ThemeMode.dark);
-              },
-            ),
-            RadioListTile(
-              title: const Text('light'),
-              value: ThemeMode.light,
-              groupValue: themeController.themeMode.value,
-              onChanged: (value) async {
-                themeController.setThemeMode(ThemeMode.light);
-              },
-            ),
-          ],
-        ),
+                ),
+                Center(
+                  child: Text(
+                    'System Brightness: ${Get.mediaQuery.platformBrightness.toString()}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: Text(
+                    'Theme Brightness: ${Get.theme.brightness.toString()}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'ThemeMode',
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.left,
+                ),
+                RadioListTile(
+                  title: const Text('system'),
+                  value: ThemeMode.system,
+                  groupValue: themeController.themeMode.value,
+                  onChanged: (value) {
+                    themeController.setThemeMode(ThemeMode.system);
+                  },
+                ),
+                RadioListTile(
+                  title: const Text('dark'),
+                  value: ThemeMode.dark,
+                  groupValue: themeController.themeMode.value,
+                  onChanged: (value) {
+                    themeController.setThemeMode(ThemeMode.dark);
+                  },
+                ),
+                RadioListTile(
+                  title: const Text('light'),
+                  value: ThemeMode.light,
+                  groupValue: themeController.themeMode.value,
+                  onChanged: (value) async {
+                    themeController.setThemeMode(ThemeMode.light);
+                  },
+                ),
+              ],
+            )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => c.count++,
