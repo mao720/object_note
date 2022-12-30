@@ -52,7 +52,7 @@ class ThemeController extends GetxController {
     Get.changeThemeMode(themeMode);
     this.themeMode(themeMode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('theme', themeMode.toString().split('.')[1]);
+    await prefs.setString('theme', describeEnum(themeMode));
   }
 
   getThemeModeFromPreferences() async {
@@ -140,6 +140,7 @@ class MyHomePage extends StatelessWidget {
                   groupValue: themeController.themeMode.value,
                   onChanged: (value) async {
                     themeController.setThemeMode(ThemeMode.light);
+                    Get.snackbar('title', 'snackBar');
                   },
                 ),
               ],
