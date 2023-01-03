@@ -14,7 +14,6 @@ class TestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Instantiate your class using Get.put() to make it available for all "child" routes there.
-    final Controller c = Get.put(Controller());
     ThemeController themeController = ThemeController.to;
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +32,7 @@ class TestPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  '${c.count}',
+                  '${logic.count}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Center(
@@ -84,14 +83,10 @@ class TestPage extends StatelessWidget {
             )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => c.count++,
+        onPressed: () => logic.count++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
     );
   }
-}
-
-class Controller extends GetxController {
-  var count = 0.obs;
 }
