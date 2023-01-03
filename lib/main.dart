@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/common/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -17,30 +18,19 @@ class MyApp extends StatelessWidget {
     ThemeController.to.getThemeModeFromPreferences();
     return GetMaterialApp(
       title: 'Flutter Demo',
+      initialRoute: RouteGet.splashPage,
+      getPages: RouteGet.getPages,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         brightness: Brightness.light,
         fontFamily: 'LXGWWenKaiLite',
+        primarySwatch: Colors.green,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         fontFamily: 'LXGWWenKaiLite',
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
-}
-
-class Controller extends GetxController {
-  var count = 0.obs;
 }
 
 class ThemeController extends GetxController {
@@ -66,91 +56,5 @@ class ThemeController extends GetxController {
       themeMode = ThemeMode.system;
     }
     setThemeMode(themeMode);
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    // Instantiate your class using Get.put() to make it available for all "child" routes there.
-    final Controller c = Get.put(Controller());
-    ThemeController themeController = ThemeController.to;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Obx(() => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  'You have pushed the button this many times:',
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-                Text(
-                  '${c.count}',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                Center(
-                  child: Text(
-                    'System Brightness: ${Get.mediaQuery.platformBrightness.toString()}',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text(
-                    'Theme Brightness: ${Get.theme.brightness.toString()}',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'ThemeMode',
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.left,
-                ),
-                RadioListTile(
-                  title: const Text('system'),
-                  value: ThemeMode.system,
-                  groupValue: themeController.themeMode.value,
-                  onChanged: (value) {
-                    themeController.setThemeMode(ThemeMode.system);
-                  },
-                ),
-                RadioListTile(
-                  title: const Text('dark'),
-                  value: ThemeMode.dark,
-                  groupValue: themeController.themeMode.value,
-                  onChanged: (value) {
-                    themeController.setThemeMode(ThemeMode.dark);
-                  },
-                ),
-                RadioListTile(
-                  title: const Text('light'),
-                  value: ThemeMode.light,
-                  groupValue: themeController.themeMode.value,
-                  onChanged: (value) async {
-                    themeController.setThemeMode(ThemeMode.light);
-                    Get.snackbar('title', 'snackBar');
-                  },
-                ),
-              ],
-            )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => c.count++,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
   }
 }
