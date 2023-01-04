@@ -14,10 +14,10 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
         body: Container(
       alignment: Alignment.center,
-      child: TextButton(
-        style: const ButtonStyle(),
+      child: IconButton(
+        icon: const Icon(Icons.label_important_outline),
+        iconSize: 100,
         onPressed: () => Get.toNamed(RouteGet.testPage),
-        child: const Text('打开即可'),
       ),
     ));
   }

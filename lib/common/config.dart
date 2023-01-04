@@ -5,7 +5,7 @@ import 'package:object_note/pages/test/test_view.dart';
 
 class RouteGet {
   ///root page
-  static const String splashPage = "/";
+  static const String splashPage = "/splashPage";
   static const String guidePage = "/guidePage";
   static const String testPage = "/testPage";
 
@@ -13,7 +13,6 @@ class RouteGet {
   static final List<GetPage> getPages = [
     GetPage(name: splashPage, page: () => SplashPage()),
     GetPage(name: guidePage, page: () => GuidePage()),
-    GetPage(
-        name: testPage, page: () => TestPage(title: 'Flutter Demo Home Page')),
+    GetPage(name: testPage, page: () => TestPage()),
   ];
 }

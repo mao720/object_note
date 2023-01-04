@@ -5,11 +5,9 @@ import '../../main.dart';
 import 'test_logic.dart';
 
 class TestPage extends StatelessWidget {
-  TestPage({Key? key, required this.title}) : super(key: key);
+  TestPage({Key? key}) : super(key: key);
 
   final logic = Get.put(TestLogic());
-
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,7 @@ class TestPage extends StatelessWidget {
     ThemeController themeController = ThemeController.to;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('Flutter Demo Home Page'),
       ),
       body: Center(
         child: Obx(() => Column(
