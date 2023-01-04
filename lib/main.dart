@@ -5,7 +5,7 @@ import 'package:object_note/common/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  Get.lazyPut<ThemeController>(() => ThemeController());
+  Get.put(ThemeController());
   runApp(const MyApp());
 }
 
@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeController.to.getThemeModeFromPreferences();
     return GetMaterialApp(
       title: 'Flutter Demo',
       initialRoute: RouteGet.splashPage,
@@ -37,14 +36,9 @@ class ThemeController extends GetxController {
 
   var themeMode = ThemeMode.system.obs;
 
-  Future<void> setThemeMode(ThemeMode themeMode) async {
-    Get.changeThemeMode(themeMode);
-    this.themeMode(themeMode);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('theme', describeEnum(themeMode));
-  }
-
-  getThemeModeFromPreferences() async {
+  @override
+  Future<void> onReady() async {
+    super.onReady();
     ThemeMode themeMode;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String themeText = prefs.getString('theme') ?? 'system';
@@ -55,5 +49,12 @@ class ThemeController extends GetxController {
       themeMode = ThemeMode.system;
     }
     setThemeMode(themeMode);
+  }
+
+  Future<void> setThemeMode(ThemeMode themeMode) async {
+    Get.changeThemeMode(themeMode);
+    this.themeMode(themeMode);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme', describeEnum(themeMode));
   }
 }
