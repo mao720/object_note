@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:object_note/pages/guide/guide_view.dart';
-import 'package:object_note/pages/splash/splash_view.dart';
-import 'package:object_note/pages/test/test_view.dart';
+
+import '../pages/guide/guide_view.dart';
+import '../pages/splash/splash_view.dart';
+import '../pages/test/test_view.dart';
 
 class RouteGet {
   ///root page
