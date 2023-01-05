@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../main.dart';
+import '../../core/app_controller.dart';
 import 'test_logic.dart';
 
 class TestPage extends StatelessWidget {
   TestPage({Key? key}) : super(key: key);
 
-  final logic = Get.put(TestLogic());
+  final _logic = Get.put(TestLogic());
 
   @override
   Widget build(BuildContext context) {
     // Instantiate your class using Get.put() to make it available for all "child" routes there.
-    ThemeController themeController = ThemeController.to;
+    AppController themeController = AppController.to;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Demo Home Page'),
@@ -30,7 +30,7 @@ class TestPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  '${logic.count}',
+                  '${_logic.count}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Center(
@@ -81,7 +81,7 @@ class TestPage extends StatelessWidget {
             )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => logic.count++,
+        onPressed: () => _logic.count++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
