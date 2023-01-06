@@ -7,7 +7,7 @@ import 'test_logic.dart';
 class TestPage extends StatelessWidget {
   TestPage({Key? key}) : super(key: key);
 
-  final _logic = Get.put(TestLogic());
+  final logic = Get.put(TestLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class TestPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.normal),
                 ),
                 Text(
-                  '${_logic.count}',
+                  '${logic.count}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 Center(
@@ -81,7 +81,7 @@ class TestPage extends StatelessWidget {
             )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _logic.count++,
+        onPressed: () => logic.count++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
