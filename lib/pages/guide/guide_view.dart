@@ -36,14 +36,14 @@ class GuidePage extends StatelessWidget {
                   ? TextButton(
                       style: ButtonStyle(
                         padding: MaterialStateProperty.resolveWith(
-                            (states) => const EdgeInsets.all(16)),
+                            (states) => const EdgeInsets.all(12)),
                         backgroundColor: MaterialStateProperty.resolveWith(
                             (states) => Colors.green.withOpacity(0.2)),
                       ),
                       onPressed: logic.onButtonPressed,
                       child: const Text(
                         '开启笔记',
-                        style: TextStyle(fontSize: 26, color: Colors.green),
+                        style: TextStyle(fontSize: 22, color: Colors.green),
                       ),
                     )
                   : Row(

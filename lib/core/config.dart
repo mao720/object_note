@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../pages/guide/guide_view.dart';
+import '../pages/home/home_view.dart';
 import '../pages/splash/splash_view.dart';
 import '../pages/test/test_view.dart';
 
@@ -8,6 +11,7 @@ class RouteGet {
   ///root page
   static const String splashPage = "/splashPage";
   static const String guidePage = "/guidePage";
+  static const String homePage = "/homePage";
   static const String testPage = "/testPage";
 
   ///pages map
@@ -15,10 +19,13 @@ class RouteGet {
     GetPage(name: splashPage, page: () => SplashPage()),
     GetPage(name: guidePage, page: () => GuidePage()),
     GetPage(name: testPage, page: () => TestPage()),
+    GetPage(name: homePage, page: () => HomePage()),
   ];
 }
 
 class AppConfig {
+  static const fontFamily = 'LXGWWenKaiLite';
+
   static const splashLogo = 'assets/animations/logo-somar.json';
 
   static const guideIllustrations = [
@@ -30,4 +37,12 @@ class AppConfig {
     'assets/animations/illustration-walking.json',
     'assets/animations/illustration-watering-flowers.json',
   ];
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }

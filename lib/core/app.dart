@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,21 +12,13 @@ Widget createApp() {
     getPages: RouteGet.getPages,
     theme: ThemeData(
       brightness: Brightness.light,
-      fontFamily: 'LXGWWenKaiLite',
+      fontFamily: AppConfig.fontFamily,
       primarySwatch: Colors.green,
     ),
     darkTheme: ThemeData(
       brightness: Brightness.dark,
-      fontFamily: 'LXGWWenKaiLite',
+      fontFamily: AppConfig.fontFamily,
     ),
     scrollBehavior: MyCustomScrollBehavior(),
   );
-}
-
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
 }
