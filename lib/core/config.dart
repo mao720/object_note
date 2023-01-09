@@ -19,6 +19,8 @@ class RouteGet {
 }
 
 class AppConfig {
+  static const splashLogo = 'assets/animations/logo-somar.json';
+
   static const guideIllustrations = [
     'assets/animations/illustration-stay-at-home.json',
     'assets/animations/illustration-book.json',
