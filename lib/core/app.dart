@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'app_controller.dart';
+import 'color_schemes.g.dart';
 import 'config.dart';
 
 Widget createApp() {
@@ -11,12 +12,13 @@ Widget createApp() {
     initialRoute: RouteGet.splashPage,
     getPages: RouteGet.getPages,
     theme: ThemeData(
-      brightness: Brightness.light,
+      useMaterial3: true,
+      colorScheme: lightColorScheme,
       fontFamily: AppConfig.fontFamily,
-      primarySwatch: Colors.green,
     ),
     darkTheme: ThemeData(
-      brightness: Brightness.dark,
+      useMaterial3: true,
+      colorScheme: darkColorScheme,
       fontFamily: AppConfig.fontFamily,
     ),
     scrollBehavior: MyCustomScrollBehavior(),
