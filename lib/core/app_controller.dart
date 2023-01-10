@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppController extends GetxController {
-  static AppController get to => Get.find();
-
   var themeMode = ThemeMode.system.obs;
 
   @override

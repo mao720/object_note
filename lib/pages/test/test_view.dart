@@ -11,8 +11,7 @@ class TestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Instantiate your class using Get.put() to make it available for all "child" routes there.
-    AppController themeController = AppController.to;
+    AppController themeController = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Demo Home Page'),
@@ -53,6 +52,7 @@ class TestPage extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 RadioListTile(
+                  activeColor: Get.theme.colorScheme.primary,
                   title: const Text('system'),
                   value: ThemeMode.system,
                   groupValue: themeController.themeMode.value,
@@ -61,20 +61,26 @@ class TestPage extends StatelessWidget {
                   },
                 ),
                 RadioListTile(
+                  activeColor: Get.theme.colorScheme.primary,
                   title: const Text('dark'),
                   value: ThemeMode.dark,
                   groupValue: themeController.themeMode.value,
                   onChanged: (value) {
                     themeController.setThemeMode(ThemeMode.dark);
+                    Get.snackbar('title', '啥境界解决');
                   },
                 ),
                 RadioListTile(
+                  activeColor: Get.theme.colorScheme.primary,
                   title: const Text('light'),
                   value: ThemeMode.light,
                   groupValue: themeController.themeMode.value,
                   onChanged: (value) async {
                     themeController.setThemeMode(ThemeMode.light);
-                    Get.snackbar('title', 'snackBar');
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(content: Text('的看法控件')),
+                    // );
+                    Get.snackbar('title', '啥境界解决');
                   },
                 ),
               ],
