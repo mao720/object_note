@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'app_controller.dart';
-import 'color_schemes.g.dart';
 import 'config.dart';
 
 Widget createApp() {
@@ -13,12 +12,12 @@ Widget createApp() {
     getPages: RouteGet.getPages,
     theme: ThemeData(
       useMaterial3: true,
-      colorScheme: lightColorScheme,
+      colorScheme: AppConfig.lightColorScheme,
       fontFamily: AppConfig.fontFamily,
     ),
     darkTheme: ThemeData(
       useMaterial3: true,
-      colorScheme: darkColorScheme,
+      colorScheme: AppConfig.darkColorScheme,
       fontFamily: AppConfig.fontFamily,
     ),
     scrollBehavior: MyCustomScrollBehavior(),
