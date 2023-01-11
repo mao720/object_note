@@ -1,28 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomeTabView extends StatefulWidget {
-  final Color? selectedColor = Get.theme.colorScheme.primary;
-  final Color unselectedColor = Get.theme.colorScheme.outline.withOpacity(0.3);
+  final int initialIndex;
 
-  HomeTabView({super.key});
+  const HomeTabView({super.key, this.initialIndex = 0});
 
   @override
   State<StatefulWidget> createState() {
-    return HomeTabViewState();
+    return _HomeTabViewState();
   }
 }
 
-class HomeTabViewState extends State<HomeTabView> {
+class _HomeTabViewState extends State<HomeTabView> {
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
+
+  Widget _buildItem(IconData icon, bool isSelected, void Function() onPressed) {
+    var colorScheme = Theme.of(context).colorScheme;
+    return IconButton(
+      iconSize: 30,
+      hoverColor: Colors.transparent,
+      icon: Icon(
+        icon,
+        color: colorScheme.primary.withOpacity(isSelected ? 1 : 0.6),
+      ),
+      onPressed: onPressed,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.menu, color: widget.selectedColor)),
-      IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.man, color: widget.unselectedColor))
-    ]);
+    var colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      color: colorScheme.background,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildItem(Icons.home, true, () {}),
+          _buildItem(Icons.man, false, () {}),
+        ],
+      ),
+    );
   }
 }
