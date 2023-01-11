@@ -12,7 +12,7 @@ class GuidePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get.theme.backgroundColor,
+      backgroundColor: Colors.white,
       body: Stack(children: [
         PageView(
           onPageChanged: (index) => logic.currentPageIndex.value = index,
