@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/config.dart';
 import 'package:object_note/widgets/home_tab_view.dart';
 
 import 'home_logic.dart';
@@ -13,23 +14,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          PageView(
-            controller: PageController(initialPage: 1),
+      body: Column(children: [
+        Expanded(
+          child: PageView(
+            controller: PageController(initialPage: 0),
             children: [
-              Container(),
-              Container(),
+              Container(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () => Get.toNamed(RouteGet.testPage),
+                  child: const Text('test'),
+                ),
+              ),
+              Container(color: Colors.orange),
             ],
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: HomeTabView(),
-          )
-        ],
-      ),
+        ),
+        HomeTabView(),
+      ]),
     );
   }
 }
