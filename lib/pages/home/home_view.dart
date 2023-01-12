@@ -17,7 +17,8 @@ class HomePage extends StatelessWidget {
       body: Column(children: [
         Expanded(
           child: PageView(
-            controller: PageController(initialPage: 0),
+            controller: logic.pageController,
+            onPageChanged: (index) => logic.currentIndex.value = index,
             children: [
               Container(
                 alignment: Alignment.center,
@@ -26,11 +27,23 @@ class HomePage extends StatelessWidget {
                   child: const Text('test'),
                 ),
               ),
-              Container(color: Colors.orange),
+              Container(),
             ],
           ),
         ),
-        HomeTabView(),
+        Obx(() {
+          return HomeTabView(
+            currentIndex: logic.currentIndex.value,
+            onTap: (index) {
+              logic.currentIndex.value = index;
+              logic.pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            },
+          );
+        }),
       ]),
     );
   }
