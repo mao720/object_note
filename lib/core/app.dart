@@ -8,17 +8,17 @@ Widget createApp() {
   Get.put(AppController());
   return GetMaterialApp(
     title: 'Flutter Demo',
-    initialRoute: RouteGet.splashPage,
-    getPages: RouteGet.getPages,
+    initialRoute: RouteConfig.splashPage,
+    getPages: RouteConfig.getPages,
     theme: ThemeData(
       useMaterial3: true,
-      colorScheme: AppConfig.lightColorScheme,
-      fontFamily: AppConfig.fontFamily,
+      colorScheme: ThemeConfig.lightColorScheme,
+      fontFamily: ThemeConfig.fontFamily,
     ),
     darkTheme: ThemeData(
       useMaterial3: true,
-      colorScheme: AppConfig.darkColorScheme,
-      fontFamily: AppConfig.fontFamily,
+      colorScheme: ThemeConfig.darkColorScheme,
+      fontFamily: ThemeConfig.fontFamily,
     ),
     scrollBehavior: MyCustomScrollBehavior(),
   );

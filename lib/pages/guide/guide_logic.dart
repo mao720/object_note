@@ -37,6 +37,6 @@ class GuideLogic extends GetxController with GetTickerProviderStateMixin {
   void onButtonPressed() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFirstOpen', false);
-    Get.offNamed(RouteGet.homePage);
+    Get.offNamed(RouteConfig.homePage);
   }
 }

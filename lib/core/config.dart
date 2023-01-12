@@ -7,7 +7,21 @@ import '../pages/home/home_view.dart';
 import '../pages/splash/splash_view.dart';
 import '../pages/test/test_view.dart';
 
-class RouteGet {
+class AppConfig {
+  static const splashLogo = 'assets/animations/logo-somar.json';
+
+  static const guideIllustrations = [
+    'assets/animations/illustration-stay-at-home.json',
+    'assets/animations/illustration-book.json',
+    'assets/animations/illustration-bookshelf.json',
+    'assets/animations/illustration-heart.json',
+    'assets/animations/illustration-planting-trees.json',
+    'assets/animations/illustration-walking.json',
+    'assets/animations/illustration-watering-flowers.json',
+  ];
+}
+
+class RouteConfig {
   ///root page
   static const String splashPage = "/splashPage";
   static const String guidePage = "/guidePage";
@@ -23,10 +37,8 @@ class RouteGet {
   ];
 }
 
-class AppConfig {
+class ThemeConfig {
   static const fontFamily = 'LXGWWenKaiLite';
-
-  static const splashLogo = 'assets/animations/logo-somar.json';
 
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
@@ -95,21 +107,6 @@ class AppConfig {
     // outlineVariant: Color(0xFF43483E),
     // scrim: Color(0xFF000000),
   );
-
-  static const bottomTabItems = [
-    Icons.home,
-    Icons.account_box,
-  ];
-
-  static const guideIllustrations = [
-    'assets/animations/illustration-stay-at-home.json',
-    'assets/animations/illustration-book.json',
-    'assets/animations/illustration-bookshelf.json',
-    'assets/animations/illustration-heart.json',
-    'assets/animations/illustration-planting-trees.json',
-    'assets/animations/illustration-walking.json',
-    'assets/animations/illustration-watering-flowers.json',
-  ];
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
