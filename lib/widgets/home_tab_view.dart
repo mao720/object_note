@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class HomeTabView extends StatefulWidget {
-  final int initialIndex;
+import '../core/config.dart';
 
-  const HomeTabView({super.key, this.initialIndex = 0});
+class HomeTabView extends StatefulWidget {
+  final int currentIndex;
+  final void Function(int index)? onTap;
+
+  const HomeTabView({super.key, this.currentIndex = 0, this.onTap});
 
   @override
   State<StatefulWidget> createState() {
@@ -12,23 +15,15 @@ class HomeTabView extends StatefulWidget {
 }
 
 class _HomeTabViewState extends State<HomeTabView> {
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.initialIndex;
-  }
-
   Widget _buildItem(IconData icon, bool isSelected, void Function() onPressed) {
     var colorScheme = Theme.of(context).colorScheme;
     return IconButton(
       iconSize: 30,
       hoverColor: Colors.transparent,
-      icon: Icon(
-        icon,
-        color: colorScheme.primary.withOpacity(isSelected ? 1 : 0.6),
-      ),
+      icon: Icon(icon,
+          color: isSelected
+              ? colorScheme.primary
+              : colorScheme.onSurface.withOpacity(0.6)),
       onPressed: onPressed,
     );
   }
@@ -37,13 +32,19 @@ class _HomeTabViewState extends State<HomeTabView> {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       color: colorScheme.background,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildItem(Icons.home, true, () {}),
-          _buildItem(Icons.man, false, () {}),
-        ],
+        children: AppConfig.bottomTabItems
+            .asMap()
+            .entries
+            .map((entry) => _buildItem(
+                  entry.value,
+                  entry.key == widget.currentIndex,
+                  () => widget.onTap?.call(entry.key),
+                ))
+            .toList(),
       ),
     );
   }
