@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/config.dart';
 import 'package:object_note/widgets/home_tab_view.dart';
 
 import 'home_logic.dart';
@@ -18,12 +17,12 @@ class HomePage extends StatelessWidget {
         Expanded(
           child: PageView(
             controller: logic.pageController,
-            onPageChanged: (index) => logic.currentIndex.value = index,
+            onPageChanged: logic.onPageChanged,
             children: [
               Container(
                 alignment: Alignment.center,
                 child: TextButton(
-                  onPressed: () => Get.toNamed(RouteGet.testPage),
+                  onPressed: logic.onButtonPressed,
                   child: const Text('test'),
                 ),
               ),
@@ -33,15 +32,9 @@ class HomePage extends StatelessWidget {
         ),
         Obx(() {
           return HomeTabView(
-            currentIndex: logic.currentIndex.value,
-            onTap: (index) {
-              logic.currentIndex.value = index;
-              logic.pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            },
+            currentIndex: state.currentIndex.value,
+            tabItems: state.bottomTabItems.value,
+            onTap: logic.onBottomItemTaped,
           );
         }),
       ]),

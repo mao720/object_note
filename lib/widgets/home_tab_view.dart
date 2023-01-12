@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../core/config.dart';
-
-class HomeTabView extends StatefulWidget {
+class HomeTabView extends StatelessWidget {
   final int currentIndex;
+  final List<IconData> tabItems;
   final void Function(int index)? onTap;
 
-  const HomeTabView({super.key, this.currentIndex = 0, this.onTap});
+  const HomeTabView({
+    super.key,
+    this.currentIndex = 0,
+    required this.tabItems,
+    this.onTap,
+  });
 
-  @override
-  State<StatefulWidget> createState() {
-    return _HomeTabViewState();
-  }
-}
-
-class _HomeTabViewState extends State<HomeTabView> {
-  Widget _buildItem(IconData icon, bool isSelected, void Function() onPressed) {
+  Widget _buildItem(BuildContext context, IconData icon, bool isSelected,
+      void Function() onPressed) {
     var colorScheme = Theme.of(context).colorScheme;
     return IconButton(
       iconSize: 30,
@@ -36,13 +34,14 @@ class _HomeTabViewState extends State<HomeTabView> {
       color: colorScheme.background,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: AppConfig.bottomTabItems
+        children: tabItems
             .asMap()
             .entries
             .map((entry) => _buildItem(
+                  context,
                   entry.value,
-                  entry.key == widget.currentIndex,
-                  () => widget.onTap?.call(entry.key),
+                  entry.key == currentIndex,
+                  () => onTap?.call(entry.key),
                 ))
             .toList(),
       ),

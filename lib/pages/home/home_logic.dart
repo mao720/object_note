@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/config.dart';
 import 'home_state.dart';
 
 class HomeLogic extends GetxController {
   final HomeState state = HomeState();
   final PageController pageController = PageController();
-  final currentIndex = 0.obs;
+
+  onPageChanged(int index) {
+    state.currentIndex.value = index;
+  }
+
+  onButtonPressed() {
+    Get.toNamed(RouteConfig.testPage);
+    // state.bottomTabItems.value = [Icons.ice_skating];
+  }
+
+  onBottomItemTaped(int index) {
+    state.currentIndex.value = index;
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
 }
