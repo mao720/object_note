@@ -96,6 +96,11 @@ class AppConfig {
     // scrim: Color(0xFF000000),
   );
 
+  static const bottomTabItems = [
+    Icons.home,
+    Icons.account_box,
+  ];
+
   static const guideIllustrations = [
     'assets/animations/illustration-stay-at-home.json',
     'assets/animations/illustration-book.json',
@@ -110,7 +115,7 @@ class AppConfig {
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-  };
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
