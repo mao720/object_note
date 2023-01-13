@@ -19,14 +19,16 @@ class HomePage extends StatelessWidget {
             controller: logic.pageController,
             onPageChanged: logic.onPageChanged,
             children: [
-              Container(
-                alignment: Alignment.center,
-                child: TextButton(
-                  onPressed: logic.onButtonPressed,
-                  child: const Text('test'),
-                ),
-              ),
               Container(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: logic.onButtonPressed,
+                    child: const Text('Setting'),
+                  )
+                ],
+              ),
             ],
           ),
         ),

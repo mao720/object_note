@@ -13,8 +13,7 @@ class HomeLogic extends GetxController {
   }
 
   onButtonPressed() {
-    Get.toNamed(RouteConfig.testPage);
-    // state.bottomTabItems.value = [Icons.ice_skating];
+    Get.toNamed(RouteConfig.settingsPage);
   }
 
   onBottomItemTaped(int index) {
