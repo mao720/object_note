@@ -12,7 +12,7 @@ class SplashLogic extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var isFirstOpen = prefs.getBool('isFirstOpen') ?? true;
     Timer(const Duration(seconds: 2), () {
-      Get.offNamed(isFirstOpen ? RouteConfig.guidePage : RouteConfig.testPage);
+      Get.offNamed(isFirstOpen ? RouteConfig.guidePage : RouteConfig.homePage);
     });
   }
 }
