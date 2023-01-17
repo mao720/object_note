@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class HomeTabView extends StatelessWidget {
-  final int currentIndex;
-  final List<IconData> tabItems;
-  final void Function(int index)? onTap;
-
   const HomeTabView({
     super.key,
     this.currentIndex = 0,
     required this.tabItems,
     this.onTap,
   });
+
+  final int currentIndex;
+  final List<IconData> tabItems;
+  final void Function(int index)? onTap;
 
   Widget _buildItem(BuildContext context, IconData icon, bool isSelected,
       void Function() onPressed) {
@@ -21,7 +21,7 @@ class HomeTabView extends StatelessWidget {
       icon: Icon(icon,
           color: isSelected
               ? colorScheme.primary
-              : colorScheme.onSurface.withOpacity(0.6)),
+              : colorScheme.onSurface.withOpacity(0.3)),
       onPressed: onPressed,
     );
   }
