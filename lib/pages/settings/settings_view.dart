@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
 
-import '../../core/app_controller.dart';
 import 'settings_logic.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -10,69 +9,63 @@ class SettingsPage extends StatelessWidget {
 
   final logic = Get.put(SettingsLogic());
   final state = Get.find<SettingsLogic>().state;
-  final AppController appController = Get.find();
+
+  Widget _createThemeSetting(BuildContext context) {
+    Widget createItem(String title, ThemeMode themeMode) {
+      return RadioListTile(
+        activeColor: Theme.of(context).colorScheme.primary,
+        title: Text(title),
+        value: themeMode,
+        groupValue: logic.appController.themeMode.value,
+        onChanged: (value) {
+          logic.appController.setThemeMode(themeMode);
+        },
+      );
+    }
+
+    return Card(
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Theme',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.apply(color: Theme.of(context).colorScheme.secondary),
+            ),
+            const SizedBox(height: 10),
+            Card(
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Obx(() {
+                  return Column(
+                    children: [
+                      createItem('system', ThemeMode.system),
+                      createItem('dark', ThemeMode.dark),
+                      createItem('light', ThemeMode.light),
+                    ],
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: createBaseAppBar(),
-      body: Card(
-        margin: const EdgeInsets.all(20),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Theme',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(height: 10),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  //color: Theme.of(context).colorScheme.surface,
-                  child: Column(
-                    children: [
-                      RadioListTile(
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        title: const Text('system'),
-                        value: ThemeMode.system,
-                        groupValue: appController.themeMode.value,
-                        onChanged: (value) {
-                          appController.setThemeMode(ThemeMode.system);
-                        },
-                      ),
-                      RadioListTile(
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        title: const Text('dark'),
-                        value: ThemeMode.dark,
-                        groupValue: appController.themeMode.value,
-                        onChanged: (value) {
-                          appController.setThemeMode(ThemeMode.dark);
-                        },
-                      ),
-                      RadioListTile(
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        title: const Text('light'),
-                        value: ThemeMode.light,
-                        groupValue: appController.themeMode.value,
-                        onChanged: (value) async {
-                          appController.setThemeMode(ThemeMode.light);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('是大家纷纷开始搭建')),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+        appBar: createBaseAppBar(title: 'Settings'),
+        body: Column(
+          children: [_createThemeSetting(context)],
+        ));
   }
 }
