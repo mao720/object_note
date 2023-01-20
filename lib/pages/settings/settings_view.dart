@@ -13,7 +13,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: createBaseAppBar(title: 'Settings'),
+        appBar: createBaseAppBar(title: 'Settings'.tr),
         body: Column(
           children: [_createThemeSetting(context)],
         ));
@@ -28,16 +28,16 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Theme',
+              'Theme'.tr,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
                   ?.apply(color: Theme.of(context).colorScheme.secondary),
             ),
             const SizedBox(height: 10),
-            _createThemeItem(context, 'system', ThemeMode.system),
-            _createThemeItem(context, 'dark', ThemeMode.dark),
-            _createThemeItem(context, 'light', ThemeMode.light),
+            _createThemeItem(context, 'system'.tr, ThemeMode.system),
+            _createThemeItem(context, 'light'.tr, ThemeMode.light),
+            _createThemeItem(context, 'dark'.tr, ThemeMode.dark),
           ],
         ),
       ),
@@ -49,7 +49,7 @@ class SettingsPage extends StatelessWidget {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
-        title: Text(title),
+        title: Text(title,style: Theme.of(context).textTheme.bodyMedium,),
         value: themeMode,
         groupValue: logic.appController.themeMode.value,
         onChanged: (value) {

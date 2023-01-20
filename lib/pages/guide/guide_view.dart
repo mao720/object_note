@@ -41,9 +41,9 @@ class GuidePage extends StatelessWidget {
                             (states) => Colors.green.withOpacity(0.2)),
                       ),
                       onPressed: logic.onButtonPressed,
-                      child: const Text(
-                        '开启笔记',
-                        style: TextStyle(fontSize: 22, color: Colors.green),
+                      child: Text(
+                        'Start Note'.tr,
+                        style: const TextStyle(fontSize: 22, color: Colors.green),
                       ),
                     )
                   : Row(

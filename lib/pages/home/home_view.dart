@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: logic.onButtonPressed,
-                    child: const Text('Setting'),
+                    child: Text('Settings'.tr),
                   )
                 ],
               ),
