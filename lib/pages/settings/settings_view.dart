@@ -10,26 +10,22 @@ class SettingsPage extends StatelessWidget {
   final logic = Get.put(SettingsLogic());
   final state = Get.find<SettingsLogic>().state;
 
-  Widget _createThemeSetting(BuildContext context) {
-    Widget createItem(String title, ThemeMode themeMode) {
-      return RadioListTile(
-        activeColor: Theme.of(context).colorScheme.primary,
-        title: Text(title),
-        value: themeMode,
-        groupValue: logic.appController.themeMode.value,
-        onChanged: (value) {
-          logic.appController.setThemeMode(themeMode);
-        },
-      );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: createBaseAppBar(title: 'Settings'),
+        body: Column(
+          children: [_createThemeSetting(context)],
+        ));
+  }
 
+  Widget _createThemeSetting(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(20),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Theme',
@@ -39,33 +35,27 @@ class SettingsPage extends StatelessWidget {
                   ?.apply(color: Theme.of(context).colorScheme.secondary),
             ),
             const SizedBox(height: 10),
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Obx(() {
-                  return Column(
-                    children: [
-                      createItem('system', ThemeMode.system),
-                      createItem('dark', ThemeMode.dark),
-                      createItem('light', ThemeMode.light),
-                    ],
-                  );
-                }),
-              ),
-            ),
+            _createThemeItem(context, 'system', ThemeMode.system),
+            _createThemeItem(context, 'dark', ThemeMode.dark),
+            _createThemeItem(context, 'light', ThemeMode.light),
           ],
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: createBaseAppBar(title: 'Settings'),
-        body: Column(
-          children: [_createThemeSetting(context)],
-        ));
+  Widget _createThemeItem(
+      BuildContext context, String title, ThemeMode themeMode) {
+    return Obx(() {
+      return RadioListTile(
+        activeColor: Theme.of(context).colorScheme.primary,
+        title: Text(title),
+        value: themeMode,
+        groupValue: logic.appController.themeMode.value,
+        onChanged: (value) {
+          logic.appController.setThemeMode(themeMode);
+        },
+      );
+    });
   }
 }
