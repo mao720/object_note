@@ -49,7 +49,7 @@ class SettingsPage extends StatelessWidget {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
-        title: Text(title,style: Theme.of(context).textTheme.bodyMedium,),
+        title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
         value: themeMode,
         groupValue: logic.appController.themeMode.value,
         onChanged: (value) {
