@@ -15,7 +15,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
         appBar: createBaseAppBar(title: 'Settings'.tr),
         body: Column(
-          children: [_createThemeSetting(context)],
+          children: [_createThemeSetting(context),Text('语言')],
         ));
   }
 
