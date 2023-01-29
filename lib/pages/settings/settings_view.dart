@@ -15,11 +15,37 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
         appBar: createBaseAppBar(title: 'Settings'.tr),
         body: Column(
-          children: [_createThemeSetting(context),Text('语言')],
+          children: [
+            _createSettingCard(
+              context,
+              'Theme'.tr,
+              [
+                _createThemeItem(context, 'system'.tr, ThemeMode.system,
+                    logic.appController.themeMode.value, logic.onThemeChanged),
+                _createThemeItem(context, 'light'.tr, ThemeMode.light,
+                    logic.appController.themeMode.value, logic.onThemeChanged),
+                _createThemeItem(context, 'dark'.tr, ThemeMode.dark,
+                    logic.appController.themeMode.value, logic.onThemeChanged),
+              ],
+            ),
+            _createSettingCard(
+              context,
+              'language'.tr,
+              [
+                _createThemeItem(context, 'system'.tr, Get.deviceLocale!,
+                    Get.deviceLocale!, logic.onLanguageChanged),
+                _createThemeItem(context, '中文', Locale('en', 'US'),
+                    Locale('en'), logic.onLanguageChanged),
+                _createThemeItem(context, 'English', Locale('en', 'US'),
+                    Locale('en'), logic.onLanguageChanged),
+              ],
+            ),
+          ],
         ));
   }
 
-  Widget _createThemeSetting(BuildContext context) {
+  Widget _createSettingCard(
+      BuildContext context, String title, List<Widget> items) {
     return Card(
       margin: const EdgeInsets.all(20),
       child: Padding(
@@ -28,33 +54,29 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Theme'.tr,
+              title,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
                   ?.apply(color: Theme.of(context).colorScheme.secondary),
             ),
             const SizedBox(height: 10),
-            _createThemeItem(context, 'system'.tr, ThemeMode.system),
-            _createThemeItem(context, 'light'.tr, ThemeMode.light),
-            _createThemeItem(context, 'dark'.tr, ThemeMode.dark),
+            ...items,
           ],
         ),
       ),
     );
   }
 
-  Widget _createThemeItem(
-      BuildContext context, String title, ThemeMode themeMode) {
+  Widget _createThemeItem<T>(BuildContext context, String title, T value,
+      T groupValue, void Function(T? value) onChanged) {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
         title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
-        value: themeMode,
-        groupValue: logic.appController.themeMode.value,
-        onChanged: (value) {
-          logic.appController.setThemeMode(themeMode);
-        },
+        value: value,
+        groupValue: groupValue,
+        onChanged: onChanged,
       );
     });
   }
