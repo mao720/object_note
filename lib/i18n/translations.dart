@@ -10,6 +10,7 @@ class TranslationStrings extends Translations {
           'system': 'system',
           'light': 'light',
           'dark': 'dark',
+          'language': 'language',
         },
         'zh_CN': {
           'Start Note': '开启笔记',
@@ -18,6 +19,7 @@ class TranslationStrings extends Translations {
           'system': '系统',
           'light': '亮色',
           'dark': '暗色',
+          'language': '语言',
         }
       };
 }
