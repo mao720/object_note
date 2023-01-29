@@ -7,19 +7,19 @@ class TranslationStrings extends Translations {
           'Start Note': 'Start Note',
           'Settings': 'Settings',
           'Theme': 'Theme',
-          'system': 'system',
-          'light': 'light',
-          'dark': 'dark',
-          'language': 'language',
+          'System': 'System',
+          'Light': 'Light',
+          'Dark': 'Dark',
+          'Language': 'Language',
         },
         'zh_CN': {
           'Start Note': '开启笔记',
           'Settings': '设置',
           'Theme': '主题',
-          'system': '系统',
-          'light': '亮色',
-          'dark': '暗色',
-          'language': '语言',
+          'System': '系统',
+          'Light': '亮色',
+          'Dark': '暗色',
+          'Language': '语言',
         }
       };
 }

@@ -20,24 +20,24 @@ class SettingsPage extends StatelessWidget {
               context,
               'Theme'.tr,
               [
-                _createThemeItem(context, 'system'.tr, ThemeMode.system,
-                    logic.appController.themeMode.value, logic.onThemeChanged),
-                _createThemeItem(context, 'light'.tr, ThemeMode.light,
-                    logic.appController.themeMode.value, logic.onThemeChanged),
-                _createThemeItem(context, 'dark'.tr, ThemeMode.dark,
-                    logic.appController.themeMode.value, logic.onThemeChanged),
+                _createItem(context, 'System'.tr, ThemeMode.system,
+                    logic.appController.themeMode, logic.onThemeChanged),
+                _createItem(context, 'Light'.tr, ThemeMode.light,
+                    logic.appController.themeMode, logic.onThemeChanged),
+                _createItem(context, 'Dark'.tr, ThemeMode.dark,
+                    logic.appController.themeMode, logic.onThemeChanged),
               ],
             ),
             _createSettingCard(
               context,
-              'language'.tr,
+              'Language'.tr,
               [
-                _createThemeItem(context, 'system'.tr, Get.deviceLocale!,
-                    Get.deviceLocale!, logic.onLanguageChanged),
-                _createThemeItem(context, '中文', Locale('en', 'US'),
-                    Locale('en'), logic.onLanguageChanged),
-                _createThemeItem(context, 'English', Locale('en', 'US'),
-                    Locale('en'), logic.onLanguageChanged),
+                _createItem(context, 'System'.tr, 'system',
+                    logic.appController.language, logic.onLanguageChanged),
+                _createItem(context, '中文', 'zh', logic.appController.language,
+                    logic.onLanguageChanged),
+                _createItem(context, 'English', 'en',
+                    logic.appController.language, logic.onLanguageChanged),
               ],
             ),
           ],
@@ -68,14 +68,14 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _createThemeItem<T>(BuildContext context, String title, T value,
-      T groupValue, void Function(T? value) onChanged) {
+  Widget _createItem<T>(BuildContext context, String title, T value,
+      Rx<T> groupValue, void Function(T? value) onChanged) {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
         title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
         value: value,
-        groupValue: groupValue,
+        groupValue: groupValue.value,
         onChanged: onChanged,
       );
     });

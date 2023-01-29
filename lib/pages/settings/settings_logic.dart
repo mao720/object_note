@@ -14,5 +14,9 @@ class SettingsLogic extends GetxController {
     }
   }
 
-  void onLanguageChanged(Locale? locale) {}
+  void onLanguageChanged(String? language) {
+    if (language != null) {
+      appController.setLanguage(language);
+    }
+  }
 }

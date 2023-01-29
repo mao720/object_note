@@ -5,13 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppController extends GetxController {
   var themeMode = ThemeMode.system.obs;
+  var language = 'system'.obs;
 
   @override
   Future<void> onReady() async {
     super.onReady();
-    ThemeMode themeMode;
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     String themeText = prefs.getString('theme') ?? 'system';
+    ThemeMode themeMode;
     try {
       themeMode =
           ThemeMode.values.firstWhere((e) => describeEnum(e) == themeText);
@@ -19,6 +21,9 @@ class AppController extends GetxController {
       themeMode = ThemeMode.system;
     }
     setThemeMode(themeMode);
+
+    String language = prefs.getString('language') ?? 'system';
+    setLanguage(language);
   }
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
@@ -26,5 +31,19 @@ class AppController extends GetxController {
     this.themeMode(themeMode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('theme', describeEnum(themeMode));
+  }
+
+  Future<void> setLanguage(String language) async {
+    this.language(language);
+    if (language == 'system') {
+      var deviceLocale = Get.deviceLocale;
+      if (deviceLocale != null) {
+        Get.updateLocale(deviceLocale);
+      }
+    } else {
+      Get.updateLocale(Locale(language));
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('language', language);
   }
 }
