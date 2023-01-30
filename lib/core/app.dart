@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../i18n/translations.dart';
 import 'app_controller.dart';
-import 'config.dart';
+import 'app_config.dart';
 
 Widget createApp() {
   Get.put(AppController());

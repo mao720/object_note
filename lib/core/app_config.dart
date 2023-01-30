@@ -20,6 +20,9 @@ class AppConfig {
     'assets/animations/illustration-walking.json',
     'assets/animations/illustration-watering-flowers.json',
   ];
+
+  static final themeMode = ThemeMode.system.obs;
+  static final language = 'system'.obs;
 }
 
 class RouteConfig {
