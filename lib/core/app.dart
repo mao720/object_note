@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../i18n/translations.dart';
-import 'app_controller.dart';
 import 'app_config.dart';
+import 'app_controller.dart';
 
 Widget createApp() {
   Get.put(AppController());
@@ -14,12 +14,12 @@ Widget createApp() {
     theme: ThemeData(
       useMaterial3: true,
       colorScheme: ThemeConfig.lightColorScheme,
-      fontFamily: ThemeConfig.fontFamily,
+      fontFamily: AppConfig.fontFamily,
     ),
     darkTheme: ThemeData(
       useMaterial3: true,
       colorScheme: ThemeConfig.darkColorScheme,
-      fontFamily: ThemeConfig.fontFamily,
+      fontFamily: AppConfig.fontFamily,
     ),
     scrollBehavior: MyCustomScrollBehavior(),
     translations: TranslationStrings(),
