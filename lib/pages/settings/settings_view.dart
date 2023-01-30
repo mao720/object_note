@@ -14,6 +14,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: createBaseAppBar(title: 'Settings'.tr),
         body: Column(
           children: [
@@ -74,6 +75,7 @@ class SettingsPage extends StatelessWidget {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
+        controlAffinity: ListTileControlAffinity.trailing,
         title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
         value: value,
         groupValue: groupValue.value,

@@ -4,6 +4,10 @@ class TranslationStrings extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+          //Home page Tabs
+          'Home': 'Home',
+          'Mine': 'Mine',
+          //Guide page
           'Start Note': 'Start Note',
           'Settings': 'Settings',
           'Theme': 'Theme',
@@ -13,6 +17,10 @@ class TranslationStrings extends Translations {
           'Language': 'Language',
         },
         'zh_CN': {
+          //Home page Tabs
+          'Home': '主页',
+          'Mine': '我的',
+          //Guide page
           'Start Note': '开启笔记',
           'Settings': '设置',
           'Theme': '主题',
