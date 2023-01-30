@@ -27,7 +27,6 @@ PreferredSizeWidget createBaseAppBar({
     leading: showLeading
         ? IconButton(
             onPressed: () => Get.back(),
-            tooltip: 'Back',
             color: color,
             icon: const Icon(Icons.arrow_back),
           )
