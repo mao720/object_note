@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../core/app_config.dart';
 import 'guide_logic.dart';
 
 class GuidePage extends StatelessWidget {
   GuidePage({Key? key}) : super(key: key);
 
   final logic = Get.put(GuideLogic());
+  final state = Get.find<GuideLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +17,13 @@ class GuidePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(children: [
         PageView(
-          onPageChanged: (index) => logic.currentPageIndex.value = index,
+          onPageChanged: (index) => state.currentPageIndex.value = index,
           controller: logic.pageController,
-          children: logic.guideIllustrations
+          children: AppConfig.guideIllustrations
               .asMap()
               .entries
-              .map(
-                (entry) => Lottie.asset(entry.value,
-                    controller: logic.animationControllerList[entry.key]),
-              )
+              .map((entry) => Lottie.asset(entry.value,
+                  controller: logic.animationControllerList[entry.key]))
               .toList(),
         ),
         Column(children: [
@@ -31,8 +31,8 @@ class GuidePage extends StatelessWidget {
           Flexible(
             flex: 3,
             child: Obx(() {
-              return logic.currentPageIndex.value ==
-                      logic.guideIllustrations.length - 1
+              return state.currentPageIndex.value ==
+                      AppConfig.guideIllustrations.length - 1
                   ? TextButton(
                       style: ButtonStyle(
                         padding: MaterialStateProperty.resolveWith(
@@ -43,12 +43,13 @@ class GuidePage extends StatelessWidget {
                       onPressed: logic.onButtonPressed,
                       child: Text(
                         'Start Note'.tr,
-                        style: const TextStyle(fontSize: 22, color: Colors.green),
+                        style:
+                            const TextStyle(fontSize: 22, color: Colors.green),
                       ),
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: logic.guideIllustrations
+                      children: AppConfig.guideIllustrations
                           .asMap()
                           .keys
                           .map((index) => Obx(() {
@@ -59,7 +60,7 @@ class GuidePage extends StatelessWidget {
                                       const EdgeInsets.symmetric(horizontal: 4),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: logic.currentPageIndex.value == index
+                                    color: state.currentPageIndex.value == index
                                         ? Colors.grey
                                         : Colors.grey.withOpacity(0.3),
                                   ),
