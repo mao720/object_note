@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_controller.dart';
+import '../../core/app_config.dart';
 import 'test_logic.dart';
 
 class TestPage extends StatelessWidget {
@@ -55,7 +56,7 @@ class TestPage extends StatelessWidget {
                   activeColor: Get.theme.colorScheme.primary,
                   title: const Text('system'),
                   value: ThemeMode.system,
-                  groupValue: themeController.themeMode.value,
+                  groupValue: AppConfig.themeMode.value,
                   onChanged: (value) {
                     themeController.setThemeMode(ThemeMode.system);
                   },
@@ -64,7 +65,7 @@ class TestPage extends StatelessWidget {
                   activeColor: Get.theme.colorScheme.primary,
                   title: const Text('dark'),
                   value: ThemeMode.dark,
-                  groupValue: themeController.themeMode.value,
+                  groupValue: AppConfig.themeMode.value,
                   onChanged: (value) {
                     themeController.setThemeMode(ThemeMode.dark);
                     Get.snackbar('title', '啥境界解决');
@@ -74,7 +75,7 @@ class TestPage extends StatelessWidget {
                   activeColor: Get.theme.colorScheme.primary,
                   title: const Text('light'),
                   value: ThemeMode.light,
-                  groupValue: themeController.themeMode.value,
+                  groupValue: AppConfig.themeMode.value,
                   onChanged: (value) async {
                     themeController.setThemeMode(ThemeMode.light);
                     // ScaffoldMessenger.of(context).showSnackBar(
