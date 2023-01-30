@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../core/config.dart';
+import '../../core/app_config.dart';
 import 'splash_logic.dart';
 
 class SplashPage extends StatelessWidget {

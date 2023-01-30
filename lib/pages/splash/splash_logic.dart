@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/config.dart';
+import '../../core/app_config.dart';
 
 class SplashLogic extends GetxController {
   @override
