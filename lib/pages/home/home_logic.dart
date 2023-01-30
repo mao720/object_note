@@ -16,7 +16,7 @@ class HomeLogic extends GetxController {
     Get.toNamed(RouteConfig.settingsPage);
   }
 
-  onBottomItemTaped(int index) {
+  onDestinationSelected(int index) {
     state.currentIndex.value = index;
     pageController.animateToPage(
       index,

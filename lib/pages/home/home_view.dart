@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/widgets/home_tab_view.dart';
 
 import 'home_logic.dart';
 
@@ -13,6 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(children: [
         Expanded(
           child: PageView(
@@ -33,10 +33,16 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Obx(() {
-          return HomeTabView(
-            currentIndex: state.currentIndex.value,
-            tabItems: state.bottomTabItems.value,
-            onTap: logic.onBottomItemTaped,
+          return NavigationBar(
+            selectedIndex: state.currentIndex.value,
+            destinations: state.bottomTabItems.value
+                .map((item) => NavigationDestination(
+                      label: item[0],
+                      selectedIcon: Icon(item[1]),
+                      icon: Icon(item[2]),
+                    ))
+                .toList(),
+            onDestinationSelected: logic.onDestinationSelected,
           );
         }),
       ]),
