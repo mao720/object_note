@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/widgets/base_app_bar.dart';
 
+import '../../core/app_config.dart';
+import '../../widgets/base_app_bar.dart';
 import 'settings_logic.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -21,23 +22,23 @@ class SettingsPage extends StatelessWidget {
               'Theme'.tr,
               [
                 _createItem(context, 'System'.tr, ThemeMode.system,
-                    logic.appController.themeMode, logic.onThemeChanged),
+                    AppConfig.themeMode, logic.onThemeChanged),
                 _createItem(context, 'Light'.tr, ThemeMode.light,
-                    logic.appController.themeMode, logic.onThemeChanged),
+                    AppConfig.themeMode, logic.onThemeChanged),
                 _createItem(context, 'Dark'.tr, ThemeMode.dark,
-                    logic.appController.themeMode, logic.onThemeChanged),
+                    AppConfig.themeMode, logic.onThemeChanged),
               ],
             ),
             _createSettingCard(
               context,
               'Language'.tr,
               [
-                _createItem(context, 'System'.tr, 'system',
-                    logic.appController.language, logic.onLanguageChanged),
-                _createItem(context, '中文', 'zh', logic.appController.language,
+                _createItem(context, 'System'.tr, 'system', AppConfig.language,
                     logic.onLanguageChanged),
-                _createItem(context, 'English', 'en',
-                    logic.appController.language, logic.onLanguageChanged),
+                _createItem(context, '中文', 'zh', AppConfig.language,
+                    logic.onLanguageChanged),
+                _createItem(context, 'English', 'en', AppConfig.language,
+                    logic.onLanguageChanged),
               ],
             ),
           ],
@@ -69,14 +70,14 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _createItem<T>(BuildContext context, String title, T value,
-      Rx<T> groupValue, void Function(T? value) onChanged) {
+      Rx<T> groupValue, void Function(T value) onChanged) {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
         title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
         value: value,
         groupValue: groupValue.value,
-        onChanged: onChanged,
+        onChanged: (v) => onChanged(value),
       );
     });
   }
