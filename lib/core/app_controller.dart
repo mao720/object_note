@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../l10n/translations.dart';
 import 'app_config.dart';
 
 class AppController extends GetxController {
@@ -21,7 +22,7 @@ class AppController extends GetxController {
     }
     setThemeMode(themeMode);
 
-    String language = prefs.getString('language') ?? 'system';
+    String language = prefs.getString('locale') ?? 'system';
     setLanguage(language);
   }
 
@@ -32,17 +33,19 @@ class AppController extends GetxController {
     await prefs.setString('theme', describeEnum(themeMode));
   }
 
-  Future<void> setLanguage(String language) async {
-    AppConfig.language(language);
-    if (language == 'system') {
+  Future<void> setLanguage(String localeString) async {
+    AppConfig.locale(localeString);
+    if (localeString == 'system') {
       var deviceLocale = Get.deviceLocale;
       if (deviceLocale != null) {
         Get.updateLocale(deviceLocale);
       }
     } else {
-      Get.updateLocale(Locale(language));
+      Get.updateLocale(TranslationStrings.supportLocale.firstWhere(
+          (locale) => locale.toString() == localeString,
+          orElse: () => Get.deviceLocale ?? AppConfig.fallbackLocale));
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('language', language);
+    await prefs.setString('locale', localeString);
   }
 }
