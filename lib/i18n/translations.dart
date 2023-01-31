@@ -25,8 +25,8 @@ class TranslationStrings extends Translations {
           'Settings': '设置',
           'Theme': '主题',
           'System': '系统',
-          'Light': '亮色',
-          'Dark': '暗色',
+          'Light': '浅色',
+          'Dark': '深色',
           'Language': '语言',
         }
       };
