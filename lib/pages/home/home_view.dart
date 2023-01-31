@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
             selectedIndex: state.currentIndex.value,
             destinations: state.bottomTabItems.value
                 .map((item) => NavigationDestination(
-                      label: item[0],
+                      label: item[0].toString().tr,
                       tooltip: '',
                       selectedIcon: Icon(item[1]),
                       icon: Icon(item[2]),
