@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_config.dart';
+import '../../l10n/translations.dart';
 import '../../widgets/base_app_bar.dart';
 import 'settings_logic.dart';
 
@@ -20,8 +22,8 @@ class SettingsPage extends StatelessWidget {
           children: [
             _createSettingCard(
               context,
-              'Theme'.tr,
-              [
+              title: 'Theme'.tr,
+              items: [
                 _createItem(context, 'System'.tr, ThemeMode.system,
                     AppConfig.themeMode, logic.onThemeChanged),
                 _createItem(context, 'Light'.tr, ThemeMode.light,
@@ -32,22 +34,35 @@ class SettingsPage extends StatelessWidget {
             ),
             _createSettingCard(
               context,
-              'Language'.tr,
-              [
-                _createItem(context, 'System'.tr, 'system', AppConfig.language,
+              title: 'Language'.tr,
+              items: [
+                _createItem(
+                    context,
+                    '${'System'.tr} - ${LocaleNamesLocalizationsDelegate.nativeLocaleNames[Get.deviceLocale.toString()] ?? ''}',
+                    'system',
+                    AppConfig.locale,
                     logic.onLanguageChanged),
-                _createItem(context, '中文', 'zh', AppConfig.language,
-                    logic.onLanguageChanged),
-                _createItem(context, 'English', 'en', AppConfig.language,
-                    logic.onLanguageChanged),
+                ...TranslationStrings.supportLocale
+                    .map((local) => _createItem(
+                          context,
+                          LocaleNamesLocalizationsDelegate
+                                  .nativeLocaleNames[local.toString()] ??
+                              '',
+                          local.toString(),
+                          AppConfig.locale,
+                          logic.onLanguageChanged,
+                          subtitle:
+                              LocaleNames.of(context)?.nameOf(local.toString()),
+                        ))
+                    .toList()
               ],
             ),
           ],
         ));
   }
 
-  Widget _createSettingCard(
-      BuildContext context, String title, List<Widget> items) {
+  Widget _createSettingCard(BuildContext context,
+      {required String title, required List<Widget> items}) {
     return Card(
       margin: const EdgeInsets.all(20),
       child: Padding(
@@ -71,12 +86,16 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _createItem<T>(BuildContext context, String title, T value,
-      Rx<T> groupValue, void Function(T value) onChanged) {
+      Rx<T> groupValue, void Function(T value) onChanged,
+      {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
         controlAffinity: ListTileControlAffinity.trailing,
         title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
+        subtitle: subtitle == null
+            ? null
+            : Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
         value: value,
         groupValue: groupValue.value,
         onChanged: (v) => onChanged(value),
