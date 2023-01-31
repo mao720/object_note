@@ -14,10 +14,10 @@ class AppConfig {
   static const guideIllustrations = [
     'assets/animations/illustration-stay-at-home.json',
     'assets/animations/illustration-book.json',
-    'assets/animations/illustration-bookshelf.json',
+    //'assets/animations/illustration-bookshelf.json',
     'assets/animations/illustration-heart.json',
-    'assets/animations/illustration-planting-trees.json',
-    'assets/animations/illustration-walking.json',
+    //'assets/animations/illustration-planting-trees.json',
+    //'assets/animations/illustration-walking.json',
     'assets/animations/illustration-watering-flowers.json',
   ];
 
