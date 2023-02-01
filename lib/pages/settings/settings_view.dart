@@ -15,50 +15,41 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceLocaleName = LocaleNamesLocalizationsDelegate
+        .nativeLocaleNames[Get.deviceLocale.toString()];
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: createBaseAppBar(title: 'Settings'.tr),
-        body: Column(
-          children: [
-            _createSettingCard(
-              context,
-              title: 'Theme'.tr,
-              items: [
-                _createItem(context, 'System'.tr, ThemeMode.system,
-                    AppConfig.themeMode, logic.onThemeChanged),
-                _createItem(context, 'Light'.tr, ThemeMode.light,
-                    AppConfig.themeMode, logic.onThemeChanged),
-                _createItem(context, 'Dark'.tr, ThemeMode.dark,
-                    AppConfig.themeMode, logic.onThemeChanged),
-              ],
-            ),
-            _createSettingCard(
-              context,
-              title: 'Language'.tr,
-              items: [
-                _createItem(
-                    context,
-                    '${'System'.tr} - ${LocaleNamesLocalizationsDelegate.nativeLocaleNames[Get.deviceLocale.toString()] ?? ''}',
-                    'system',
-                    AppConfig.locale,
-                    logic.onLanguageChanged),
-                ...TranslationStrings.supportLocale
-                    .map((local) => _createItem(
-                          context,
-                          LocaleNamesLocalizationsDelegate
-                                  .nativeLocaleNames[local.toString()] ??
-                              '',
-                          local.toString(),
-                          AppConfig.locale,
-                          logic.onLanguageChanged,
-                          subtitle:
-                              LocaleNames.of(context)?.nameOf(local.toString()),
-                        ))
-                    .toList()
-              ],
-            ),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: createBaseAppBar(title: 'Settings'.tr),
+      body: ListView(children: [
+        _createSettingCard(
+          context,
+          title: 'Theme'.tr,
+          items: [
+            _createItem(context, 'System'.tr, ThemeMode.system,
+                AppConfig.themeMode, logic.onThemeChanged),
+            _createItem(context, 'Light'.tr, ThemeMode.light,
+                AppConfig.themeMode, logic.onThemeChanged),
+            _createItem(context, 'Dark'.tr, ThemeMode.dark, AppConfig.themeMode,
+                logic.onThemeChanged),
           ],
-        ));
+        ),
+        _createSettingCard(context, title: 'Language'.tr, items: [
+          _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
+              AppConfig.locale, logic.onLanguageChanged),
+          ...TranslationStrings.supportLocale
+              .map((local) => _createItem(
+                    context,
+                    LocaleNamesLocalizationsDelegate
+                        .nativeLocaleNames[local.toString()],
+                    local.toString(),
+                    AppConfig.locale,
+                    logic.onLanguageChanged,
+                    subtitle: LocaleNames.of(context)?.nameOf(local.toString()),
+                  ))
+              .toList()
+        ]),
+      ]),
+    );
   }
 
   Widget _createSettingCard(BuildContext context,
@@ -85,14 +76,14 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _createItem<T>(BuildContext context, String title, T value,
+  Widget _createItem<T>(BuildContext context, String? title, T value,
       Rx<T> groupValue, void Function(T value) onChanged,
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
         activeColor: Theme.of(context).colorScheme.primary,
         controlAffinity: ListTileControlAffinity.trailing,
-        title: Text(title, style: Theme.of(context).textTheme.bodyMedium),
+        title: Text(title ?? '', style: Theme.of(context).textTheme.bodyMedium),
         subtitle: subtitle == null
             ? null
             : Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
