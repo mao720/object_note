@@ -22,11 +22,17 @@ class HomePage extends StatelessWidget {
               Container(),
               Column(
                 children: [
-                  GestureDetector(onTap: (){},child: const Icon(Icons.account_circle,size: 70,)),
-                  Hero(tag: 'Settings'.tr,
+                  GestureDetector(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.account_circle,
+                        size: 70,
+                      )),
+                  Hero(
+                    tag: 'Settings'.tr,
                     child: TextButton(
-                    onPressed: logic.onButtonPressed,
-                    child: Text('Settings'.tr),
+                      onPressed: logic.onButtonPressed,
+                      child: Text('Settings'.tr),
                     ),
                   )
                 ],

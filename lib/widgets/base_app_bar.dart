@@ -25,14 +25,15 @@ PreferredSizeWidget createBaseAppBar({
     title: Text(title, style: TextStyle(color: color)),
     centerTitle: true,
     leading: showLeading
-        ? Hero(tag: title,
-          child: IconButton(
+        ? Hero(
+            tag: title,
+            child: IconButton(
               onPressed: () => Get.back(),
               color: color,
               tooltip: '',
               icon: const Icon(Icons.arrow_back),
             ),
-        )
+          )
         : const SizedBox.shrink(),
     actions: actions,
   );
