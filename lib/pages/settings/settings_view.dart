@@ -55,20 +55,22 @@ class SettingsPage extends StatelessWidget {
   Widget _createSettingCard(BuildContext context,
       {required String title, required List<Widget> items}) {
     return Card(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(ThemeConfig.paddingMedium),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(ThemeConfig.paddingSmall),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.apply(color: Theme.of(context).colorScheme.secondary),
+            Padding(
+              padding: const EdgeInsets.only(bottom: ThemeConfig.paddingSmall),
+              child: Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.apply(color: Theme.of(context).colorScheme.secondary),
+              ),
             ),
-            const SizedBox(height: 10),
             ...items,
           ],
         ),
@@ -81,6 +83,9 @@ class SettingsPage extends StatelessWidget {
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: ThemeConfig.paddingSmall),
+        dense: true,
         activeColor: Theme.of(context).colorScheme.primary,
         controlAffinity: ListTileControlAffinity.trailing,
         title: Text(title ?? '', style: Theme.of(context).textTheme.bodyMedium),
