@@ -13,13 +13,19 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: Lottie.asset(
-          AppConfig.splashLogo,
-          repeat: false,
-          width: ThemeConfig.iconLarge,
-          height: ThemeConfig.iconLarge,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              AssetsIndex.splashLogo,
+              repeat: false,
+              width: ThemeConfig.iconLarge,
+              height: ThemeConfig.iconLarge,
+            ),
+            Lottie.asset(AssetsIndex.yogaBoxBreathing)
+          ],
         ),
       ),
     );

@@ -8,7 +8,6 @@ import '../pages/settings/settings_view.dart';
 import '../pages/splash/splash_view.dart';
 
 class AppConfig {
-  static const splashLogo = 'assets/animations/logo-somar.json';
   static const fontFamily = 'LXGWWenKaiLite';
   static const guideIllustrations = [
     'assets/animations/illustration-stay-at-home.json',
@@ -122,9 +121,11 @@ class ThemeConfig {
   static const paddingESmall = 12.0;
   static const paddingEESmall = 8.0;
   static const paddingEEESmall = 4.0;
+
   static const radiusLarge = 24.0;
   static const radiusMedium = 12.0;
   static const radiusSmall = 6.0;
+
   static const iconXXXLarge = 256.0;
   static const iconXXLarge = 192.0;
   static const iconXLarge = 144.0;
@@ -137,6 +138,11 @@ class ThemeConfig {
   static const iconEESmall = 16.0;
   static const iconEEESmall = 12.0;
   static const iconEEEESmall = 8.0;
+}
+
+class AssetsIndex {
+  static const splashLogo = 'assets/animations/logo-somar.json';
+  static const yogaBoxBreathing = 'assets/animations/yoga-box-breathing.json';
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
