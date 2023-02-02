@@ -14,7 +14,7 @@ class GuidePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Stack(children: [
         PageView(
           onPageChanged: (index) => state.currentPageIndex.value = index,
@@ -35,42 +35,52 @@ class GuidePage extends StatelessWidget {
                       AppConfig.guideIllustrations.length - 1
                   ? TextButton(
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.resolveWith(
-                            (states) => const EdgeInsets.all(12)),
                         backgroundColor: MaterialStateProperty.resolveWith(
-                            (states) => Colors.green.withOpacity(0.2)),
+                            (states) => Theme.of(context).colorScheme.primary),
                       ),
                       onPressed: logic.onButtonPressed,
-                      child: Text(
-                        'Start Note'.tr,
-                        style:
-                            const TextStyle(fontSize: 22, color: Colors.green),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: ThemeConfig.paddingEMedium),
+                        child: Text(
+                          'Start Note'.tr,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                        ),
                       ),
                     )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: AppConfig.guideIllustrations
-                          .asMap()
-                          .keys
-                          .map((index) => Obx(() {
-                                return Container(
-                                  width: 8,
-                                  height: 8,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: state.currentPageIndex.value == index
-                                        ? Colors.grey
-                                        : Colors.grey.withOpacity(0.3),
-                                  ),
-                                );
-                              }))
-                          .toList());
+                  : _indicatorView(context);
             }),
           )
         ]),
       ]),
     );
+  }
+
+  Widget _indicatorView(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: AppConfig.guideIllustrations
+            .asMap()
+            .keys
+            .map((index) => Obx(() {
+                  return Container(
+                    width: ThemeConfig.iconEEEESmall,
+                    height: ThemeConfig.iconEEEESmall,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: ThemeConfig.paddingEEESmall),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: state.currentPageIndex.value == index
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  );
+                }))
+            .toList());
   }
 }

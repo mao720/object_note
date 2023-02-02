@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/app_config.dart';
 import 'guide_state.dart';
@@ -36,8 +35,8 @@ class GuideLogic extends GetxController with GetTickerProviderStateMixin {
   }
 
   void onButtonPressed() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFirstOpen', false);
-    Get.offNamed(RouteConfig.homePage);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setBool('isFirstOpen', false);
+    // Get.offNamed(RouteConfig.homePage);
   }
 }
