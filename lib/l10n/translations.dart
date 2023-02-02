@@ -17,8 +17,12 @@ class TranslationStrings extends Translations {
           //Home page Tabs
           'Home': '主页',
           'Mine': '我的',
+          //Mine Tab
+          'Splash Page': '启动页',
+          'Guide Page': '导航页',
           //Guide page
           'Start Note': '开启笔记',
+          //Settings page
           'Settings': '设置',
           'Theme': '主题',
           'System': '系统',
@@ -30,8 +34,12 @@ class TranslationStrings extends Translations {
           //Home page Tabs
           'Home': 'Home',
           'Mine': 'Mine',
+          //Mine tab
+          'Splash Page': 'Splash Page',
+          'Guide Page': 'Guide Page',
           //Guide page
           'Start Note': 'Start Note',
+          //Settings page
           'Settings': 'Settings',
           'Theme': 'Theme',
           'System': 'System',
