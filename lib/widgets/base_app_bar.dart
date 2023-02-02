@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/app_config.dart';
 
 PreferredSizeWidget createBaseAppBar({
   String title = 'AppBar',
@@ -16,7 +17,7 @@ PreferredSizeWidget createBaseAppBar({
           onPressed: onMenuPressed,
           tooltip: 'menu',
           color: color,
-          icon: const Icon(Icons.menu),
+          icon: const Icon(Icons.menu, size: ThemeConfig.iconESmall),
         ),
       ),
     );
@@ -31,7 +32,7 @@ PreferredSizeWidget createBaseAppBar({
               onPressed: () => Get.back(),
               color: color,
               tooltip: '',
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back, size: ThemeConfig.iconESmall),
             ),
           )
         : const SizedBox.shrink(),
