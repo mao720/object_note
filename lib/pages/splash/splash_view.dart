@@ -18,8 +18,8 @@ class SplashPage extends StatelessWidget {
         child: Lottie.asset(
           AppConfig.splashLogo,
           repeat: false,
-          width: 100,
-          height: 100,
+          width: ThemeConfig.iconLarge,
+          height: ThemeConfig.iconLarge,
         ),
       ),
     );
