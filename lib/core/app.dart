@@ -15,11 +15,13 @@ Widget createApp() {
     getPages: RouteConfig.getPages,
     theme: ThemeData(
       useMaterial3: true,
+      platform: TargetPlatform.iOS,
       colorScheme: ThemeConfig.lightColorScheme,
       fontFamily: AppConfig.fontFamily,
     ),
     darkTheme: ThemeData(
       useMaterial3: true,
+      platform: TargetPlatform.iOS,
       colorScheme: ThemeConfig.darkColorScheme,
       fontFamily: AppConfig.fontFamily,
     ),

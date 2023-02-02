@@ -6,7 +6,6 @@ import '../pages/guide/guide_view.dart';
 import '../pages/home/home_view.dart';
 import '../pages/settings/settings_view.dart';
 import '../pages/splash/splash_view.dart';
-import '../pages/test/test_view.dart';
 
 class AppConfig {
   static const splashLogo = 'assets/animations/logo-somar.json';
@@ -40,7 +39,6 @@ class RouteConfig {
     GetPage(name: guidePage, page: () => GuidePage()),
     GetPage(name: homePage, page: () => HomePage()),
     GetPage(name: settingsPage, page: () => SettingsPage()),
-    GetPage(name: testPage, page: () => TestPage()),
   ];
 }
 
