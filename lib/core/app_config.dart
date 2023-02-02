@@ -110,6 +110,33 @@ class ThemeConfig {
     // outlineVariant: Color(0xFF424940),
     // scrim: Color(0xFF000000),
   );
+
+  static const paddingXXXLarge = 96.0;
+  static const paddingXXLarge = 64.0;
+  static const paddingXLarge = 48.0;
+  static const paddingLarge = 32.0;
+  static const paddingLMedium = 28.0;
+  static const paddingMedium = 24.0;
+  static const paddingEMedium = 20.0;
+  static const paddingSmall = 16.0;
+  static const paddingESmall = 12.0;
+  static const paddingEESmall = 8.0;
+  static const paddingEEESmall = 4.0;
+  static const radiusLarge = 24.0;
+  static const radiusMedium = 12.0;
+  static const radiusSmall = 6.0;
+  static const iconXXXLarge = 256.0;
+  static const iconXXLarge = 192.0;
+  static const iconXLarge = 144.0;
+  static const iconLarge = 96.0;
+  static const iconXMedium = 72.0;
+  static const iconMedium = 64.0;
+  static const iconEMedium = 48.0;
+  static const iconSmall = 32.0;
+  static const iconESmall = 24.0;
+  static const iconEESmall = 16.0;
+  static const iconEEESmall = 12.0;
+  static const iconEEEESmall = 8.0;
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {

@@ -11,7 +11,7 @@ Widget createApp() {
   Get.put(AppController());
   return GetMaterialApp(
     title: 'Flutter Demo',
-    initialRoute: RouteConfig.splashPage,
+    initialRoute: RouteConfig.homePage,
     getPages: RouteConfig.getPages,
     theme: ThemeData(
       useMaterial3: true,
