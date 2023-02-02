@@ -12,8 +12,19 @@ class HomeLogic extends GetxController {
     state.currentIndex.value = index;
   }
 
-  onButtonPressed() {
+  onSettingButtonPressed() {
     Get.toNamed(RouteConfig.settingsPage);
+  }
+
+  onListTilePressed(String title) {
+    switch (title) {
+      case 'Splash Page':
+        Get.toNamed(RouteConfig.splashPage);
+        break;
+      case 'Guide Page':
+        Get.toNamed(RouteConfig.guidePage);
+        break;
+    }
   }
 
   onDestinationSelected(int index) {
