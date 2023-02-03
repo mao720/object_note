@@ -14,7 +14,6 @@ class GuidePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       body: Stack(children: [
         PageView(
           onPageChanged: (index) => state.currentPageIndex.value = index,
@@ -33,14 +32,15 @@ class GuidePage extends StatelessWidget {
             child: Obx(() {
               return state.currentPageIndex.value ==
                       AppConfig.guideIllustrations.length - 1
-                  ? TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith(
-                            (states) => Theme.of(context).colorScheme.primary),
-                      ),
+                  ? MaterialButton(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(ThemeConfig.radiusLarge)),
                       onPressed: logic.onButtonPressed,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
+                            vertical: ThemeConfig.paddingEEESmall,
                             horizontal: ThemeConfig.paddingEMedium),
                         child: Text(
                           'Start Note'.tr,
