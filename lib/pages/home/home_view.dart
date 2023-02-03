@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Column(children: [
           Expanded(
@@ -33,59 +32,62 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _mineView(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(ThemeConfig.paddingEMedium),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: const Icon(
-                    Icons.account_circle,
-                    size: ThemeConfig.iconXMedium,
+    return Padding(
+      padding: const EdgeInsets.all(ThemeConfig.paddingEESmall),
+      child: Column(
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(ThemeConfig.paddingEMedium),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.account_circle,
+                      size: ThemeConfig.iconXMedium,
+                    ),
                   ),
-                ),
-                Hero(
-                  tag: 'Settings'.tr,
-                  child: IconButton(
-                    onPressed: logic.onSettingButtonPressed,
-                    icon: const Icon(Icons.settings,
-                        size: ThemeConfig.iconESmall),
-                  ),
-                )
-              ],
+                  Hero(
+                    tag: 'Settings'.tr,
+                    child: IconButton(
+                      onPressed: logic.onSettingButtonPressed,
+                      icon: const Icon(Icons.settings,
+                          size: ThemeConfig.iconESmall),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(ThemeConfig.paddingESmall),
-            child: Column(children: [
-              ListTile(
-                dense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: ThemeConfig.paddingMedium),
-                onTap: () => logic.onListTilePressed('Splash Page'),
-                title: Text('Splash Page'.tr,
-                    style: Theme.of(context).textTheme.bodyMedium),
-              ),
-              const Divider(),
-              ListTile(
-                dense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: ThemeConfig.paddingMedium),
-                onTap: () => logic.onListTilePressed('Guide Page'),
-                title: Text('Guide Page'.tr,
-                    style: Theme.of(context).textTheme.bodyMedium),
-              )
-            ]),
-          ),
-        )
-      ],
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(ThemeConfig.paddingESmall),
+              child: Column(children: [
+                ListTile(
+                  dense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: ThemeConfig.paddingMedium),
+                  onTap: () => logic.onListTilePressed('Splash Page'),
+                  title: Text('Splash Page'.tr,
+                      style: Theme.of(context).textTheme.bodyMedium),
+                ),
+                const Divider(),
+                ListTile(
+                  dense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: ThemeConfig.paddingMedium),
+                  onTap: () => logic.onListTilePressed('Guide Page'),
+                  title: Text('Guide Page'.tr,
+                      style: Theme.of(context).textTheme.bodyMedium),
+                )
+              ]),
+            ),
+          )
+        ],
+      ),
     );
   }
 
