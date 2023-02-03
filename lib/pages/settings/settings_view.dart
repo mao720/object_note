@@ -18,21 +18,16 @@ class SettingsPage extends StatelessWidget {
     var deviceLocaleName = LocaleNamesLocalizationsDelegate
         .nativeLocaleNames[Get.deviceLocale.toString()];
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: createBaseAppBar(title: 'Settings'.tr),
       body: ListView(children: [
-        _createSettingCard(
-          context,
-          title: 'Theme'.tr,
-          items: [
-            _createItem(context, 'System'.tr, ThemeMode.system,
-                AppConfig.themeMode, logic.onThemeChanged),
-            _createItem(context, 'Light'.tr, ThemeMode.light,
-                AppConfig.themeMode, logic.onThemeChanged),
-            _createItem(context, 'Dark'.tr, ThemeMode.dark, AppConfig.themeMode,
-                logic.onThemeChanged),
-          ],
-        ),
+        _createSettingCard(context, title: 'Theme'.tr, items: [
+          _createItem(context, 'System'.tr, ThemeMode.system,
+              AppConfig.themeMode, logic.onThemeChanged),
+          _createItem(context, 'Light'.tr, ThemeMode.light, AppConfig.themeMode,
+              logic.onThemeChanged),
+          _createItem(context, 'Dark'.tr, ThemeMode.dark, AppConfig.themeMode,
+              logic.onThemeChanged),
+        ]),
         _createSettingCard(context, title: 'Language'.tr, items: [
           _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
               AppConfig.locale, logic.onLanguageChanged),
@@ -48,6 +43,7 @@ class SettingsPage extends StatelessWidget {
                   ))
               .toList()
         ]),
+        const SizedBox(height: ThemeConfig.paddingMedium)
       ]),
     );
   }
@@ -55,7 +51,10 @@ class SettingsPage extends StatelessWidget {
   Widget _createSettingCard(BuildContext context,
       {required String title, required List<Widget> items}) {
     return Card(
-      margin: const EdgeInsets.all(ThemeConfig.paddingMedium),
+      margin: const EdgeInsets.only(
+          left: ThemeConfig.paddingMedium,
+          top: ThemeConfig.paddingMedium,
+          right: ThemeConfig.paddingMedium),
       child: Padding(
         padding: const EdgeInsets.all(ThemeConfig.paddingSmall),
         child: Column(
@@ -86,7 +85,6 @@ class SettingsPage extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: ThemeConfig.paddingSmall),
         dense: true,
-        activeColor: Theme.of(context).colorScheme.primary,
         controlAffinity: ListTileControlAffinity.trailing,
         title: Text(title ?? '', style: Theme.of(context).textTheme.bodyMedium),
         subtitle: subtitle == null
