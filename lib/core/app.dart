@@ -11,21 +11,15 @@ Widget createApp() {
   Get.put(AppController());
   return GetMaterialApp(
     title: 'Flutter Demo',
+    //Route
     initialRoute: RouteConfig.homePage,
     getPages: RouteConfig.getPages,
-    theme: ThemeData(
-      useMaterial3: true,
-      platform: TargetPlatform.iOS,
-      colorScheme: ThemeConfig.lightColorScheme,
-      fontFamily: AppConfig.fontFamily,
-    ),
-    darkTheme: ThemeData(
-      useMaterial3: true,
-      platform: TargetPlatform.iOS,
-      colorScheme: ThemeConfig.darkColorScheme,
-      fontFamily: AppConfig.fontFamily,
-    ),
+    //Theme
+    theme: ThemeConfig.lightThemeData,
+    darkTheme: ThemeConfig.darkThemeData,
+    //ScrollBehavior
     scrollBehavior: MyCustomScrollBehavior(),
+    //Locale
     localizationsDelegates: const [
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,

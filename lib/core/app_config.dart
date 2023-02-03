@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/utils/string_utils.dart';
 
 import '../pages/guide/guide_view.dart';
 import '../pages/home/home_view.dart';
@@ -42,6 +43,28 @@ class RouteConfig {
 }
 
 class ThemeConfig {
+  static final lightThemeData = ThemeData(
+    useMaterial3: true,
+    platform: TargetPlatform.iOS,
+    colorScheme: ThemeConfig.lightColorScheme,
+    primarySwatch: StringUtils.colorToMaterialColor(lightColorScheme.primary),
+    toggleableActiveColor: ThemeConfig.lightColorScheme.primary,
+    backgroundColor: ThemeConfig.lightColorScheme.background,
+    scaffoldBackgroundColor: ThemeConfig.lightColorScheme.background,
+    fontFamily: AppConfig.fontFamily,
+  );
+
+  static final darkThemeData = ThemeData(
+    useMaterial3: true,
+    platform: TargetPlatform.iOS,
+    colorScheme: ThemeConfig.darkColorScheme,
+    primarySwatch: StringUtils.colorToMaterialColor(darkColorScheme.primary),
+    toggleableActiveColor: ThemeConfig.darkColorScheme.primary,
+    backgroundColor: ThemeConfig.darkColorScheme.background,
+    scaffoldBackgroundColor: ThemeConfig.darkColorScheme.background,
+    fontFamily: AppConfig.fontFamily,
+  );
+
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFF1D6C30),
@@ -62,7 +85,7 @@ class ThemeConfig {
     onErrorContainer: Color(0xFF410002),
     background: Color(0xFFF5FFF3),
     onBackground: Color(0xFF00210E),
-    surface: Color(0xFFF5FFF3),
+    surface: Color(0xFFF0FFEE),
     onSurface: Color(0xFF00210E),
     surfaceVariant: Color(0xFFDEE5D9),
     onSurfaceVariant: Color(0xFF424940),
@@ -122,9 +145,17 @@ class ThemeConfig {
   static const paddingEESmall = 8.0;
   static const paddingEEESmall = 4.0;
 
+  static const radiusXXXLarge = 128.0;
+  static const radiusXXLarge = 64.0;
+  static const radiusXLarge = 36.0;
   static const radiusLarge = 24.0;
-  static const radiusMedium = 12.0;
-  static const radiusSmall = 6.0;
+  static const radiusXMedium = 16.0;
+  static const radiusMedium = 14.0;
+  static const radiusEMedium = 12.0;
+  static const radiusSmall = 10.0;
+  static const radiusESmall = 8.0;
+  static const radiusEESmall = 6.0;
+  static const radiusEEESmall = 4.0;
 
   static const iconXXXLarge = 256.0;
   static const iconXXLarge = 192.0;
