@@ -8,10 +8,6 @@ class HomeLogic extends GetxController {
   final HomeState state = HomeState();
   final PageController pageController = PageController();
 
-  onPageChanged(int index) {
-    state.currentIndex.value = index;
-  }
-
   onSettingButtonPressed() {
     Get.toNamed(RouteConfig.settingsPage);
   }
@@ -25,6 +21,10 @@ class HomeLogic extends GetxController {
         Get.toNamed(RouteConfig.guidePage);
         break;
     }
+  }
+
+  onPageChanged(int index) {
+    state.currentIndex.value = index;
   }
 
   onDestinationSelected(int index) {
