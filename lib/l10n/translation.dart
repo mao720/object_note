@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TranslationStrings extends Translations {
+class Translation extends Translations {
   static const supportLocale = [
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
     Locale('en'),
