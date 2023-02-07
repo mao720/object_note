@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../core/app_config.dart';
-import 'guide_state.dart';
+import 'package:object_note/pages/guide/guide_state.dart';
 
 class GuideLogic extends GetxController with GetTickerProviderStateMixin {
   final GuideState state = GuideState();
   var pageController = PageController();
-  late List<AnimationController> animationControllerList = AppConfig
+  late List<AnimationController> animationControllerList = state
       .guideIllustrations
       .map((illustration) => AnimationController(vsync: this))
       .toList();
