@@ -28,7 +28,6 @@ Widget createApp() {
     ],
     supportedLocales: TranslationStrings.supportLocale,
     translations: TranslationStrings(),
-    locale: Get.deviceLocale,
     fallbackLocale: AppConfig.fallbackLocale,
   );
 }

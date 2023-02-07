@@ -8,8 +8,8 @@ import 'app_config.dart';
 
 class AppController extends GetxController {
   @override
-  Future<void> onReady() async {
-    super.onReady();
+  Future<void> onInit() async {
+    super.onInit();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String themeText = prefs.getString('theme') ?? 'system';

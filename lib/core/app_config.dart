@@ -22,7 +22,7 @@ class AppConfig {
 
   static final themeMode = ThemeMode.system.obs;
   static final locale = 'system'.obs;
-  static const fallbackLocale = Locale('zh', 'CN');
+  static const fallbackLocale = Locale('en');
 }
 
 class RouteConfig {
