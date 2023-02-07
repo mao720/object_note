@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../core/app_config.dart';
-import 'home_state.dart';
+import 'package:object_note/core/app_route.dart';
+import 'package:object_note/pages/home/home_state.dart';
 
 class HomeLogic extends GetxController {
   final HomeState state = HomeState();
   final PageController pageController = PageController();
 
   onSettingButtonPressed() {
-    Get.toNamed(RouteConfig.settingsPage);
+    Get.toNamed(AppRoute.settingsPage);
   }
 
   onListTilePressed(String title) {
     switch (title) {
       case 'Splash Page':
-        Get.toNamed(RouteConfig.splashPage);
+        Get.toNamed(AppRoute.splashPage);
         break;
       case 'Guide Page':
-        Get.toNamed(RouteConfig.guidePage);
+        Get.toNamed(AppRoute.guidePage);
         break;
     }
   }
