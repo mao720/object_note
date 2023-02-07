@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
@@ -17,11 +18,13 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var deviceLocaleName = LocaleNamesLocalizationsDelegate
         .nativeLocaleNames[Get.deviceLocale.toString()];
+    var deviceBrightness =
+        ' - ${(describeEnum(MediaQuery.of(context).platformBrightness).capitalize ?? '').tr}';
     return Scaffold(
       appBar: createBaseAppBar(title: 'Settings'.tr),
       body: ListView(children: [
         _createSettingCard(context, title: 'Theme'.tr, items: [
-          _createItem(context, 'System'.tr, ThemeMode.system,
+          _createItem(context, 'System'.tr + deviceBrightness, ThemeMode.system,
               AppConfig.themeMode, logic.onThemeChanged),
           _createItem(context, 'Light'.tr, ThemeMode.light, AppConfig.themeMode,
               logic.onThemeChanged),
