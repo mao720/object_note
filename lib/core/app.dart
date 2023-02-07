@@ -1,22 +1,23 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
-
-import '../l10n/translations.dart';
-import 'app_config.dart';
-import 'app_controller.dart';
+import 'package:object_note/core/app_config.dart';
+import 'package:object_note/core/app_route.dart';
+import 'package:object_note/core/styles.dart';
+import 'package:object_note/l10n/translation.dart';
 
 Widget createApp() {
-  Get.put(AppController());
+  AppConfig.to;
   return GetMaterialApp(
     title: 'Flutter Demo',
     //Route
-    initialRoute: RouteConfig.homePage,
-    getPages: RouteConfig.getPages,
+    initialRoute: AppRoute.homePage,
+    getPages: AppRoute.getPages,
     //Theme
-    theme: ThemeConfig.lightThemeData,
-    darkTheme: ThemeConfig.darkThemeData,
+    theme: Styles.lightThemeData,
+    darkTheme: Styles.darkThemeData,
     //ScrollBehavior
     scrollBehavior: MyCustomScrollBehavior(),
     //Locale
@@ -26,8 +27,16 @@ Widget createApp() {
       GlobalCupertinoLocalizations.delegate,
       LocaleNamesLocalizationsDelegate()
     ],
-    supportedLocales: TranslationStrings.supportLocale,
-    translations: TranslationStrings(),
-    fallbackLocale: AppConfig.fallbackLocale,
+    supportedLocales: Translation.supportLocale,
+    translations: Translation(),
+    fallbackLocale: Styles.fallbackLocale,
   );
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
