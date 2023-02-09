@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/utils/string_utils.dart';
 
 class Styles {
+  Styles._();
+
+  static ColorScheme get cs => Get.theme.colorScheme;
   static const fontFamily = 'LXGWWenKaiLite';
   static final themeMode = ThemeMode.system.obs;
   static final locale = 'system'.obs;
@@ -12,10 +14,6 @@ class Styles {
     useMaterial3: true,
     platform: TargetPlatform.iOS,
     colorScheme: Styles.lightColorScheme,
-    primarySwatch: StringUtils.colorToMaterialColor(lightColorScheme.primary),
-    toggleableActiveColor: Styles.lightColorScheme.primary,
-    backgroundColor: Styles.lightColorScheme.background,
-    scaffoldBackgroundColor: Styles.lightColorScheme.background,
     fontFamily: Styles.fontFamily,
   );
 
@@ -23,10 +21,6 @@ class Styles {
     useMaterial3: true,
     platform: TargetPlatform.iOS,
     colorScheme: Styles.darkColorScheme,
-    primarySwatch: StringUtils.colorToMaterialColor(darkColorScheme.primary),
-    toggleableActiveColor: Styles.darkColorScheme.primary,
-    backgroundColor: Styles.darkColorScheme.background,
-    scaffoldBackgroundColor: Styles.darkColorScheme.background,
     fontFamily: Styles.fontFamily,
   );
 
@@ -50,7 +44,7 @@ class Styles {
     onErrorContainer: Color(0xFF410002),
     background: Color(0xFFF5FFF3),
     onBackground: Color(0xFF00210E),
-    surface: Color(0xFFF0FFEE),
+    surface: Color(0xFFF5FFF3),
     onSurface: Color(0xFF00210E),
     surfaceVariant: Color(0xFFDEE5D9),
     onSurfaceVariant: Color(0xFF424940),
@@ -97,41 +91,4 @@ class Styles {
     // outlineVariant: Color(0xFF424940),
     // scrim: Color(0xFF000000),
   );
-
-  static const paddingXXXLarge = 96.0;
-  static const paddingXXLarge = 64.0;
-  static const paddingXLarge = 48.0;
-  static const paddingLarge = 32.0;
-  static const paddingLMedium = 28.0;
-  static const paddingMedium = 24.0;
-  static const paddingEMedium = 20.0;
-  static const paddingSmall = 16.0;
-  static const paddingESmall = 12.0;
-  static const paddingEESmall = 8.0;
-  static const paddingEEESmall = 4.0;
-
-  static const radiusXXXLarge = 128.0;
-  static const radiusXXLarge = 64.0;
-  static const radiusXLarge = 36.0;
-  static const radiusLarge = 24.0;
-  static const radiusXMedium = 16.0;
-  static const radiusMedium = 14.0;
-  static const radiusEMedium = 12.0;
-  static const radiusSmall = 10.0;
-  static const radiusESmall = 8.0;
-  static const radiusEESmall = 6.0;
-  static const radiusEEESmall = 4.0;
-
-  static const iconXXXLarge = 256.0;
-  static const iconXXLarge = 192.0;
-  static const iconXLarge = 144.0;
-  static const iconLarge = 96.0;
-  static const iconXMedium = 72.0;
-  static const iconMedium = 64.0;
-  static const iconEMedium = 48.0;
-  static const iconSmall = 32.0;
-  static const iconESmall = 24.0;
-  static const iconEESmall = 16.0;
-  static const iconEEESmall = 12.0;
-  static const iconEEEESmall = 8.0;
 }
