@@ -7,9 +7,12 @@ import 'package:object_note/core/app_config.dart';
 import 'package:object_note/core/app_route.dart';
 import 'package:object_note/core/styles.dart';
 import 'package:object_note/l10n/translation.dart';
+import 'package:object_note/utils/log_util.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 
 Widget createApp() {
-  AppConfig.to;
+  WidgetsFlutterBinding.ensureInitialized();
+  AppConfig.init();
   return GetMaterialApp(
     title: 'Flutter Demo',
     //Route
@@ -30,6 +33,11 @@ Widget createApp() {
     supportedLocales: Translation.supportLocale,
     translations: Translation(),
     fallbackLocale: Styles.fallbackLocale,
+    builder: (context, child) {
+      Log.d('GetMaterialApp builder');
+      ScreenAdaptionUtil.init(context);
+      return child ?? const SizedBox.shrink();
+    },
   );
 }
 

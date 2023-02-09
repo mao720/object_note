@@ -3,12 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/styles.dart';
 import 'package:object_note/l10n/translation.dart';
+import 'package:object_note/utils/log_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConfig {
-  Future<void> _init() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  static AppConfig? _instance;
 
+  AppConfig._();
+
+  factory AppConfig.init() {
+    _instance ??= AppConfig._().._init();
+    return _instance!;
+  }
+
+  _init() async {
+    Log.d('AppConfig init()');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //theme
     String themeText = prefs.getString('theme') ?? 'system';
     ThemeMode themeMode;
     try {
@@ -17,20 +28,20 @@ class AppConfig {
     } catch (e) {
       themeMode = ThemeMode.system;
     }
-    setThemeMode(themeMode);
-
-    String language = prefs.getString('locale') ?? 'system';
-    setLanguage(language);
+    if (themeMode != Styles.themeMode.value) setThemeMode(themeMode);
+    //locale
+    String locale = prefs.getString('locale') ?? 'system';
+    if (locale != Styles.locale.value) setLocale(locale);
   }
 
-  Future<void> setThemeMode(ThemeMode themeMode) async {
+  static Future<void> setThemeMode(ThemeMode themeMode) async {
     Styles.themeMode(themeMode);
     Get.changeThemeMode(themeMode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('theme', describeEnum(themeMode));
   }
 
-  Future<void> setLanguage(String localeString) async {
+  static Future<void> setLocale(String localeString) async {
     Styles.locale(localeString);
     if (localeString == 'system') {
       var deviceLocale = Get.deviceLocale;
@@ -45,9 +56,4 @@ class AppConfig {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('locale', localeString);
   }
-
-  static AppConfig get to => _instance;
-  static final AppConfig _instance = AppConfig._internal().._init();
-
-  AppConfig._internal();
 }
