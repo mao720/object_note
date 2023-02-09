@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.0.15
   lottie: ^2.1.0
   flutter_localized_locales: ^2.0.4
+  flutter_screenutil: ^5.6.1
 
 dev_dependencies:
   flutter_test:
