@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:object_note/core/styles.dart';
 import 'package:object_note/pages/guide/guide_logic.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 
 class GuidePage extends StatelessWidget {
   GuidePage({Key? key}) : super(key: key);
@@ -32,23 +33,17 @@ class GuidePage extends StatelessWidget {
               return state.currentPageIndex.value ==
                       state.guideIllustrations.length - 1
                   ? MaterialButton(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Styles.cs.primary,
                       shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(Styles.radiusLarge)),
+                          borderRadius: BorderRadius.circular(24.w)),
                       onPressed: logic.onButtonPressed,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: Styles.paddingEEESmall,
-                            horizontal: Styles.paddingEMedium),
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Text(
                           'Start Note'.tr,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
+                          style: TextStyle(
+                              fontSize: 22.w,
+                              color: Styles.cs.primaryContainer),
                         ),
                       ),
                     )
@@ -68,15 +63,14 @@ class GuidePage extends StatelessWidget {
             .keys
             .map((index) => Obx(() {
                   return Container(
-                    width: Styles.iconEEEESmall,
-                    height: Styles.iconEEEESmall,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: Styles.paddingEEESmall),
+                    width: 8.w,
+                    height: 8.w,
+                    margin: EdgeInsets.symmetric(horizontal: 4.w),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: state.currentPageIndex.value == index
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onPrimary,
+                          ? Styles.cs.primary
+                          : Styles.cs.primaryContainer,
                     ),
                   );
                 }))

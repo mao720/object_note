@@ -32,6 +32,14 @@ class GuideLogic extends GetxController with GetTickerProviderStateMixin {
     }
   }
 
+  @override
+  void onClose() {
+    if (animationControllerList.isNotEmpty) {
+      animationControllerList[0].dispose();
+    }
+    super.onClose();
+  }
+
   void onButtonPressed() async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // await prefs.setBool('isFirstOpen', false);
