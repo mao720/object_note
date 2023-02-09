@@ -7,10 +7,10 @@ class SettingsLogic extends GetxController {
   final SettingsState state = SettingsState();
 
   onThemeChanged(ThemeMode themeMode) {
-    AppConfig.to.setThemeMode(themeMode);
+    AppConfig.setThemeMode(themeMode);
   }
 
-  onLanguageChanged(String language) {
-    AppConfig.to.setLanguage(language);
+  onLocaleChanged(String locale) {
+    AppConfig.setLocale(locale);
   }
 }

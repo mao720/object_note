@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:object_note/core/styles.dart';
 import 'package:object_note/l10n/translation.dart';
 import 'package:object_note/pages/settings/settings_logic.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -32,7 +33,7 @@ class SettingsPage extends StatelessWidget {
         ]),
         _createSettingCard(context, title: 'Language'.tr, items: [
           _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
-              Styles.locale, logic.onLanguageChanged),
+              Styles.locale, logic.onLocaleChanged),
           ...Translation.supportLocale
               .map((local) => _createItem(
                     context,
@@ -40,12 +41,12 @@ class SettingsPage extends StatelessWidget {
                         .nativeLocaleNames[local.toString()],
                     local.toString(),
                     Styles.locale,
-                    logic.onLanguageChanged,
+                    logic.onLocaleChanged,
                     subtitle: LocaleNames.of(context)?.nameOf(local.toString()),
                   ))
               .toList()
         ]),
-        const SizedBox(height: Styles.paddingMedium)
+        SizedBox(height: 24.w)
       ]),
     );
   }
@@ -53,23 +54,19 @@ class SettingsPage extends StatelessWidget {
   Widget _createSettingCard(BuildContext context,
       {required String title, required List<Widget> items}) {
     return Card(
-      margin: const EdgeInsets.only(
-          left: Styles.paddingMedium,
-          top: Styles.paddingMedium,
-          right: Styles.paddingMedium),
+      margin: EdgeInsets.only(left: 24.w, top: 24.w, right: 24.w),
       child: Padding(
-        padding: const EdgeInsets.all(Styles.paddingSmall),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: Styles.paddingSmall),
+              padding: EdgeInsets.only(bottom: 16.w),
               child: Text(
                 title,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.apply(color: Theme.of(context).colorScheme.secondary),
+                style: TextStyle(
+                    fontSize: 16.w,
+                    color: Theme.of(context).colorScheme.secondary),
               ),
             ),
             ...items,
@@ -84,14 +81,13 @@ class SettingsPage extends StatelessWidget {
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: Styles.paddingSmall),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
         dense: true,
         controlAffinity: ListTileControlAffinity.trailing,
-        title: Text(title ?? '', style: Theme.of(context).textTheme.bodyMedium),
+        title: Text(title ?? '', style: TextStyle(fontSize: 14.w)),
         subtitle: subtitle == null
             ? null
-            : Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
+            : Text(subtitle, style: TextStyle(fontSize: 12.w)),
         value: value,
         groupValue: groupValue.value,
         onChanged: (v) => onChanged(value),
