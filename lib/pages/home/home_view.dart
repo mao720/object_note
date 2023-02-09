@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles.dart';
 import 'package:object_note/pages/home/home_logic.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -32,28 +32,28 @@ class HomePage extends StatelessWidget {
 
   Widget _mineView(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Styles.paddingEESmall),
+      padding: EdgeInsets.all(8.w),
       child: Column(
         children: [
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(Styles.paddingEMedium),
+              padding: EdgeInsets.all(20.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () {},
-                    child: const Icon(
+                    child: Icon(
                       Icons.account_circle,
-                      size: Styles.iconXMedium,
+                      size: 72.w,
                     ),
                   ),
                   Hero(
                     tag: 'Settings'.tr,
                     child: IconButton(
                       onPressed: logic.onSettingButtonPressed,
-                      icon: const Icon(Icons.settings, size: Styles.iconESmall),
+                      icon: Icon(Icons.settings, size: 24.w),
                     ),
                   )
                 ],
@@ -62,24 +62,26 @@ class HomePage extends StatelessWidget {
           ),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(Styles.paddingESmall),
+              padding: EdgeInsets.all(12.w),
               child: Column(children: [
                 ListTile(
                   dense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: Styles.paddingMedium),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
                   onTap: () => logic.onListTilePressed('Splash Page'),
-                  title: Text('Splash Page'.tr,
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  title: Text(
+                    'Splash Page'.tr,
+                    style: TextStyle(fontSize: 14.w),
+                  ),
                 ),
                 const Divider(),
                 ListTile(
                   dense: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: Styles.paddingMedium),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
                   onTap: () => logic.onListTilePressed('Guide Page'),
-                  title: Text('Guide Page'.tr,
-                      style: Theme.of(context).textTheme.bodyMedium),
+                  title: Text(
+                    'Guide Page'.tr,
+                    style: TextStyle(fontSize: 14.w),
+                  ),
                 )
               ]),
             ),
@@ -97,8 +99,8 @@ class HomePage extends StatelessWidget {
             .map((item) => NavigationDestination(
                   label: item[0].toString().tr,
                   tooltip: '',
-                  selectedIcon: Icon(item[1], size: Styles.iconESmall),
-                  icon: Icon(item[2], size: Styles.iconESmall),
+                  selectedIcon: Icon(item[1], size: 24.w),
+                  icon: Icon(item[2], size: 24.w),
                 ))
             .toList(),
         onDestinationSelected: logic.onDestinationSelected,
