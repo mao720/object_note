@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
+import 'package:object_note/core/app.dart';
 
-import 'core/app.dart';
-
-void main() {
-  runApp(createApp());
-}
+void main() => runApp(createApp());
