@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 
 PreferredSizeWidget createBaseAppBar({
   String title = 'AppBar',
@@ -17,13 +17,13 @@ PreferredSizeWidget createBaseAppBar({
           onPressed: onMenuPressed,
           tooltip: 'menu',
           color: color,
-          icon: const Icon(Icons.menu, size: Styles.iconESmall),
+          icon: Icon(Icons.menu, size: 24.w),
         ),
       ),
     );
   }
   return AppBar(
-    title: Text(title, style: TextStyle(color: color)),
+    title: Text(title, style: TextStyle(color: color, fontSize: 22.w)),
     centerTitle: true,
     leading: showLeading
         ? Hero(
@@ -32,7 +32,7 @@ PreferredSizeWidget createBaseAppBar({
               onPressed: () => Get.back(),
               color: color,
               tooltip: '',
-              icon: const Icon(Icons.arrow_back, size: Styles.iconESmall),
+              icon: Icon(Icons.arrow_back, size: 24.w),
             ),
           )
         : const SizedBox.shrink(),
