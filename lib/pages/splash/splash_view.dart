@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:object_note/core/assets.dart';
-import 'package:object_note/core/styles.dart';
 import 'package:object_note/pages/splash/splash_logic.dart';
+import 'package:object_note/utils/screen_adaption_util.dart';
 
 class SplashPage extends StatelessWidget {
   SplashPage({Key? key}) : super(key: key);
@@ -20,8 +20,8 @@ class SplashPage extends StatelessWidget {
             Lottie.asset(
               Assets.splashLogo,
               repeat: false,
-              width: Styles.iconLarge,
-              height: Styles.iconLarge,
+              width: 96.w,
+              height: 96.w,
             ),
             Lottie.asset(Assets.yogaBoxBreathing)
           ],
