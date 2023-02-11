@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:object_note/core/styles.dart';
+import 'package:object_note/l10n/translation.dart';
 
 class StringUtils {
+  /// String to Locale
+  static Locale stringToLocale(String source, Locale? deviceLocale) {
+    if (source == 'system') {
+      return deviceLocale ?? Styles.fallbackLocale;
+    } else {
+      return Translation.supportLocale.firstWhere(
+          (locale) => locale.toString() == source,
+          orElse: () => deviceLocale ?? Styles.fallbackLocale);
+    }
+  }
+
   /// String to Color
   static Color stringToColor(String source) {
     return Color(int.parse(source, radix: 16) | 0xFF000000);
