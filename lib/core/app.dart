@@ -1,18 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/app_config.dart';
 import 'package:object_note/core/app_route.dart';
+import 'package:object_note/core/global.dart';
 import 'package:object_note/core/styles.dart';
 import 'package:object_note/l10n/translation.dart';
-import 'package:object_note/utils/log_util.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
+import 'package:object_note/widgets/toast.dart';
 
 Widget createApp() {
-  WidgetsFlutterBinding.ensureInitialized();
-  AppConfig.init();
+  Global.init();
   return GetMaterialApp(
     title: 'Flutter Demo',
     //Route
@@ -34,9 +33,9 @@ Widget createApp() {
     translations: Translation(),
     fallbackLocale: Styles.fallbackLocale,
     builder: (context, child) {
-      Log.d('GetMaterialApp builder');
-      ScreenAdaptionUtil.init(context);
-      return child ?? const SizedBox.shrink();
+      Global.context = context;
+      Toast.init();
+      return EasyLoading.init().call(context, child);
     },
   );
 }
