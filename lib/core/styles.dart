@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/global.dart';
 
 class Styles {
   Styles._();
 
-  static ColorScheme get cs => Get.theme.colorScheme;
+  static ColorScheme get cs => Theme.of(Global.context).colorScheme;
+  static const designSize = Size(360, 690);
   static const fontFamily = 'LXGWWenKaiLite';
   static final themeMode = ThemeMode.system.obs;
-  static final locale = 'system'.obs;
+  static final locale = ''.obs;
   static const fallbackLocale = Locale('en');
 
   static final lightThemeData = ThemeData(
