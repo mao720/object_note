@@ -46,8 +46,9 @@ class Http {
 
     _dio = Dio(options);
     _dio.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
+      request: false,
+      //requestBody: true,
+      //requestHeader: true,
       logPrint: (object) => Log.d(object.toString()),
     ));
 
@@ -57,11 +58,7 @@ class Http {
   }
 
   /// restful get 操作
-  Future get(
-    String path, {
-    dynamic queryParameters,
-    Options? options,
-  }) async {
+  Future get(String path, {dynamic queryParameters, Options? options}) async {
     var response = await _dio.get(
       path,
       queryParameters: queryParameters,
