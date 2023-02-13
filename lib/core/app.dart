@@ -13,7 +13,7 @@ import 'package:object_note/widgets/toast.dart';
 Widget createApp() {
   Global.init();
   return GetMaterialApp(
-    title: 'Flutter Demo',
+    title: 'Object Note',
     //Route
     initialRoute: AppRoute.homePage,
     getPages: AppRoute.getPages,
