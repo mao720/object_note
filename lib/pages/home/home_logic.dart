@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app_route.dart';
+import 'package:object_note/core/http.dart';
 import 'package:object_note/pages/home/home_state.dart';
+import 'package:object_note/utils/log_util.dart';
 
 class HomeLogic extends GetxController {
   final HomeState state = HomeState();
   final PageController pageController = PageController();
 
   onSettingButtonPressed() {
-    Get.toNamed(AppRoute.settingsPage);
+    Http().get(
+      'classes/_User',
+      onSuccess: (value) => Log.d(value.toString()),
+    );
+    Http().cancelToken.cancel();
+
+    //Get.toNamed(AppRoute.settingsPage);
   }
 
   onListTilePressed(String title) {
