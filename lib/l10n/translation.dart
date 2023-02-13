@@ -18,15 +18,17 @@ class Translation extends Translations {
       };
 
   final Map<String, String> zhHans = {
-    //Home page Tabs
+    // APP
+    'Object Note': '对象笔记',
+    // Home page Tabs
     'Home': '主页',
     'Mine': '我的',
-    //Mine Tab
+    // Mine Tab
     'Splash Page': '启动页',
     'Guide Page': '导航页',
-    //Guide page
+    // Guide page
     'Start Note': '开启笔记',
-    //Settings page
+    // Settings page
     'Settings': '设置',
     'Theme': '主题',
     'System': '系统',
@@ -36,15 +38,17 @@ class Translation extends Translations {
   };
 
   final Map<String, String> en = {
-    //Home page Tabs
+    // APP
+    'Object Note': 'Object Note',
+    // Home page Tabs
     'Home': 'Home',
     'Mine': 'Mine',
-    //Mine tab
+    // Mine tab
     'Splash Page': 'Splash Page',
     'Guide Page': 'Guide Page',
-    //Guide page
+    // Guide page
     'Start Note': 'Start Note',
-    //Settings page
+    // Settings page
     'Settings': 'Settings',
     'Theme': 'Theme',
     'System': 'System',
