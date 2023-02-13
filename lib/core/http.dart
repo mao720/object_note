@@ -1,8 +1,7 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:object_note/utils/log_util.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:object_note/utils/pretty_dio_logger.dart';
+import 'package:object_note/widgets/toast.dart';
 
 class Http {
   static final Http _instance = Http._internal();
@@ -10,60 +9,106 @@ class Http {
   factory Http() => _instance;
 
   static late Dio _dio;
+  CancelToken cancelToken = CancelToken();
   final String serverDomain = 'https://api.objectnote.top/parse/';
   final String headerName = 'X-Parse-Application-Id';
   final String applicationId = 'object-note-parse-server';
 
   Http._internal() {
-    // BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
-    BaseOptions options = BaseOptions(
-      // 请求基地址,可以包含子路径
-      baseUrl: serverDomain,
-      // baseUrl: storage.read(key: STORAGE_KEY_APIURL) ?? SERVICE_API_BASEURL,
-
-      //连接服务器超时时间，单位是毫秒.
-      connectTimeout: 10000,
-
-      // 响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: 5000,
-
-      // Http请求头.
-      headers: {headerName: applicationId},
-
-      /// 请求的Content-Type，默认值是"application/json; charset=utf-8".
-      /// 如果您想以"application/x-www-form-urlencoded"格式编码请求数据,
-      /// 可以设置此选项为 `Headers.formUrlEncodedContentType`,  这样[Dio]
-      /// 就会自动编码请求体.
-      contentType: 'application/json; charset=utf-8',
-
-      /// [responseType] 表示期望以那种格式(方式)接受响应数据。
-      /// 目前 [ResponseType] 接受三种类型 `JSON`, `STREAM`, `PLAIN`.
-      /// 默认值是 `JSON`, 当响应头中content-type为"application/json"时，dio 会自动将响应内容转化为json对象。
-      /// 如果想以二进制方式接受响应数据，如下载一个二进制文件，那么可以使用 `STREAM`.
-      /// 如果想以文本(字符串)格式接收响应数据，请使用 `PLAIN`.
-      responseType: ResponseType.json,
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: serverDomain,
+        // baseUrl: storage.read(key: STORAGE_KEY_APIURL) ?? SERVICE_API_BASEURL,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 5),
+        headers: {headerName: applicationId},
+        contentType: 'application/json; charset=utf-8',
+        responseType: ResponseType.json,
+      ),
     );
 
-    _dio = Dio(options);
     _dio.interceptors.add(PrettyDioLogger(
       request: false,
       //requestBody: true,
       //requestHeader: true,
-      logPrint: (object) => Log.d(object.toString()),
+      logPrint: (object) => Log.d(object),
     ));
 
-    // Cookie管理
-    CookieJar cookieJar = CookieJar();
-    _dio.interceptors.add(CookieManager(cookieJar));
+    _dio.interceptors.add(HttpInterceptor());
   }
 
   /// restful get 操作
-  Future get(String path, {dynamic queryParameters, Options? options}) async {
-    var response = await _dio.get(
-      path,
-      queryParameters: queryParameters,
-      options: options,
-    );
-    return response.data;
+  void get(String path,
+      {dynamic queryParameters,
+      Options? options,
+      Function? onSuccess,
+      Function? onError}) {
+    requestWrapper(
+        _dio.get(
+          path,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+        ),
+        onSuccess: onSuccess,
+        onError: onError);
+  }
+
+  /// DioError
+  void requestWrapper(Future<Response> request,
+      {Function? onSuccess, Function? onError}) {
+    Toast.loading();
+    request.then((response) {
+      Toast.dismiss();
+      onSuccess?.call(response.data);
+    }).onError((DioError error, stackTrace) {
+      Toast.dismiss();
+      onError?.call(error);
+      if (error.type == DioErrorType.badResponse) return;
+      Toast.error(text: error.message ?? '未知错误');
+    });
+  }
+
+  void cancelRequests({CancelToken? token}) {
+    (token ?? cancelToken).cancel('cancelled');
+  }
+
+  /// 读取本地配置
+  Map<String, dynamic>? getAuthorizationHeader() {
+    var headers = <String, dynamic>{};
+    // if (Get.isRegistered<UserStore>() && UserStore.to.hasToken == true) {
+    //   headers['Authorization'] = 'Bearer ${UserStore.to.token}';
+    // }
+    return headers;
+  }
+}
+
+class HttpInterceptor extends Interceptor {
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    if (err.type == DioErrorType.badResponse) validateStatusError(err);
+    super.onError(err, handler);
+  }
+
+  Map<int, String> errorMap = {
+    400: '错误请求',
+    401: '没有权限',
+    403: '请求被拒绝',
+    404: '找不到目标',
+    405: '请求方法被禁止',
+    500: '服务器内部错误',
+    502: '请求被停止',
+    503: '服务器关闭',
+    505: '协议不支持',
+  };
+
+  void validateStatusError(DioError error) {
+    int errorCode = error.response != null ? error.response!.statusCode! : -1;
+    String message = errorMap[errorCode] ??
+        '${error.response != null ? error.response!.statusMessage! : '未知错误'}: $errorCode';
+    Toast.error(text: message);
+    if (errorCode == 401) {
+      //UserStore.to.onLogout();
+    }
   }
 }
