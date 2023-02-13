@@ -45,10 +45,7 @@ dependencies:
   flutter_localized_locales: ^2.0.4
   flutter_easyloading: ^3.0.5
   cached_network_image: ^3.2.3
-  dio: ^4.0.4
-  dio_cookie_manager: ^2.0.0
-  cookie_jar: ^3.0.1
-  pretty_dio_logger: ^1.1.1
+  dio: ^5.0.0
 
 dev_dependencies:
   flutter_test:
