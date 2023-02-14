@@ -8,8 +8,8 @@ class Styles {
   static ColorScheme get cs => Theme.of(Global.context).colorScheme;
   static const designSize = Size(360, 690);
   static const fontFamily = 'LXGWWenKaiLite';
-  static final themeMode = ThemeMode.system.obs;
-  static final locale = ''.obs;
+  static final Rx<ThemeMode> themeMode = ThemeMode.system.obs;
+  static final RxString locale = ''.obs;
   static const fallbackLocale = Locale('en');
 
   static final lightThemeData = ThemeData(
