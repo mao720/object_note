@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:flutter/foundation.dart';
 
 class Log {
   Log._();
@@ -6,10 +6,13 @@ class Log {
   static const Function(Object) _print = print;
 
   static void d(Object value, {String? tag}) {
-    log(value.toString(), name: 'ObjectNote${tag == null ? '' : (':$tag')}');
+    if (kDebugMode) {
+      _print(
+          '[ObjectNote${tag == null ? '] ' : (':$tag] ')}${value.toString()}');
+    }
   }
 
   static void e(Object value, {String? tag}) {
-    _print('[ObjectNote${tag == null ? ']' : (':$tag]')}${value.toString()}');
+    _print('[ObjectNote${tag == null ? '] ' : (':$tag] ')}${value.toString()}');
   }
 }
