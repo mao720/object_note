@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:object_note/utils/log_util.dart';
-import 'package:object_note/utils/pretty_dio_logger.dart';
 import 'package:object_note/widgets/toast.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class Http {
   static final Http _instance = Http._internal();
@@ -12,61 +14,142 @@ class Http {
   CancelToken cancelToken = CancelToken();
   final String serverDomain = 'https://api.objectnote.top/parse/';
   final String headerName = 'X-Parse-Application-Id';
-  final String applicationId = 'object-note-parse-server';
+  final String parseAppId = 'object-note-parse-server';
 
   Http._internal() {
     _dio = Dio(
       BaseOptions(
         baseUrl: serverDomain,
-        // baseUrl: storage.read(key: STORAGE_KEY_APIURL) ?? SERVICE_API_BASEURL,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {headerName: applicationId},
-        contentType: 'application/json; charset=utf-8',
+        headers: {headerName: parseAppId},
+        contentType: ContentType.json.toString(),
         responseType: ResponseType.json,
       ),
     );
-
+    _dio.interceptors.add(CustomInterceptor());
     _dio.interceptors.add(PrettyDioLogger(
       request: false,
-      //requestBody: true,
-      //requestHeader: true,
+      // requestBody: true,
+      // requestHeader: true,
       logPrint: (object) => Log.d(object),
     ));
-
-    _dio.interceptors.add(HttpInterceptor());
   }
 
-  /// restful get 操作
-  void get(String path,
-      {dynamic queryParameters,
-      Options? options,
-      Function? onSuccess,
-      Function? onError}) {
-    requestWrapper(
-        _dio.get(
-          path,
+  Future get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.get(path,
           queryParameters: queryParameters,
           options: options,
-          cancelToken: cancelToken,
-        ),
-        onSuccess: onSuccess,
-        onError: onError);
+          cancelToken: cancelToken),
+    );
+    return response.data;
   }
 
-  /// DioError
-  void requestWrapper(Future<Response> request,
-      {Function? onSuccess, Function? onError}) {
+  Future post(
+    String path, {
+    required Object data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
+    return response.data;
+  }
+
+  Future put(
+    String path, {
+    required Object data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
+    return response.data;
+  }
+
+  Future patch(
+    String path, {
+    required Object data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
+    return response.data;
+  }
+
+  Future delete(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.delete(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
+    return response.data;
+  }
+
+  Future postForm(
+    String path, {
+    required Map<String, dynamic> data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    var response = await requestWrapper(
+      _dio.post(
+        path,
+        data: FormData.fromMap(data),
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
+    return response.data;
+  }
+
+  /// 包装请求，处理 loading 和 DioError
+  Future<Response> requestWrapper(Future<Response> request) {
     Toast.loading();
-    request.then((response) {
+    return request.then((response) {
       Toast.dismiss();
-      onSuccess?.call(response.data);
-    }).onError((DioError error, stackTrace) {
-      Toast.dismiss();
-      onError?.call(error);
-      if (error.type == DioErrorType.badResponse) return;
-      Toast.error(text: error.message ?? '未知错误');
-    });
+      return response;
+    }).onError((DioError error, stackTrace) => Future(() {
+          if (error.type != DioErrorType.badResponse) {
+            Toast.error(text: error.message ?? '未知错误');
+          }
+          return Response(requestOptions: RequestOptions(), data: error);
+        }));
   }
 
   void cancelRequests({CancelToken? token}) {
@@ -75,6 +158,12 @@ class Http {
 
   /// 读取本地配置
   Map<String, dynamic>? getAuthorizationHeader() {
+    // Options requestOptions = options ?? Options();
+    // requestOptions.headers ??= {};
+    // Map<String, dynamic>? authorization = getAuthorizationHeader();
+    // if (authorization != null) {
+    //   requestOptions.headers!.addAll(authorization);
+    // }
     var headers = <String, dynamic>{};
     // if (Get.isRegistered<UserStore>() && UserStore.to.hasToken == true) {
     //   headers['Authorization'] = 'Bearer ${UserStore.to.token}';
@@ -83,7 +172,7 @@ class Http {
   }
 }
 
-class HttpInterceptor extends Interceptor {
+class CustomInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.type == DioErrorType.badResponse) validateStatusError(err);
