@@ -29,14 +29,14 @@ class Global {
   }
 
   static Future<void> setThemeMode(ThemeMode themeMode) async {
-    Styles.themeMode(themeMode);
+    Styles.themeMode.value = themeMode;
     Get.changeThemeMode(themeMode);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('theme', describeEnum(themeMode));
   }
 
   static Future<void> setLocale(String localeString) async {
-    Styles.locale(localeString);
+    Styles.locale.value = localeString;
     Get.updateLocale(
         StringUtils.stringToLocale(localeString, Get.deviceLocale));
     SharedPreferences prefs = await SharedPreferences.getInstance();
