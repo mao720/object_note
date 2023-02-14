@@ -43,10 +43,13 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {},
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 72.w,
+                    onTap: logic.onUserHeaderPressed,
+                    child: Hero(
+                      tag: 'login'.tr,
+                      child: Icon(
+                        Icons.account_circle,
+                        size: 72.w,
+                      ),
                     ),
                   ),
                   Hero(

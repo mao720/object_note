@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/http.dart';
 import 'package:object_note/core/route.dart';
 import 'package:object_note/pages/home/home_state.dart';
-import 'package:object_note/utils/log_util.dart';
 
 class HomeLogic extends GetxController {
   final HomeState state = HomeState();
   final PageController pageController = PageController();
 
   onSettingButtonPressed() async {
-    var data = await Http().get('classes/_User');
-    Log.d(data.toString());
-    //Http().cancelToken.cancel();
-
-    //Get.toNamed(AppRoute.settingsPage);
+    Get.toNamed(AppRoute.settingsPage);
   }
 
   onListTilePressed(String title) {
@@ -39,5 +33,9 @@ class HomeLogic extends GetxController {
       duration: const Duration(milliseconds: 300),
       curve: Curves.ease,
     );
+  }
+
+  onUserHeaderPressed() {
+    Get.toNamed(AppRoute.loginPage);
   }
 }
