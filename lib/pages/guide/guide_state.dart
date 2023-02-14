@@ -11,7 +11,7 @@ class GuideState {
     // Assets.illustrationWalking,
     Assets.illustrationWateringFlowers,
   ];
-  var currentPageIndex = 0.obs;
+  RxInt currentPageIndex = 0.obs;
 
   GuideState() {
     ///Initialize variables
