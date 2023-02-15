@@ -163,21 +163,6 @@ class Http {
   void cancelRequests({CancelToken? token}) {
     (token ?? cancelToken).cancel('cancelled');
   }
-
-  /// 读取本地配置
-  Map<String, dynamic>? getAuthorizationHeader() {
-    // Options requestOptions = options ?? Options();
-    // requestOptions.headers ??= {};
-    // Map<String, dynamic>? authorization = getAuthorizationHeader();
-    // if (authorization != null) {
-    //   requestOptions.headers!.addAll(authorization);
-    // }
-    var headers = <String, dynamic>{};
-    // if (Get.isRegistered<UserStore>() && UserStore.to.hasToken == true) {
-    //   headers['Authorization'] = 'Bearer ${UserStore.to.token}';
-    // }
-    return headers;
-  }
 }
 
 class CustomInterceptor extends Interceptor {
@@ -210,10 +195,13 @@ class CustomInterceptor extends Interceptor {
   };
 
   void validateStatusError(DioError error) {
-    int errorCode = error.response != null ? error.response!.statusCode! : -1;
-    String message = errorMap[errorCode] ??
-        '${error.response != null ? error.response!.statusMessage! : '未知错误'}: $errorCode';
-    Toast.error(text: message);
+    int errorCode = error.response?.statusCode ?? -1;
+    // String message = errorMap[errorCode] ??
+    //     '${error.response?.statusMessage ?? '未知错误'}: $errorCode';
+    Toast.error(
+      text: '$errorCode${error.response?.data?['code'] ?? ''}'
+          '\r\n${error.response?.data?['error'] ?? ''}',
+    );
     if (errorCode == 401) {
       //UserStore.to.onLogout();
     }
