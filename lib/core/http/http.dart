@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:object_note/utils/log_util.dart';
+import 'package:object_note/core/app/global.dart';
+import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/widgets/toast.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -13,8 +15,9 @@ class Http {
   static late Dio _dio;
   CancelToken cancelToken = CancelToken();
   final String serverDomain = 'https://api.objectnote.top/parse/';
-  final String headerName = 'X-Parse-Application-Id';
-  final String parseAppId = 'object-note-parse-server';
+  final String headerIdName = 'X-Parse-Application-Id';
+  final String headerId = 'object-note-parse-server';
+  final String headerTokenName = 'X-Parse-Session-Token';
 
   Http._internal() {
     _dio = Dio(
@@ -22,7 +25,7 @@ class Http {
         baseUrl: serverDomain,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {headerName: parseAppId},
+        headers: {headerIdName: headerId},
         contentType: ContentType.json.toString(),
         responseType: ResponseType.json,
       ),
@@ -31,7 +34,7 @@ class Http {
     _dio.interceptors.add(PrettyDioLogger(
       request: false,
       // requestBody: true,
-      // requestHeader: true,
+      requestHeader: true,
       logPrint: (object) => Log.d(object),
     ));
   }
@@ -52,7 +55,7 @@ class Http {
 
   Future post(
     String path, {
-    required Object data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
@@ -138,18 +141,23 @@ class Http {
     return response.data;
   }
 
-  /// 包装请求，处理 loading 和 DioError
+  /// 处理 loading 和 DioError
   Future<Response> requestWrapper(Future<Response> request) {
     Toast.loading();
-    return request.then((response) {
+    Completer<Response> completer = Completer();
+    request.then((response) {
       Toast.dismiss();
+      completer.complete(response);
       return response;
-    }).onError((DioError error, stackTrace) => Future(() {
-          if (error.type != DioErrorType.badResponse) {
-            Toast.error(text: error.message ?? '未知错误');
-          }
-          return Response(requestOptions: RequestOptions(), data: error);
-        }));
+    }).onError((DioError error, stackTrace) {
+      if (error.type != DioErrorType.badResponse) {
+        Toast.error(text: error.message ?? '未知错误');
+        Log.d(error);
+      }
+      completer.future.ignore();
+      return Response(requestOptions: RequestOptions());
+    });
+    return completer.future;
   }
 
   void cancelRequests({CancelToken? token}) {
@@ -173,6 +181,16 @@ class Http {
 }
 
 class CustomInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    var user = Global.user.value;
+    if (user != null) {
+      options.headers
+          .addEntries([MapEntry(Http().headerTokenName, user.sessionToken)]);
+    }
+    super.onRequest(options, handler);
+  }
+
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.type == DioErrorType.badResponse) validateStatusError(err);
