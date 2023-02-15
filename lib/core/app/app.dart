@@ -4,10 +4,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/route.dart';
-import 'package:object_note/core/global.dart';
-import 'package:object_note/core/styles.dart';
-import 'package:object_note/l10n/translation.dart';
+import 'package:object_note/core/app/app_route.dart';
+import 'package:object_note/core/app/global.dart';
+import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/styles/translation.dart';
 import 'package:object_note/widgets/toast.dart';
 
 Widget createApp() {
