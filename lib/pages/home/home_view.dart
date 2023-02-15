@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/utils/screen_adaption_util.dart';
 import 'package:object_note/pages/home/home_logic.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -46,9 +46,12 @@ class HomePage extends StatelessWidget {
                     onTap: logic.onUserHeaderPressed,
                     child: Hero(
                       tag: 'login'.tr,
-                      child: Icon(
-                        Icons.account_circle,
-                        size: 72.w,
+                      child: CircleAvatar(
+                        radius: 36.w,
+                        child: Icon(
+                          Icons.account_circle,
+                          size: 72.w,
+                        ),
                       ),
                     ),
                   ),

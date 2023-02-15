@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/route.dart';
+import 'package:object_note/core/app/app_route.dart';
+import 'package:object_note/core/app/global.dart';
 import 'package:object_note/pages/home/home_state.dart';
 
 class HomeLogic extends GetxController {
@@ -36,6 +37,10 @@ class HomeLogic extends GetxController {
   }
 
   onUserHeaderPressed() {
-    Get.toNamed(AppRoute.loginPage);
+    if (Global.user.value != null) {
+      Get.toNamed(AppRoute.profilePage);
+    } else {
+      Get.toNamed(AppRoute.loginPage);
+    }
   }
 }
