@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles.dart';
-import 'package:object_note/utils/log_util.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
+import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/utils/log_util.dart';
+import 'package:object_note/core/utils/screen_adaption_util.dart';
 
 class Toast {
   Toast.init() {

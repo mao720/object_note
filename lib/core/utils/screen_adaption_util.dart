@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:object_note/core/global.dart';
-import 'package:object_note/core/styles.dart';
-import 'package:object_note/utils/log_util.dart';
+import 'package:object_note/core/app/global.dart';
+import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/utils/log_util.dart';
 
 class ScreenAdaptionUtil {
   static final ScreenAdaptionUtil _instance = ScreenAdaptionUtil._init();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/global.dart';
+import 'package:object_note/core/app/global.dart';
 
 class Styles {
   Styles._();

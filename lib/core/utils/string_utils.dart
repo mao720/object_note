@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:object_note/core/styles.dart';
-import 'package:object_note/l10n/translation.dart';
+import 'package:object_note/core/styles/translation.dart';
+import 'package:object_note/core/styles/styles.dart';
 
 class StringUtils {
   /// String to Locale
