@@ -18,8 +18,8 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var deviceLocaleName = LocaleNamesLocalizationsDelegate
         .nativeLocaleNames[Get.deviceLocale.toString()];
-    var deviceBrightness =
-        ' - ${(describeEnum(MediaQuery.of(context).platformBrightness).capitalize ?? '').tr}';
+    var deviceBrightness = ' - '
+        '${(describeEnum(MediaQuery.of(context).platformBrightness).capitalize ?? '').tr}';
     return Scaffold(
       appBar: createBaseAppBar(title: 'Settings'.tr),
       body: ListView(children: [
