@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:object_note/core/styles.dart';
+import 'package:object_note/core/styles/styles.dart';
 import 'package:object_note/pages/guide/guide_logic.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
+import 'package:object_note/core/utils/screen_adaption_util.dart';
 
 class GuidePage extends StatelessWidget {
   GuidePage({Key? key}) : super(key: key);

@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import 'package:object_note/core/assets.dart';
+import 'package:object_note/core/styles/constants.dart';
 
 class GuideState {
   var guideIllustrations = [
-    Assets.illustrationStayAtHome,
-    Assets.illustrationBook,
+    Constants.illustrationStayAtHome,
+    Constants.illustrationBook,
     // Assets.illustrationBookshelf,
-    Assets.illustrationHeart,
+    Constants.illustrationHeart,
     // Assets.illustrationPlantingTrees,
     // Assets.illustrationWalking,
-    Assets.illustrationWateringFlowers,
+    Constants.illustrationWateringFlowers,
   ];
   RxInt currentPageIndex = 0.obs;
 
