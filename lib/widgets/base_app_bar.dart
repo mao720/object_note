@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
+import 'package:object_note/core/utils/screen_adaption_util.dart';
 
 PreferredSizeWidget createBaseAppBar({
   String title = 'AppBar',
