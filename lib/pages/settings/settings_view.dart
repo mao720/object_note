@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles.dart';
-import 'package:object_note/l10n/translation.dart';
+import 'package:object_note/core/styles/translation.dart';
+import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/utils/screen_adaption_util.dart';
 import 'package:object_note/pages/settings/settings_logic.dart';
-import 'package:object_note/utils/screen_adaption_util.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
 
 class SettingsPage extends StatelessWidget {
