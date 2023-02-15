@@ -1,4 +1,10 @@
-class Assets {
+class Constants {
+  //Strings
+  static const theme = 'THEME';
+  static const locale = 'LOCALE';
+  static const user = 'USER';
+
+  //Assets
   static const splashLogo = 'assets/animations/logo-somar.json';
   static const yogaBoxBreathing = 'assets/animations/yoga-box-breathing.json';
 
