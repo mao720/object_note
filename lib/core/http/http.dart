@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:object_note/core/app/global.dart';
+import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/widgets/toast.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -15,9 +16,6 @@ class Http {
   static late Dio _dio;
   CancelToken cancelToken = CancelToken();
   final String serverDomain = 'https://api.objectnote.top/parse/';
-  final String headerIdName = 'X-Parse-Application-Id';
-  final String headerId = 'object-note-parse-server';
-  final String headerTokenName = 'X-Parse-Session-Token';
 
   Http._internal() {
     _dio = Dio(
@@ -25,7 +23,7 @@ class Http {
         baseUrl: serverDomain,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {headerIdName: headerId},
+        headers: {Constants.headerIdName: Constants.headerId},
         contentType: ContentType.json.toString(),
         responseType: ResponseType.json,
       ),
@@ -151,7 +149,7 @@ class Http {
       return response;
     }).onError((DioError error, stackTrace) {
       if (error.type != DioErrorType.badResponse) {
-        Toast.error(text: error.message ?? '未知错误');
+        Toast.error(error.message ?? '未知错误');
         Log.d(error);
       }
       completer.future.ignore();
@@ -170,8 +168,8 @@ class CustomInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     var user = Global.user.value;
     if (user != null) {
-      options.headers
-          .addEntries([MapEntry(Http().headerTokenName, user.sessionToken)]);
+      var header = MapEntry(Constants.headerTokenName, user.sessionToken);
+      options.headers.addEntries([header]);
     }
     super.onRequest(options, handler);
   }
@@ -182,28 +180,15 @@ class CustomInterceptor extends Interceptor {
     super.onError(err, handler);
   }
 
-  Map<int, String> errorMap = {
-    400: '错误请求',
-    401: '没有权限',
-    403: '请求被拒绝',
-    404: '找不到目标',
-    405: '请求方法被禁止',
-    500: '服务器内部错误',
-    502: '请求被停止',
-    503: '服务器关闭',
-    505: '协议不支持',
-  };
-
-  void validateStatusError(DioError error) {
-    int errorCode = error.response?.statusCode ?? -1;
-    // String message = errorMap[errorCode] ??
-    //     '${error.response?.statusMessage ?? '未知错误'}: $errorCode';
-    Toast.error(
-      text: '$errorCode${error.response?.data?['code'] ?? ''}'
-          '\r\n${error.response?.data?['error'] ?? ''}',
-    );
-    if (errorCode == 401) {
-      //UserStore.to.onLogout();
+  void validateStatusError(DioError error) async {
+    var httpErrorCode = error.response?.statusCode ?? -1;
+    var parseErrorCode = error.response?.data?['code'] ?? '';
+    var parseErrorMsg = error.response?.data?['error'] ??
+        error.response?.statusMessage ??
+        '未知错误';
+    Toast.error('$parseErrorMsg\r\n$httpErrorCode$parseErrorCode');
+    if (parseErrorCode == '209') {
+      Global.onLogout();
     }
   }
 }

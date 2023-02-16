@@ -16,7 +16,7 @@ class Toast {
       ..progressColor = Styles.cs.onSurface
       ..indicatorColor = Styles.cs.onSurface
       ..textColor = Styles.cs.onSurface
-      ..displayDuration = const Duration(milliseconds: 1500)
+      ..displayDuration = const Duration(milliseconds: 2000)
       ..indicatorSize = 45.w
       ..radius = 10.w
       ..boxShadow = [
@@ -43,16 +43,16 @@ class Toast {
     EasyLoading.showProgress(value, status: text);
   }
 
-  static info({String? text}) {
-    EasyLoading.showInfo(text ?? 'info'.tr);
+  static info(String text) {
+    EasyLoading.showInfo(text);
   }
 
   static success({String? text}) {
     EasyLoading.showSuccess(text ?? 'success'.tr);
   }
 
-  static error({String? text}) {
-    EasyLoading.showError(text ?? 'error'.tr);
+  static error(String text) {
+    EasyLoading.showError(text);
   }
 
   static dismiss() {
