@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles/constants.dart';
+import 'package:object_note/core/app/app_route.dart';
+import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/styles/styles.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/core/utils/string_utils.dart';
 import 'package:object_note/modal/user.dart';
+import 'package:object_note/widgets/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
@@ -57,5 +59,12 @@ class Global {
     } else {
       await prefs.setString(Constants.user, jsonEncode(user.toJson()));
     }
+  }
+
+  static Future onLogout() async {
+    await setUser(null);
+    Toast.info('登录信息已过期，请重新登录');
+    await Future.delayed(const Duration(milliseconds: 500));
+    Get.toNamed(AppRoute.loginPage);
   }
 }

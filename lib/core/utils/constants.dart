@@ -1,10 +1,15 @@
 class Constants {
-  //Strings
+  /// Strings SP
   static const theme = 'THEME';
   static const locale = 'LOCALE';
   static const user = 'USER';
 
-  //Assets
+  /// String Http
+  static const headerIdName = 'X-Parse-Application-Id';
+  static const headerId = 'object-note-parse-server';
+  static const headerTokenName = 'X-Parse-Session-Token';
+
+  /// Assets
   static const splashLogo = 'assets/animations/logo-somar.json';
   static const yogaBoxBreathing = 'assets/animations/yoga-box-breathing.json';
 
