@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/app_route.dart';
-import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/core/utils/string_utils.dart';
@@ -40,13 +40,13 @@ class Global {
   }
 
   static Future<void> setThemeMode(ThemeMode themeMode) async {
-    Styles.themeMode.value = themeMode;
+    Themes.themeMode.value = themeMode;
     Get.changeThemeMode(themeMode);
     await prefs.setString(Constants.theme, describeEnum(themeMode));
   }
 
   static Future<void> setLocale(String localeString) async {
-    Styles.locale.value = localeString;
+    Themes.locale.value = localeString;
     Get.updateLocale(
         StringUtils.stringToLocale(localeString, Get.deviceLocale));
     await prefs.setString(Constants.locale, localeString);

@@ -6,7 +6,7 @@ import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/app_route.dart';
 import 'package:object_note/core/app/global.dart';
-import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/styles/translation.dart';
 import 'package:object_note/widgets/toast.dart';
 
@@ -18,8 +18,8 @@ Widget createApp() {
     initialRoute: AppRoute.homePage,
     getPages: AppRoute.getPages,
     //Theme
-    theme: Styles.lightThemeData,
-    darkTheme: Styles.darkThemeData,
+    theme: Themes.lightThemeData,
+    darkTheme: Themes.darkThemeData,
     //ScrollBehavior
     scrollBehavior: MyCustomScrollBehavior(),
     //Locale
@@ -31,7 +31,7 @@ Widget createApp() {
     ],
     supportedLocales: Translation.supportLocale,
     translations: Translation(),
-    fallbackLocale: Styles.fallbackLocale,
+    fallbackLocale: Themes.fallbackLocale,
     builder: (context, child) {
       Global.context = context;
       Toast.init();
