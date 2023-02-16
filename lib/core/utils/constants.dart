@@ -5,6 +5,8 @@ class Constants {
   static const user = 'USER';
 
   /// String Http
+  static const ossDomain = 'https://oss.objectnote.top/';
+  static const ossDirImage = 'files/image/';
   static const headerIdName = 'X-Parse-Application-Id';
   static const headerId = 'object-note-parse-server';
   static const headerTokenName = 'X-Parse-Session-Token';

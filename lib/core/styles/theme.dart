@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
 
-class Styles {
-  Styles._();
+class Themes {
+  Themes._();
 
   static ColorScheme get cs => Theme.of(Global.context).colorScheme;
   static const designSize = Size(360, 690);
@@ -15,15 +15,15 @@ class Styles {
   static final lightThemeData = ThemeData(
     useMaterial3: true,
     platform: TargetPlatform.iOS,
-    colorScheme: Styles.lightColorScheme,
-    fontFamily: Styles.fontFamily,
+    colorScheme: Themes.lightColorScheme,
+    fontFamily: Themes.fontFamily,
   );
 
   static final darkThemeData = ThemeData(
     useMaterial3: true,
     platform: TargetPlatform.iOS,
-    colorScheme: Styles.darkColorScheme,
-    fontFamily: Styles.fontFamily,
+    colorScheme: Themes.darkColorScheme,
+    fontFamily: Themes.fontFamily,
   );
 
   static const lightColorScheme = ColorScheme(
