@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:object_note/core/styles/constants.dart';
+import 'package:object_note/core/utils/constants.dart';
 
 class GuideState {
   var guideIllustrations = [

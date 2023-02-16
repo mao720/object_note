@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:object_note/core/styles/constants.dart';
+import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/screen_adaption_util.dart';
 import 'package:object_note/pages/splash/splash_logic.dart';
 
