@@ -23,17 +23,22 @@ PreferredSizeWidget createBaseAppBar({
     );
   }
   return AppBar(
-    title: Text(title, style: TextStyle(color: color, fontSize: 22.w)),
+    title: Hero(
+      tag: title,
+      child: Text(
+        title,
+        style: TextStyle(color: color, fontSize: 22.w),
+        overflow: TextOverflow.visible,
+        softWrap: false,
+      ),
+    ),
     centerTitle: true,
     leading: showLeading
-        ? Hero(
-            tag: title,
-            child: IconButton(
-              onPressed: () => Get.back(),
-              color: color,
-              tooltip: '',
-              icon: Icon(Icons.arrow_back, size: 24.w),
-            ),
+        ? IconButton(
+            onPressed: () => Get.back(),
+            color: color,
+            tooltip: '',
+            icon: Icon(Icons.arrow_back, size: 24.w),
           )
         : const SizedBox.shrink(),
     actions: actions,
