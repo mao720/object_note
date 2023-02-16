@@ -11,7 +11,7 @@ class ProfileLogic extends GetxController {
   void onLogoutPressed() async {
     await Api.logout();
     Global.setUser(null);
-    Toast.show('已退出登录');
+    Toast.success(text: 'Logout'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.back();
   }

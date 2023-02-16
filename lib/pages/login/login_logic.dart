@@ -12,7 +12,7 @@ class LoginLogic extends GetxController {
   void onLogin() async {
     User user = await Api.login(state.username.value, state.password.value);
     Global.setUser(user);
-    Toast.show('登录成功');
+    Toast.success(text: 'Login'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.back();
   }

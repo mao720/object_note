@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/app_route.dart';
-import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/core/utils/string_utils.dart';
 import 'package:object_note/modal/user.dart';
@@ -63,7 +63,7 @@ class Global {
 
   static Future onLogout() async {
     await setUser(null);
-    Toast.info('登录信息已过期，请重新登录');
+    Toast.info('登录信息已过期，请重新登录'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.toNamed(AppRoute.loginPage);
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' as get_x;
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
@@ -149,7 +150,7 @@ class Http {
       return response;
     }).onError((DioError error, stackTrace) {
       if (error.type != DioErrorType.badResponse) {
-        Toast.error(error.message ?? '未知错误');
+        Toast.error(error.message ?? 'Unknown Error'.tr);
         Log.d(error);
       }
       completer.future.ignore();
@@ -185,7 +186,7 @@ class CustomInterceptor extends Interceptor {
     var parseErrorCode = error.response?.data?['code'] ?? '';
     var parseErrorMsg = error.response?.data?['error'] ??
         error.response?.statusMessage ??
-        '未知错误';
+        'Unknown Error'.tr;
     Toast.error('$parseErrorMsg\r\n$httpErrorCode$parseErrorCode');
     if (parseErrorCode == '209') {
       Global.onLogout();
