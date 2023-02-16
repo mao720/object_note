@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/styles/screen_adaption.dart';
+import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/styles/translation.dart';
-import 'package:object_note/core/styles/styles.dart';
-import 'package:object_note/core/utils/screen_adaption_util.dart';
 import 'package:object_note/pages/settings/settings_logic.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
 
@@ -25,22 +25,22 @@ class SettingsPage extends StatelessWidget {
       body: ListView(children: [
         _createSettingCard(context, title: 'Theme'.tr, items: [
           _createItem(context, 'System'.tr + deviceBrightness, ThemeMode.system,
-              Styles.themeMode, logic.onThemeChanged),
-          _createItem(context, 'Light'.tr, ThemeMode.light, Styles.themeMode,
+              Themes.themeMode, logic.onThemeChanged),
+          _createItem(context, 'Light'.tr, ThemeMode.light, Themes.themeMode,
               logic.onThemeChanged),
-          _createItem(context, 'Dark'.tr, ThemeMode.dark, Styles.themeMode,
+          _createItem(context, 'Dark'.tr, ThemeMode.dark, Themes.themeMode,
               logic.onThemeChanged),
         ]),
         _createSettingCard(context, title: 'Language'.tr, items: [
           _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
-              Styles.locale, logic.onLocaleChanged),
+              Themes.locale, logic.onLocaleChanged),
           ...Translation.supportLocale
               .map((local) => _createItem(
                     context,
                     LocaleNamesLocalizationsDelegate
                         .nativeLocaleNames[local.toString()],
                     local.toString(),
-                    Styles.locale,
+                    Themes.locale,
                     logic.onLocaleChanged,
                     subtitle: LocaleNames.of(context)?.nameOf(local.toString()),
                   ))

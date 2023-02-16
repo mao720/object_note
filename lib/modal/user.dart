@@ -7,6 +7,7 @@ class User {
     this.updatedAt,
     this.ACL,
     this.sessionToken,
+    this.avatar,
   });
 
   User.fromJson(dynamic json)
@@ -15,7 +16,8 @@ class User {
         createdAt = json['createdAt'],
         updatedAt = json['updatedAt'],
         ACL = json['ACL'],
-        sessionToken = json['sessionToken'];
+        sessionToken = json['sessionToken'],
+        avatar = json['avatar'];
 
   String? objectId;
   String? username;
@@ -23,6 +25,7 @@ class User {
   String? updatedAt;
   Map<String, dynamic>? ACL;
   String? sessionToken;
+  String? avatar;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -32,6 +35,7 @@ class User {
     map['updatedAt'] = updatedAt;
     map['ACL'] = ACL;
     map['sessionToken'] = sessionToken;
+    map['avatar'] = avatar;
     return map;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:object_note/core/styles/styles.dart';
+import 'package:object_note/core/styles/screen_adaption.dart';
+import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/pages/guide/guide_logic.dart';
-import 'package:object_note/core/utils/screen_adaption_util.dart';
 
 class GuidePage extends StatelessWidget {
   GuidePage({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class GuidePage extends StatelessWidget {
               return state.currentPageIndex.value ==
                       state.guideIllustrations.length - 1
                   ? MaterialButton(
-                      color: Styles.cs.primary,
+                      color: Themes.cs.primary,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24.w)),
                       onPressed: logic.onButtonPressed,
@@ -43,7 +43,7 @@ class GuidePage extends StatelessWidget {
                           'Start Note'.tr,
                           style: TextStyle(
                               fontSize: 22.w,
-                              color: Styles.cs.primaryContainer),
+                              color: Themes.cs.primaryContainer),
                         ),
                       ),
                     )
@@ -69,8 +69,8 @@ class GuidePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: state.currentPageIndex.value == index
-                          ? Styles.cs.primary
-                          : Styles.cs.primaryContainer,
+                          ? Themes.cs.primary
+                          : Themes.cs.primaryContainer,
                     ),
                   );
                 }))

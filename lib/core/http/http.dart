@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_oss_aliyun/flutter_oss_aliyun.dart';
 import 'package:get/get.dart' as get_x;
 import 'package:object_note/core/app/global.dart';
+import 'package:object_note/core/access_key.dart';
 import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/widgets/toast.dart';
@@ -36,6 +38,17 @@ class Http {
       requestHeader: true,
       logPrint: (object) => Log.d(object),
     ));
+    Client.init(
+      dio: _dio,
+      ossEndpoint: "oss-cn-hongkong.aliyuncs.com",
+      bucketName: "object-note-oss",
+      tokenGetter: () async => '''{
+        "AccessKeyId": "${AccessKey.accessKeyId}",
+        "AccessKeySecret": "${AccessKey.accessKeySecret}",
+        "SecurityToken": "",
+        "Expiration": "2822-03-22T11:33:06Z"
+      }''',
+    );
   }
 
   Future get(
@@ -162,6 +175,20 @@ class Http {
   void cancelRequests({CancelToken? token}) {
     (token ?? cancelToken).cancel('cancelled');
   }
+
+  Future uploadToOSS(File file, String name) async {
+    final Response resp = await Client().putObjectFile(
+      file,
+      fileKey: Constants.ossDirImage + name,
+      option: PutRequestOption(
+        onSendProgress: (count, total) {
+          Log.d("send: count = $count, and total = $total");
+        },
+        aclModel: AclMode.inherited,
+      ),
+    );
+    return resp;
+  }
 }
 
 class CustomInterceptor extends Interceptor {
@@ -182,6 +209,7 @@ class CustomInterceptor extends Interceptor {
   }
 
   void validateStatusError(DioError error) async {
+    Log.d(error);
     var httpErrorCode = error.response?.statusCode ?? -1;
     var parseErrorCode = error.response?.data?['code'] ?? '';
     var parseErrorMsg = error.response?.data?['error'] ??

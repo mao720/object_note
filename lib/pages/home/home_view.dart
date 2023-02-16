@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
-import 'package:object_note/core/styles/styles.dart';
-import 'package:object_note/core/utils/screen_adaption_util.dart';
+import 'package:object_note/core/styles/screen_adaption.dart';
+import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/pages/home/home_logic.dart';
 
 class HomePage extends StatelessWidget {
@@ -50,8 +50,10 @@ class HomePage extends StatelessWidget {
                       return Hero(
                         tag: Global.user.value == null
                             ? 'login'.tr
-                            : 'profile'.tr,
+                            : 'profile_hero',
                         child: CircleAvatar(
+                          foregroundImage:
+                              NetworkImage(Global.user.value?.avatar ?? ''),
                           radius: 36.w,
                           child: Icon(Icons.account_circle, size: 72.w),
                         ),
@@ -62,7 +64,7 @@ class HomePage extends StatelessWidget {
                     tag: 'Settings'.tr,
                     child: Builder(builder: (context) {
                       return IconButton(
-                        color: Styles.cs.onPrimaryContainer,
+                        color: Themes.cs.onPrimaryContainer,
                         onPressed: logic.onSettingButtonPressed,
                         icon: Icon(Icons.settings, size: 24.w),
                       );

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/pages/login/login_logic.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
-
-import 'login_logic.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
