@@ -23,11 +23,13 @@ class ProfileLogic extends GetxController {
   }
 
   void onAvatarTaped() async {
+    Toast.loading();
     final ImagePicker picker = ImagePicker();
     // Pick an image
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     // Capture a photo
     // final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    Toast.dismiss();
     if (image != null) {
       var response = await Api.uploadToOSS(File(image.path), image.name);
       Log.d(response);
