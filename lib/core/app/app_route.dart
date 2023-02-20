@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/core/app/global.dart';
 import 'package:object_note/pages/guide/guide_view.dart';
 import 'package:object_note/pages/home/home_view.dart';
 import 'package:object_note/pages/login/login_view.dart';
@@ -22,6 +24,21 @@ class AppRoute {
     GetPage(name: homePage, page: () => HomePage()),
     GetPage(name: settingsPage, page: () => SettingsPage()),
     GetPage(name: loginPage, page: () => LoginPage()),
-    GetPage(name: profilePage, page: () => ProfilePage()),
+    GetPage(
+      name: profilePage,
+      page: () => ProfilePage(),
+      middlewares: [AuthMiddleware()],
+    ),
   ];
+}
+
+class AuthMiddleware extends GetMiddleware {
+  @override
+  RouteSettings? redirect(String? route) {
+    if (Global.user.value != null || route == AppRoute.loginPage) {
+      return null;
+    } else {
+      return const RouteSettings(name: AppRoute.loginPage);
+    }
+  }
 }
