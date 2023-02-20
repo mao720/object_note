@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_oss_aliyun/flutter_oss_aliyun.dart';
 import 'package:get/get.dart' as get_x;
-import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/access_key.dart';
+import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/utils/constants.dart';
 import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/widgets/toast.dart';
@@ -216,7 +216,7 @@ class CustomInterceptor extends Interceptor {
         error.response?.statusMessage ??
         'Unknown Error'.tr;
     Toast.error('$parseErrorMsg\r\n$httpErrorCode$parseErrorCode');
-    if (parseErrorCode == '209') {
+    if (parseErrorCode == 209) {
       Global.onLogout();
     }
   }
