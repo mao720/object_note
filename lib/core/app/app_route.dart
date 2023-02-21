@@ -9,7 +9,6 @@ import 'package:object_note/pages/settings/settings_view.dart';
 import 'package:object_note/pages/splash/splash_view.dart';
 
 class AppRoute {
-  ///root page
   static const String splashPage = "/splashPage";
   static const String guidePage = "/guidePage";
   static const String homePage = "/homePage";
@@ -17,7 +16,6 @@ class AppRoute {
   static const String loginPage = "/loginPage";
   static const String profilePage = "/profilePage";
 
-  ///pages map
   static final List<GetPage> getPages = [
     GetPage(name: splashPage, page: () => SplashPage()),
     GetPage(name: guidePage, page: () => GuidePage()),
