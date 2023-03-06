@@ -37,6 +37,10 @@ class MainView extends StatelessWidget {
                         color: Colors.green,
                         child: const Text('社会'),
                       ),
+                      Container(
+                        color: Colors.green,
+                        child: const Text('科学'),
+                      ),
                     ],
                   )
                 ],
