@@ -1,11 +1,11 @@
 {
-    "name": "object_note",
-    "short_name": "object_note",
+    "name": "xx_market_client",
+    "short_name": "xx_market_client",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Flutter project object note.",
+    "description": "XX Market Client",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
