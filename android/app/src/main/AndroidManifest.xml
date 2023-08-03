@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="top.objectnote.object_note">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="object_note"
         android:name="${applicationName}"

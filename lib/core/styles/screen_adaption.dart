@@ -15,14 +15,28 @@ class ScreenAdaption {
 
   ScreenAdaption._init() {
     Log.d('ScreenAdaptionUtil init');
+    init();
+  }
+
+  void init() {
     Size size = MediaQuery.of(Global.context).size;
     _scaleWidth = min(size.width, size.height) / Themes.designSize.width;
     _scaleHeight = max(size.width, size.height) / Themes.designSize.height;
   }
 
-  scaleWidth(num a) => a * _scaleWidth;
+  scaleWidth(num a) {
+    if (_scaleWidth == 0) {
+      init();
+    }
+    return a * _scaleWidth;
+  }
 
-  scaleHeight(num a) => a * _scaleHeight;
+  scaleHeight(num a) {
+    if (_scaleWidth == 0) {
+      init();
+    }
+    return a * _scaleHeight;
+  }
 }
 
 extension ScreenAdaptionExtension on num {
