@@ -15,20 +15,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(children: [
-          Expanded(
-            child: PageView(
-              controller: logic.pageController,
-              onPageChanged: logic.onPageChanged,
-              children: [
-                MainView(),
-                MineView(),
-              ],
-            ),
-          ),
-          _navigationView(context)
-        ]),
+        child: PageView(
+          controller: logic.pageController,
+          onPageChanged: logic.onPageChanged,
+          children: [
+            MainView(),
+            MineView(),
+          ],
+        ),
       ),
+      bottomNavigationBar: _navigationView(context),
     );
   }
 
