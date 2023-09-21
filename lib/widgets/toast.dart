@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
-import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/utils/log_util.dart';
 
 class Toast {
-  Toast.init() {
+  Toast.init(BuildContext context) {
     Log.d('Toast init');
     EasyLoading.instance
       ..userInteractions = true
       ..dismissOnTap = false
       ..loadingStyle = EasyLoadingStyle.custom
-      ..backgroundColor = Themes.cs.surface
-      ..progressColor = Themes.cs.onSurface
-      ..indicatorColor = Themes.cs.onSurface
-      ..textColor = Themes.cs.onSurface
+      ..backgroundColor = context.theme.colorScheme.surface
+      ..progressColor = context.theme.colorScheme.onSurface
+      ..indicatorColor = context.theme.colorScheme.onSurface
+      ..textColor = context.theme.colorScheme.onSurface
       ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorSize = 45.w
-      ..radius = 10.w
+      ..indicatorSize = 45
+      ..radius = 10
       ..boxShadow = [
         BoxShadow(
-            color: Themes.cs.onSurface,
-            blurRadius: 6.w,
+            color: Theme.of(context).colorScheme.onSurface,
+            blurRadius: 6,
             blurStyle: BlurStyle.solid)
       ];
   }

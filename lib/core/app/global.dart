@@ -17,7 +17,6 @@ class Global {
 
   factory Global.init() => _instance;
 
-  static late BuildContext context;
   static late SharedPreferences prefs;
   static Rx<User?> user = Rx(null);
 
@@ -40,13 +39,13 @@ class Global {
   }
 
   static Future<void> setThemeMode(ThemeMode themeMode) async {
-    Themes.themeMode.value = themeMode;
+    Themes.rxThemeMode.value = themeMode;
     Get.changeThemeMode(themeMode);
     await prefs.setString(Constants.theme, describeEnum(themeMode));
   }
 
   static Future<void> setLocale(String localeString) async {
-    Themes.locale.value = localeString;
+    Themes.rxLocale.value = localeString;
     Get.updateLocale(
         StringUtils.stringToLocale(localeString, Get.deviceLocale));
     await prefs.setString(Constants.locale, localeString);
@@ -57,7 +56,7 @@ class Global {
     if (user == null) {
       await prefs.remove(Constants.user);
     } else {
-      await prefs.setString(Constants.user, jsonEncode(user.toJson()));
+      await prefs.setString(Constants.user, jsonEncode(user));
     }
   }
 

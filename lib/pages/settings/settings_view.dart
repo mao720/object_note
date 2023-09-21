@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
 import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/styles/translation.dart';
 import 'package:object_note/pages/settings/settings_logic.dart';
@@ -25,28 +24,28 @@ class SettingsPage extends StatelessWidget {
       body: ListView(children: [
         _createSettingCard(context, title: 'Theme'.tr, items: [
           _createItem(context, 'System'.tr + deviceBrightness, ThemeMode.system,
-              Themes.themeMode, logic.onThemeChanged),
-          _createItem(context, 'Light'.tr, ThemeMode.light, Themes.themeMode,
+              Themes.rxThemeMode, logic.onThemeChanged),
+          _createItem(context, 'Light'.tr, ThemeMode.light, Themes.rxThemeMode,
               logic.onThemeChanged),
-          _createItem(context, 'Dark'.tr, ThemeMode.dark, Themes.themeMode,
+          _createItem(context, 'Dark'.tr, ThemeMode.dark, Themes.rxThemeMode,
               logic.onThemeChanged),
         ]),
         _createSettingCard(context, title: 'Language'.tr, items: [
           _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
-              Themes.locale, logic.onLocaleChanged),
+              Themes.rxLocale, logic.onLocaleChanged),
           ...Translation.supportLocale
               .map((local) => _createItem(
                     context,
                     LocaleNamesLocalizationsDelegate
                         .nativeLocaleNames[local.toString()],
                     local.toString(),
-                    Themes.locale,
+                    Themes.rxLocale,
                     logic.onLocaleChanged,
                     subtitle: LocaleNames.of(context)?.nameOf(local.toString()),
                   ))
               .toList()
         ]),
-        SizedBox(height: 24.w)
+        SizedBox(height: 24)
       ]),
     );
   }
@@ -54,20 +53,15 @@ class SettingsPage extends StatelessWidget {
   Widget _createSettingCard(BuildContext context,
       {required String title, required List<Widget> items}) {
     return Card(
-      margin: EdgeInsets.only(left: 24.w, top: 24.w, right: 24.w),
+      margin: EdgeInsets.only(left: 24, top: 24, right: 24),
       child: Padding(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 16.w),
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: 16.w,
-                    color: Theme.of(context).colorScheme.secondary),
-              ),
+              padding: EdgeInsets.only(bottom: 16),
+              child: Text(title, style: TextStyle(fontSize: 16)),
             ),
             ...items,
           ],
@@ -81,13 +75,13 @@ class SettingsPage extends StatelessWidget {
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16),
         dense: true,
         controlAffinity: ListTileControlAffinity.trailing,
-        title: Text(title ?? '', style: TextStyle(fontSize: 14.w)),
+        title: Text(title ?? '', style: TextStyle(fontSize: 14)),
         subtitle: subtitle == null
             ? null
-            : Text(subtitle, style: TextStyle(fontSize: 12.w)),
+            : Text(subtitle, style: TextStyle(fontSize: 12)),
         value: value,
         groupValue: groupValue.value,
         onChanged: (v) => onChanged(value),

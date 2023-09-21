@@ -8,6 +8,7 @@ import 'package:object_note/core/app/app_route.dart';
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/core/styles/translation.dart';
+import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/widgets/toast.dart';
 
 Widget createApp() {
@@ -33,9 +34,9 @@ Widget createApp() {
     translations: Translation(),
     fallbackLocale: Themes.fallbackLocale,
     builder: (context, child) {
-      Global.context = context;
-      Toast.init();
-      return EasyLoading.init().call(context, child);
+      Log.d('GetX builder called');
+      Toast.init(context);
+      return FlutterEasyLoading(child: child);
     },
   );
 }

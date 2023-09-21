@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
 import 'package:object_note/pages/profile/profile_logic.dart';
 import 'package:object_note/widgets/base_app_bar.dart';
 
@@ -18,7 +17,7 @@ class ProfilePage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 50.w),
+          SizedBox(height: 50),
           GestureDetector(
             onTap: logic.onAvatarTaped,
             child: Hero(
@@ -27,12 +26,12 @@ class ProfilePage extends StatelessWidget {
                 return CircleAvatar(
                   foregroundImage:
                       NetworkImage(Global.user.value?.avatar ?? ''),
-                  radius: 36.w,
+                  radius: 36,
                 );
               }),
             ),
           ),
-          SizedBox(width: double.infinity, height: 200.w),
+          SizedBox(width: double.infinity, height: 200),
           TextButton(
             onPressed: logic.onLogoutPressed,
             child: const Text('Logout'),

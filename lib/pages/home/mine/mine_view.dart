@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
-import 'package:object_note/core/styles/theme.dart';
 
 import 'mine_logic.dart';
 
@@ -15,12 +13,12 @@ class MineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.w),
+      padding: EdgeInsets.all(8),
       child: Column(
         children: [
           Card(
             child: Padding(
-              padding: EdgeInsets.all(20.w),
+              padding: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,8 +33,8 @@ class MineView extends StatelessWidget {
                         child: CircleAvatar(
                           foregroundImage:
                               NetworkImage(Global.user.value?.avatar ?? ''),
-                          radius: 36.w,
-                          child: Icon(Icons.account_circle, size: 72.w),
+                          radius: 36,
+                          child: Icon(Icons.account_circle, size: 72),
                         ),
                       );
                     }),
@@ -45,9 +43,9 @@ class MineView extends StatelessWidget {
                     tag: 'Settings'.tr,
                     child: Builder(builder: (context) {
                       return IconButton(
-                        color: Themes.cs.onPrimaryContainer,
+                        color: context.theme.colorScheme.onPrimaryContainer,
                         onPressed: logic.onSettingButtonPressed,
-                        icon: Icon(Icons.settings, size: 24.w),
+                        icon: Icon(Icons.settings, size: 24),
                       );
                     }),
                   )
@@ -57,25 +55,25 @@ class MineView extends StatelessWidget {
           ),
           Card(
             child: Padding(
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.all(12),
               child: Column(children: [
                 ListTile(
                   dense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 24),
                   onTap: () => logic.onListTilePressed('Splash Page'),
                   title: Text(
                     'Splash Page'.tr,
-                    style: TextStyle(fontSize: 14.w),
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
                 const Divider(),
                 ListTile(
                   dense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 24),
                   onTap: () => logic.onListTilePressed('Guide Page'),
                   title: Text(
                     'Guide Page'.tr,
-                    style: TextStyle(fontSize: 14.w),
+                    style: TextStyle(fontSize: 14),
                   ),
                 )
               ]),

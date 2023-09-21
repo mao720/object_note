@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
-import 'package:object_note/core/styles/theme.dart';
 import 'package:object_note/pages/guide/guide_logic.dart';
 
 class GuidePage extends StatelessWidget {
@@ -33,17 +31,18 @@ class GuidePage extends StatelessWidget {
               return state.currentPageIndex.value ==
                       state.guideIllustrations.length - 1
                   ? MaterialButton(
-                      color: Themes.cs.primary,
+                      color: context.theme.colorScheme.primary,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24.w)),
+                          borderRadius: BorderRadius.circular(24)),
                       onPressed: logic.onButtonPressed,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           'Start Note'.tr,
                           style: TextStyle(
-                              fontSize: 22.w,
-                              color: Themes.cs.primaryContainer),
+                            fontSize: 22,
+                            color: context.theme.colorScheme.onPrimary,
+                          ),
                         ),
                       ),
                     )
@@ -63,14 +62,14 @@ class GuidePage extends StatelessWidget {
             .keys
             .map((index) => Obx(() {
                   return Container(
-                    width: 8.w,
-                    height: 8.w,
-                    margin: EdgeInsets.symmetric(horizontal: 4.w),
+                    width: 8,
+                    height: 8,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: state.currentPageIndex.value == index
-                          ? Themes.cs.primary
-                          : Themes.cs.primaryContainer,
+                          ? context.theme.colorScheme.primary
+                          : context.theme.colorScheme.primaryContainer,
                     ),
                   );
                 }))

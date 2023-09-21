@@ -13,18 +13,16 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: createBaseAppBar(title: 'login'.tr),
-      body: Container(
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (value) => state.username.value = value,
-            ),
-            TextField(
-              onChanged: (value) => state.password.value = value,
-            ),
-            TextButton(onPressed: logic.onLogin, child: const Text('login'))
-          ],
-        ),
+      body: Column(
+        children: [
+          TextField(
+            onChanged: (value) => state.username.value = value,
+          ),
+          TextField(
+            onChanged: (value) => state.password.value = value,
+          ),
+          TextButton(onPressed: logic.onLogin, child: const Text('login'))
+        ],
       ),
     );
   }

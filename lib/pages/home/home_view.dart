@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:object_note/core/styles/screen_adaption.dart';
 import 'package:object_note/pages/home/home_logic.dart';
 import 'package:object_note/pages/home/main/main_view.dart';
 import 'package:object_note/pages/home/mine/mine_view.dart';
@@ -36,8 +35,8 @@ class HomePage extends StatelessWidget {
             .map((item) => NavigationDestination(
                   label: item[0].toString().tr,
                   tooltip: '',
-                  selectedIcon: Icon(item[1], size: 24.w),
-                  icon: Icon(item[2], size: 24.w),
+                  selectedIcon: Icon(item[1], size: 24),
+                  icon: Icon(item[2], size: 24),
                 ))
             .toList(),
         onDestinationSelected: logic.onDestinationSelected,
