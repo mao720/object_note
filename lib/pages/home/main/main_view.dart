@@ -15,32 +15,20 @@ class MainView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Obx(() {
-        return Global.user.value == null
+        return Global.rxUser.value.objectId == null
             ? const Text('未登录')
             : Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    color: Colors.green,
-                    child: const Text('我的'),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        color: Colors.green,
-                        child: const Text('文学'),
-                      ),
-                      Container(
-                        color: Colors.green,
-                        child: const Text('社会'),
-                      ),
-                      Container(
-                        color: Colors.green,
-                        child: const Text('科学'),
-                      ),
-                    ],
+                  ...state.listLabel
+                      .map((label) => Container(
+                            color: Colors.green,
+                            child: Text('${label.name}'),
+                          ))
+                      .toList(),
+                  FloatingActionButton(
+                    onPressed: logic.createLabel,
+                    child: const Icon(Icons.add),
                   )
                 ],
               );

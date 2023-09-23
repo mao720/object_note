@@ -25,13 +25,13 @@ class ProfilePage extends StatelessWidget {
               child: Obx(() {
                 return CircleAvatar(
                   foregroundImage:
-                      NetworkImage(Global.user.value?.avatar ?? ''),
+                      NetworkImage(Global.rxUser.value.avatar ?? ''),
                   radius: 36,
                 );
               }),
             ),
           ),
-          SizedBox(width: double.infinity, height: 200),
+          const SizedBox(width: double.infinity, height: 200),
           TextButton(
             onPressed: logic.onLogoutPressed,
             child: const Text('Logout'),

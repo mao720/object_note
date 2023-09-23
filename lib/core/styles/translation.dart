@@ -35,6 +35,8 @@ class Translation extends Translations {
     'Light': '浅色',
     'Dark': '深色',
     'Language': '语言',
+    'Login Success': '登录成功',
+    'Logout Success': '注销成功',
   };
 
   final Map<String, String> en = {
@@ -55,5 +57,7 @@ class Translation extends Translations {
     'Light': 'Light',
     'Dark': 'Dark',
     'Language': 'Language',
+    'Login Success': 'Login Success',
+    'Logout Success': 'Logout Success',
   };
 }

@@ -1,11 +1,9 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/http/api.dart';
 import 'package:object_note/core/utils/constants.dart';
-import 'package:object_note/core/utils/log_util.dart';
 import 'package:object_note/modal/user.dart';
 import 'package:object_note/widgets/toast.dart';
 
@@ -14,15 +12,15 @@ import 'profile_state.dart';
 class ProfileLogic extends GetxController {
   final ProfileState state = ProfileState();
 
-  void onLogoutPressed() async {
+  onLogoutPressed() async {
     await Api.logout();
-    Global.setUser(null);
-    Toast.success(text: 'Logout'.tr);
+    Global.setUser(User());
+    Toast.success(text: 'Logout Success'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.back();
   }
 
-  void onAvatarTaped() async {
+  onAvatarTaped() async {
     Toast.loading();
     final ImagePicker picker = ImagePicker();
     // Pick an image
@@ -31,20 +29,23 @@ class ProfileLogic extends GetxController {
     // final XFile? image = await picker.pickImage(source: ImageSource.camera);
     Toast.dismiss();
     if (image != null) {
-      var response = await Api.uploadToOSS(File(image.path), image.name);
-      Log.d(response);
+      if (kIsWeb) {
+        var intList = (await image.readAsBytes()).toList();
+        await Api.uploadToOSSWeb(intList, image.name);
+      } else {
+        await Api.uploadToOSS(image.path, image.name);
+      }
       updateUserAvatar(
           Constants.ossDomain + Constants.ossDirImage + image.name);
     }
   }
 
-  void updateUserAvatar(String avatarUrl) async {
-    var user = Global.user.value;
-    if (user != null && user.objectId != null) {
-      await Api.updateUser(user.objectId!, avatarUrl: avatarUrl);
+  updateUserAvatar(String avatarUrl) async {
+    var objectId = Global.rxUser.value.objectId;
+    if (objectId != null) {
+      await Api.updateUser(objectId, avatarUrl: avatarUrl);
       Toast.success(text: 'Avatar Updated'.tr);
-      user.avatar = avatarUrl;
-      Global.setUser(User.fromJson(user.toJson()));
+      Global.setAvatarUrl(avatarUrl);
     }
   }
 }

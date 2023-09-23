@@ -18,7 +18,7 @@ class Global {
   factory Global.init() => _instance;
 
   static late SharedPreferences prefs;
-  static Rx<User?> user = Rx(null);
+  static Rx<User> rxUser = Rx(User());
 
   Global._init() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +34,9 @@ class Global {
       setLocale(locale);
       //User
       String userJson = prefs.getString(Constants.user) ?? '';
-      if (userJson.isNotEmpty) user.value = User.fromJson(jsonDecode(userJson));
+      if (userJson.isNotEmpty) {
+        rxUser.value = User.fromJson(jsonDecode(userJson));
+      }
     });
   }
 
@@ -51,17 +53,20 @@ class Global {
     await prefs.setString(Constants.locale, localeString);
   }
 
-  static Future<void> setUser(User? user) async {
-    Global.user.value = user;
-    if (user == null) {
-      await prefs.remove(Constants.user);
-    } else {
-      await prefs.setString(Constants.user, jsonEncode(user));
-    }
+  static Future<void> setUser(User user) async {
+    Global.rxUser.value = user;
+    await prefs.setString(Constants.user, jsonEncode(user));
+  }
+
+  static Future<void> setAvatarUrl(String avatarUrl) async {
+    Global.rxUser.update((user) {
+      user?.avatar = avatarUrl;
+    });
+    await prefs.setString(Constants.user, jsonEncode(Global.rxUser.value));
   }
 
   static Future onLogout() async {
-    await setUser(null);
+    await setUser(User());
     Toast.info('登录信息已过期，请重新登录'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.toNamed(AppRoute.loginPage);

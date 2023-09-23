@@ -2,9 +2,9 @@ class User {
   // ignore_for_file: non_constant_identifier_names
   User({
     this.objectId,
-    this.username,
     this.createdAt,
     this.updatedAt,
+    this.username,
     this.ACL,
     this.sessionToken,
     this.avatar,
@@ -12,17 +12,17 @@ class User {
 
   User.fromJson(dynamic json)
       : objectId = json['objectId'],
-        username = json['username'],
         createdAt = json['createdAt'],
         updatedAt = json['updatedAt'],
+        username = json['username'],
         ACL = json['ACL'],
         sessionToken = json['sessionToken'],
         avatar = json['avatar'];
 
   String? objectId;
-  String? username;
   String? createdAt;
   String? updatedAt;
+  String? username;
   Map<String, dynamic>? ACL;
   String? sessionToken;
   String? avatar;

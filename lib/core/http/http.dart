@@ -42,12 +42,11 @@ class Http {
       dio: _dio,
       ossEndpoint: "oss-cn-hongkong.aliyuncs.com",
       bucketName: "object-note-oss",
-      tokenGetter: () async => '''{
-        "AccessKeyId": "${AccessKey.accessKeyId}",
-        "AccessKeySecret": "${AccessKey.accessKeySecret}",
-        "SecurityToken": "",
-        "Expiration": "2822-03-22T11:33:06Z"
-      }''',
+      authGetter: () => const Auth(
+          accessKey: AccessKey.accessKeyId,
+          accessSecret: AccessKey.accessKeySecret,
+          secureToken: "",
+          expire: "2822-03-22T11:33:06Z"),
     );
   }
 
@@ -176,10 +175,24 @@ class Http {
     (token ?? cancelToken).cancel('cancelled');
   }
 
-  Future uploadToOSS(File file, String name) async {
+  Future uploadToOSS(String filePath, String name) async {
     final Response resp = await Client().putObjectFile(
-      file,
+      filePath,
       fileKey: Constants.ossDirImage + name,
+      option: PutRequestOption(
+        onSendProgress: (count, total) {
+          Log.d("send: count = $count, and total = $total");
+        },
+        aclModel: AclMode.inherited,
+      ),
+    );
+    return resp;
+  }
+
+  Future uploadToOSSWeb(List<int> intList, String name) async {
+    final Response resp = await Client().putObject(
+      intList,
+      Constants.ossDirImage + name,
       option: PutRequestOption(
         onSendProgress: (count, total) {
           Log.d("send: count = $count, and total = $total");
@@ -194,8 +207,8 @@ class Http {
 class CustomInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    var user = Global.user.value;
-    if (user != null) {
+    var user = Global.rxUser.value;
+    if (user.objectId != null) {
       var header = MapEntry(Constants.headerTokenName, user.sessionToken);
       options.headers.addEntries([header]);
     }

@@ -27,14 +27,14 @@ class MineView extends StatelessWidget {
                     onTap: logic.onUserHeaderPressed,
                     child: Obx(() {
                       return Hero(
-                        tag: Global.user.value == null
+                        tag: Global.rxUser.value.objectId == null
                             ? 'login'.tr
                             : 'profile_hero',
                         child: CircleAvatar(
                           foregroundImage:
-                              NetworkImage(Global.user.value?.avatar ?? ''),
+                              NetworkImage(Global.rxUser.value.avatar ?? ''),
                           radius: 36,
-                          child: Icon(Icons.account_circle, size: 72),
+                          child: const Icon(Icons.account_circle, size: 72),
                         ),
                       );
                     }),
