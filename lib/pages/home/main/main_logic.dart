@@ -12,7 +12,10 @@ class MainLogic extends GetxController {
 
   @override
   onInit() {
-    worker = ever(Global.rxUser, (user) => getListLabel());
+    worker = ever(
+      Global.rxUser,
+      (user) => getListLabel(),
+    );
     getListLabel();
     super.onInit();
   }

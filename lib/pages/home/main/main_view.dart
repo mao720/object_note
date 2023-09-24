@@ -27,7 +27,29 @@ class MainView extends StatelessWidget {
                           ))
                       .toList(),
                   FloatingActionButton(
-                    onPressed: logic.createLabel,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Create Label'),
+                            content: TextField(),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Create'),
+                                child: const Text('Create'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                     child: const Icon(Icons.add),
                   )
                 ],
