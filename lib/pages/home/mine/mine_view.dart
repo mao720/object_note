@@ -13,12 +13,12 @@ class MineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           Card(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +45,7 @@ class MineView extends StatelessWidget {
                       return IconButton(
                         color: context.theme.colorScheme.onPrimaryContainer,
                         onPressed: logic.onSettingButtonPressed,
-                        icon: Icon(Icons.settings, size: 24),
+                        icon: const Icon(Icons.settings, size: 24),
                       );
                     }),
                   )
@@ -55,25 +55,25 @@ class MineView extends StatelessWidget {
           ),
           Card(
             child: Padding(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               child: Column(children: [
                 ListTile(
                   dense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 24),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                   onTap: () => logic.onListTilePressed('Splash Page'),
                   title: Text(
                     'Splash Page'.tr,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
                 const Divider(),
                 ListTile(
                   dense: true,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 24),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                   onTap: () => logic.onListTilePressed('Guide Page'),
                   title: Text(
                     'Guide Page'.tr,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 )
               ]),

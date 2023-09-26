@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
+import 'package:object_note/modal/label.dart';
+import 'package:object_note/modal/note.dart';
+import 'package:object_note/widgets/toast.dart';
 
 import 'main_logic.dart';
 
@@ -12,49 +15,205 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Obx(() {
-        return Global.rxUser.value.objectId == null
-            ? const Text('未登录')
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ...state.listLabel
-                      .map((label) => Container(
-                            color: Colors.green,
-                            child: Text('${label.name}'),
-                          ))
-                      .toList(),
-                  FloatingActionButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Create Label'),
-                            content: TextField(),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Create'),
-                                child: const Text('Create'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: const Icon(Icons.add),
-                  )
-                ],
-              );
-      }),
+    return Obx(() {
+      if (Global.rxUser.value.objectId == null) {
+        return const Text('未登录');
+      } else {
+        return Row(
+          children: [
+            Expanded(child: buildLabelView(context)),
+            Expanded(child: buildNoteView(context)),
+          ],
+        );
+      }
+    });
+  }
+
+  Widget buildNoteView(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 50),
+        ...state.rxListNote.value
+            .map((note) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10, left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextButton(
+                        onPressed: () =>
+                            buildShowSelectLabelDialog(context, note),
+                        onLongPress: () =>
+                            buildNoteShowDeleteDialog(context, note),
+                        child: Text('${note.objectId}'),
+                      ),
+                      ...note.labelIds?.map((id) => Text(id ?? '')).toList() ??
+                          [],
+                    ],
+                  ),
+                ))
+            .toList(),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: FloatingActionButton(
+            onPressed: () => buildNoteShowCreateDialog(context),
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<dynamic> buildShowSelectLabelDialog(BuildContext context, Note note) {
+    return showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              title: Text('Select Label'.tr),
+              children: state.rxListLabel.value.map((label) {
+                return SimpleDialogOption(
+                  onPressed: () => logic
+                      .addLabelToNote(label, note)
+                      .then((value) => Navigator.pop(context, 'Select'.tr)),
+                  child: Text('${label.name}'),
+                );
+              }).toList(),
+            ));
+  }
+
+  buildNoteShowDeleteDialog(BuildContext context, Note note) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Delete Note'.tr),
+          content: Text('Are you sure to delete this Note?'.tr),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'.tr),
+              child: Text('Cancel'.tr),
+            ),
+            TextButton(
+              onPressed: () =>
+                  logic.deleteNote(note.objectId ?? '').then((value) {
+                Navigator.pop(context, 'Delete'.tr);
+                Toast.show('Delete Note Success'.tr);
+              }),
+              child: Text('Delete'.tr),
+            ),
+          ]),
+    );
+  }
+
+  buildNoteShowCreateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Create Note'.tr),
+        content: TextField(
+          onChanged: (value) => state.rxLabelName.value = value,
+          onSubmitted: (value) => createNote(context),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'.tr),
+            child: Text('Cancel'.tr),
+          ),
+          TextButton(
+            onPressed: () => createNote(context),
+            child: Text('Create'.tr),
+          ),
+        ],
+      ),
+    );
+  }
+
+  createNote(BuildContext context) {
+    logic.createNote().then(
+      (value) {
+        Navigator.pop(context, 'Create'.tr);
+        Toast.show('Create Note Success'.tr);
+      },
+    );
+  }
+
+  Widget buildLabelView(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 50),
+        ...state.rxListLabel.value
+            .map((label) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10, left: 20),
+                  child: TextButton(
+                    onPressed: () {},
+                    onLongPress: () =>
+                        buildLabelShowDeleteDialog(context, label),
+                    child: Text('${label.name}'),
+                  ),
+                ))
+            .toList(),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: FloatingActionButton(
+            onPressed: () => buildLabelShowCreateDialog(context),
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ],
+    );
+  }
+
+  buildLabelShowDeleteDialog(BuildContext context, Label label) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Delete Label'.tr),
+          content: Text('Are you sure to delete this label?'.tr),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'.tr),
+              child: Text('Cancel'.tr),
+            ),
+            TextButton(
+              onPressed: () =>
+                  logic.deleteLabel(label.objectId ?? '').then((value) {
+                Navigator.pop(context, 'Delete'.tr);
+                Toast.show('Delete Label Success'.tr);
+              }),
+              child: Text('Delete'.tr),
+            ),
+          ]),
+    );
+  }
+
+  buildLabelShowCreateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Create Label'.tr),
+        content: TextField(
+          onChanged: (value) => state.rxLabelName.value = value,
+          onSubmitted: (value) => createLabel(context),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'.tr),
+            child: Text('Cancel'.tr),
+          ),
+          TextButton(
+            onPressed: () => createLabel(context),
+            child: Text('Create'.tr),
+          ),
+        ],
+      ),
+    );
+  }
+
+  createLabel(BuildContext context) {
+    logic.createLabel(state.rxLabelName.value).then(
+      (value) {
+        Navigator.pop(context, 'Create'.tr);
+        Toast.show('Create Label Success'.tr);
+      },
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/http/api.dart';
 import 'package:object_note/modal/label.dart';
+import 'package:object_note/modal/note.dart';
 import 'package:object_note/widgets/toast.dart';
 
 import 'main_state.dart';
@@ -14,9 +15,13 @@ class MainLogic extends GetxController {
   onInit() {
     worker = ever(
       Global.rxUser,
-      (user) => getListLabel(),
+      (user) {
+        getListLabel();
+        getListNote();
+      },
     );
     getListLabel();
+    getListNote();
     super.onInit();
   }
 
@@ -26,23 +31,73 @@ class MainLogic extends GetxController {
     super.onClose();
   }
 
+  createNote() async {
+    var userId = Global.rxUser.value.objectId;
+    if (userId == null) return;
+    var newNote = Note(userId: userId);
+    await Api.createNote(newNote);
+    await getListNote();
+  }
+
+  deleteNote(String id) async {
+    await Api.deleteNote(id);
+    await getListNote();
+  }
+
+  getListNote() async {
+    var userId = Global.rxUser.value.objectId;
+    if (userId == null) return;
+    var value = await Api.getNotes(userId);
+    state.rxListNote.value = value;
+  }
+
   getListLabel() async {
     var userId = Global.rxUser.value.objectId;
     if (userId == null) return;
     var value = await Api.getLabels(userId);
-    state.listLabel.value = value;
+    state.rxListLabel.value = value;
   }
 
-  createLabel() async {
+  createLabel(String labelName) async {
     var userId = Global.rxUser.value.objectId;
     if (userId == null) return;
-    var newLabel = Label(userId: userId, name: 'name');
+    var newLabel = Label(userId: userId, name: labelName);
     bool isLabelExist = await Api.isLabelExist(newLabel);
     if (isLabelExist) {
       Toast.show('Label already exist'.tr);
       return;
     }
     await Api.createLabel(newLabel);
-    getListLabel();
+    await getListLabel();
+  }
+
+  deleteLabel(String id) async {
+    await Api.deleteLabel(id);
+    await getListLabel();
+  }
+
+  addLabelToNote(Label label, Note note) async {
+    var labelId = label.objectId;
+    var noteId = note.objectId;
+    if (labelId == null || noteId == null) {
+      Toast.show('No Id Found'.tr);
+      return;
+    }
+    var labelIds = note.labelIds ?? [];
+    var relatedValues = note.relatedValues ?? [];
+    var relatedNoteIds = note.relatedNoteIds ?? [];
+    if (labelIds.contains(labelId)) {
+
+    }
+    labelIds.add(labelId);
+    relatedValues.add(null);
+    relatedNoteIds.add(null);
+    await Api.updateNote({
+      'userId': note.userId,
+      'labelIds': labelIds,
+      'relatedValues': relatedValues,
+      'relatedNoteIds': relatedNoteIds,
+    }, noteId);
+    await getListNote();
   }
 }

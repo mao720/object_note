@@ -34,7 +34,7 @@ class Http {
     _dio.interceptors.add(CustomInterceptor());
     _dio.interceptors.add(PrettyDioLogger(
       request: false,
-      // requestBody: true,
+      requestBody: true,
       requestHeader: true,
       logPrint: (object) => Log.d(object),
     ));
@@ -160,8 +160,8 @@ class Http {
       Toast.dismiss();
       completer.complete(response);
       return response;
-    }).onError((DioError error, stackTrace) {
-      if (error.type != DioErrorType.badResponse) {
+    }).onError((DioException error, stackTrace) {
+      if (error.type != DioExceptionType.badResponse) {
         Toast.error(error.message ?? 'Unknown Error'.tr);
         Log.d(error);
       }
@@ -216,12 +216,12 @@ class CustomInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.type == DioErrorType.badResponse) validateStatusError(err);
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.type == DioExceptionType.badResponse) validateStatusError(err);
     super.onError(err, handler);
   }
 
-  void validateStatusError(DioError error) async {
+  void validateStatusError(DioException error) async {
     Log.d(error);
     var httpErrorCode = error.response?.statusCode ?? -1;
     var parseErrorCode = error.response?.data?['code'] ?? '';

@@ -10,6 +10,10 @@ class LoginLogic extends GetxController {
   final LoginState state = LoginState();
 
   void onLogin() async {
+    if (state.username.value.isEmpty || state.password.value.isEmpty) {
+      Toast.show('Please enter username and password'.tr);
+      return;
+    }
     User user = await Api.login(state.username.value, state.password.value);
     Global.setUser(user);
     Toast.success(text: 'Login Success'.tr);

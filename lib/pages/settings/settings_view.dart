@@ -45,7 +45,7 @@ class SettingsPage extends StatelessWidget {
                   ))
               .toList()
         ]),
-        SizedBox(height: 24)
+        const SizedBox(height: 24)
       ]),
     );
   }
@@ -53,15 +53,15 @@ class SettingsPage extends StatelessWidget {
   Widget _createSettingCard(BuildContext context,
       {required String title, required List<Widget> items}) {
     return Card(
-      margin: EdgeInsets.only(left: 24, top: 24, right: 24),
+      margin: const EdgeInsets.only(left: 24, top: 24, right: 24),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: Text(title, style: TextStyle(fontSize: 16)),
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Text(title, style: const TextStyle(fontSize: 16)),
             ),
             ...items,
           ],
@@ -75,13 +75,13 @@ class SettingsPage extends StatelessWidget {
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         dense: true,
         controlAffinity: ListTileControlAffinity.trailing,
-        title: Text(title ?? '', style: TextStyle(fontSize: 14)),
+        title: Text(title ?? '', style: const TextStyle(fontSize: 14)),
         subtitle: subtitle == null
             ? null
-            : Text(subtitle, style: TextStyle(fontSize: 12)),
+            : Text(subtitle, style: const TextStyle(fontSize: 12)),
         value: value,
         groupValue: groupValue.value,
         onChanged: (v) => onChanged(value),

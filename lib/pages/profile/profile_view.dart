@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           GestureDetector(
             onTap: logic.onAvatarTaped,
             child: Hero(

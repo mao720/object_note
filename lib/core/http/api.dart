@@ -1,4 +1,5 @@
 import 'package:object_note/core/http/http.dart';
+import 'package:object_note/modal/note.dart';
 import 'package:object_note/modal/results.dart';
 import 'package:object_note/modal/user.dart';
 
@@ -28,12 +29,33 @@ class Api {
     return await Http().put('users/$id', data: data);
   }
 
+  static Future<List<Note>> getNotes(String userId) async {
+    var value = await Http().get('classes/note', queryParameters: {
+      'where': {'userId': userId},
+    });
+    return (Results.fromJson(value).results ?? [])
+        .map((e) => Note.fromJson(e))
+        .toList();
+  }
+
+  static Future createNote(Note note) async {
+    return await Http().post('classes/note', data: note.toJson());
+  }
+
+  static Future updateNote(Map note, String id) async {
+    return await Http().put('classes/note/$id', data: note);
+  }
+
+  static Future deleteNote(String id) async {
+    return await Http().delete('classes/note/$id');
+  }
+
   static Future createLabel(Label label) async {
-    return await Http().post('classes/labels', data: label.toJson());
+    return await Http().post('classes/label', data: label.toJson());
   }
 
   static Future<bool> isLabelExist(Label label) async {
-    var value = await Http().get('classes/labels', queryParameters: {
+    var value = await Http().get('classes/label', queryParameters: {
       'where': {'userId': label.userId, 'name': label.name},
     });
     var results = Results.fromJson(value).results;
@@ -41,12 +63,16 @@ class Api {
   }
 
   static Future<List<Label>> getLabels(String userId) async {
-    var value = await Http().get('classes/labels', queryParameters: {
+    var value = await Http().get('classes/label', queryParameters: {
       'where': {'userId': userId},
     });
     return (Results.fromJson(value).results ?? [])
         .map((e) => Label.fromJson(e))
         .toList();
+  }
+
+  static Future deleteLabel(String id) async {
+    return await Http().delete('classes/label/$id');
   }
 
   static Future uploadToOSS(String filePath, String name) async {
