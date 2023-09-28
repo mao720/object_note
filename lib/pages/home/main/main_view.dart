@@ -23,9 +23,9 @@ class MainView extends StatelessWidget {
           ),
         );
       } else {
-        return Row(
+        return Column(
           children: [
-            Expanded(child: buildLabelView(context)),
+            buildLabelView(context),
             Expanded(child: buildNoteView(context)),
           ],
         );
@@ -34,43 +34,44 @@ class MainView extends StatelessWidget {
   }
 
   Widget buildNoteView(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 50),
-        ...state.rxListNote.value
-            .map((note) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10, left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextButton(
-                        onPressed: () =>
-                            buildShowSelectLabelDialog(context, note),
-                        onLongPress: () =>
-                            buildNoteShowDeleteDialog(context, note),
-                        child: Text('${note.objectId}'),
-                      ),
-                      ...note.labelIds?.map((id) {
-                            Label? label = state.rxListLabel.value
-                                .firstWhereOrNull(
-                                    (label) => label.objectId == id);
-                            return Text(label?.name ?? '');
-                          }).toList() ??
-                          [],
-                    ],
-                  ),
-                ))
-            .toList(),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: FloatingActionButton(
-            heroTag: 'Create Note',
-            onPressed: () => buildNoteShowCreateDialog(context),
-            child: const Icon(Icons.add),
+    return Container(
+      constraints: const BoxConstraints(minWidth: double.infinity),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 30),
+          ...state.rxListNote.value
+              .map((note) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10, left: 30),
+                    child: Column(
+                      children: [
+                        TextButton(
+                          onPressed: () =>
+                              buildShowSelectLabelDialog(context, note),
+                          onLongPress: () =>
+                              buildNoteShowDeleteDialog(context, note),
+                          child: Text('${note.objectId}'),
+                        ),
+                        ...note.labelIds?.map((id) {
+                              Label? label = state.rxListLabel.value
+                                  .firstWhereOrNull(
+                                      (label) => label.objectId == id);
+                              return Text(label?.name ?? '');
+                            }).toList() ??
+                            [],
+                      ],
+                    ),
+                  ))
+              .toList(),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ElevatedButton(
+              onPressed: () => buildNoteShowCreateDialog(context),
+              child: Text('Create Note'.tr),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -141,30 +142,32 @@ class MainView extends StatelessWidget {
   }
 
   Widget buildLabelView(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 50),
-        ...state.rxListLabel.value
-            .map((label) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10, left: 20),
-                  child: TextButton(
-                    onPressed: () {},
-                    onLongPress: () =>
-                        buildLabelShowDeleteDialog(context, label),
-                    child: Text('${label.name}'),
-                  ),
-                ))
-            .toList(),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: FloatingActionButton(
-            heroTag: 'Create Label',
-            onPressed: () => buildLabelShowCreateDialog(context),
-            child: const Icon(Icons.add),
-          ),
+    return Container(
+      constraints: const BoxConstraints(minWidth: double.infinity),
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: IconButton(
+                onPressed: () => buildLabelShowCreateDialog(context),
+                icon: const Icon(Icons.add),
+              ),
+            ),
+            ...state.rxListLabel.value
+                .map((label) => TextButton(
+                      onPressed: () {},
+                      onLongPress: () =>
+                          buildLabelShowDeleteDialog(context, label),
+                      child: Text('${label.name}'),
+                    ))
+                .toList(),
+          ],
         ),
-      ],
+      ),
     );
   }
 
