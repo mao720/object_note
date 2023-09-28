@@ -9,6 +9,8 @@ class Constants {
   static const ossDirImage = 'files/image/';
   static const headerIdName = 'X-Parse-Application-Id';
   static const headerId = 'object-note-parse-server';
+  static const headerAPIKeyName = 'X-Parse-REST-API-Key';
+  static const headerInstallationName = 'X-Parse-Installation-Id';
   static const headerTokenName = 'X-Parse-Session-Token';
 
   /// Assets

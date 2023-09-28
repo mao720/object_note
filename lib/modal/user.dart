@@ -1,5 +1,6 @@
+// ignore_for_file: non_constant_identifier_names
+
 class User {
-  // ignore_for_file: non_constant_identifier_names
   User({
     this.objectId,
     this.createdAt,

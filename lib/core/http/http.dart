@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -26,7 +27,10 @@ class Http {
         baseUrl: serverDomain,
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {Constants.headerIdName: Constants.headerId},
+        headers: {
+          Constants.headerIdName: Constants.headerId,
+          Constants.headerAPIKeyName: AccessKey.restAPIKey,
+        },
         contentType: ContentType.json.toString(),
         responseType: ResponseType.json,
       ),
@@ -161,10 +165,7 @@ class Http {
       completer.complete(response);
       return response;
     }).onError((DioException error, stackTrace) {
-      if (error.type != DioExceptionType.badResponse) {
-        Toast.error(error.message ?? 'Unknown Error'.tr);
-        Log.d(error);
-      }
+      Toast.dismiss();
       completer.future.ignore();
       return Response(requestOptions: RequestOptions());
     });
@@ -217,20 +218,29 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.type == DioExceptionType.badResponse) validateStatusError(err);
+    validateStatusError(err);
     super.onError(err, handler);
   }
 
   void validateStatusError(DioException error) async {
     Log.d(error);
-    var httpErrorCode = error.response?.statusCode ?? -1;
-    var parseErrorCode = error.response?.data?['code'] ?? '';
-    var parseErrorMsg = error.response?.data?['error'] ??
-        error.response?.statusMessage ??
-        'Unknown Error'.tr;
-    Toast.error('$parseErrorMsg\r\n$httpErrorCode$parseErrorCode');
-    if (parseErrorCode == 209) {
-      Global.onLogout();
+    var DioException(:response, :type, :message) = error;
+    if (response != null && type == DioExceptionType.badResponse) {
+      var Response(:statusCode, :data, :statusMessage) = response;
+      var httpErrorCode = statusCode ?? -1;
+      data = switch (data) {
+        null => {},
+        String => jsonDecode(data),
+        _ => data,
+      };
+      var parseErrorCode = data['code'] ?? '';
+      var parseErrorMsg = data['error'] ?? statusMessage ?? 'Unknown Error'.tr;
+      Toast.error('$parseErrorMsg\r\n$httpErrorCode$parseErrorCode');
+      if (parseErrorCode == 209) {
+        Global.onLogout();
+      }
+    } else {
+      Toast.error(message ?? 'Unknown Error'.tr);
     }
   }
 }

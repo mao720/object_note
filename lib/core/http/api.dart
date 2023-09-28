@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:object_note/core/http/http.dart';
+import 'package:object_note/core/utils/constants.dart';
+import 'package:object_note/core/utils/device_util.dart';
 import 'package:object_note/modal/note.dart';
 import 'package:object_note/modal/results.dart';
 import 'package:object_note/modal/user.dart';
@@ -11,7 +14,11 @@ class Api {
       'username': username,
       'password': password,
     };
-    var value = await Http().post('login', data: data);
+    var deviceName = await DeviceUtil.getDeviceName();
+    var options = Options(
+      headers: {Constants.headerInstallationName: deviceName},
+    );
+    var value = await Http().post('login', data: data, options: options);
     return User.fromJson(value);
   }
 
@@ -30,9 +37,7 @@ class Api {
   }
 
   static Future<List<Note>> getNotes(String userId) async {
-    var value = await Http().get('classes/note', queryParameters: {
-      'where': {'userId': userId},
-    });
+    var value = await Http().get('classes/note');
     return (Results.fromJson(value).results ?? [])
         .map((e) => Note.fromJson(e))
         .toList();
@@ -56,16 +61,14 @@ class Api {
 
   static Future<bool> isLabelExist(Label label) async {
     var value = await Http().get('classes/label', queryParameters: {
-      'where': {'userId': label.userId, 'name': label.name},
+      'where': {'name': label.name},
     });
     var results = Results.fromJson(value).results;
     return results != null && results.isNotEmpty;
   }
 
   static Future<List<Label>> getLabels(String userId) async {
-    var value = await Http().get('classes/label', queryParameters: {
-      'where': {'userId': userId},
-    });
+    var value = await Http().get('classes/label');
     return (Results.fromJson(value).results ?? [])
         .map((e) => Label.fromJson(e))
         .toList();

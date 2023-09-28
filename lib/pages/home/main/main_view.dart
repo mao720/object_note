@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/modal/label.dart';
 import 'package:object_note/modal/note.dart';
-import 'package:object_note/widgets/toast.dart';
 
 import 'main_logic.dart';
 
@@ -17,7 +16,12 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (Global.rxUser.value.objectId == null) {
-        return const Text('未登录');
+        return Center(
+          child: TextButton(
+            onPressed: logic.onLoginTap,
+            child: Text('Please login'.tr),
+          ),
+        );
       } else {
         return Row(
           children: [
@@ -47,7 +51,12 @@ class MainView extends StatelessWidget {
                             buildNoteShowDeleteDialog(context, note),
                         child: Text('${note.objectId}'),
                       ),
-                      ...note.labelIds?.map((id) => Text(id ?? '')).toList() ??
+                      ...note.labelIds?.map((id) {
+                            Label? label = state.rxListLabel.value
+                                .firstWhereOrNull(
+                                    (label) => label.objectId == id);
+                            return Text(label?.name ?? '');
+                          }).toList() ??
                           [],
                     ],
                   ),
@@ -56,6 +65,7 @@ class MainView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: FloatingActionButton(
+            heroTag: 'Create Note',
             onPressed: () => buildNoteShowCreateDialog(context),
             child: const Icon(Icons.add),
           ),
@@ -92,11 +102,9 @@ class MainView extends StatelessWidget {
               child: Text('Cancel'.tr),
             ),
             TextButton(
-              onPressed: () =>
-                  logic.deleteNote(note.objectId ?? '').then((value) {
-                Navigator.pop(context, 'Delete'.tr);
-                Toast.show('Delete Note Success'.tr);
-              }),
+              onPressed: () => logic
+                  .deleteNote(note.objectId ?? '')
+                  .then((value) => Navigator.pop(context, 'Delete'.tr)),
               child: Text('Delete'.tr),
             ),
           ]),
@@ -109,7 +117,7 @@ class MainView extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: Text('Create Note'.tr),
         content: TextField(
-          onChanged: (value) => state.rxLabelName.value = value,
+          onChanged: (value) => state.rxNewLabelName.value = value,
           onSubmitted: (value) => createNote(context),
         ),
         actions: [
@@ -128,11 +136,8 @@ class MainView extends StatelessWidget {
 
   createNote(BuildContext context) {
     logic.createNote().then(
-      (value) {
-        Navigator.pop(context, 'Create'.tr);
-        Toast.show('Create Note Success'.tr);
-      },
-    );
+          (value) => Navigator.pop(context, 'Create'.tr),
+        );
   }
 
   Widget buildLabelView(BuildContext context) {
@@ -154,6 +159,7 @@ class MainView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: FloatingActionButton(
+            heroTag: 'Create Label',
             onPressed: () => buildLabelShowCreateDialog(context),
             child: const Icon(Icons.add),
           ),
@@ -174,11 +180,9 @@ class MainView extends StatelessWidget {
               child: Text('Cancel'.tr),
             ),
             TextButton(
-              onPressed: () =>
-                  logic.deleteLabel(label.objectId ?? '').then((value) {
-                Navigator.pop(context, 'Delete'.tr);
-                Toast.show('Delete Label Success'.tr);
-              }),
+              onPressed: () => logic
+                  .deleteLabel(label.objectId ?? '')
+                  .then((value) => Navigator.pop(context, 'Delete'.tr)),
               child: Text('Delete'.tr),
             ),
           ]),
@@ -191,7 +195,7 @@ class MainView extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: Text('Create Label'.tr),
         content: TextField(
-          onChanged: (value) => state.rxLabelName.value = value,
+          onChanged: (value) => state.rxNewLabelName.value = value,
           onSubmitted: (value) => createLabel(context),
         ),
         actions: [
@@ -209,11 +213,8 @@ class MainView extends StatelessWidget {
   }
 
   createLabel(BuildContext context) {
-    logic.createLabel(state.rxLabelName.value).then(
-      (value) {
-        Navigator.pop(context, 'Create'.tr);
-        Toast.show('Create Label Success'.tr);
-      },
-    );
+    logic
+        .createLabel(state.rxNewLabelName.value)
+        .then((value) => Navigator.pop(context, 'Create'.tr));
   }
 }

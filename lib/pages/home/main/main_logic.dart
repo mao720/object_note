@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:object_note/core/app/app_route.dart';
 import 'package:object_note/core/app/global.dart';
 import 'package:object_note/core/http/api.dart';
 import 'package:object_note/modal/label.dart';
@@ -34,7 +35,9 @@ class MainLogic extends GetxController {
   createNote() async {
     var userId = Global.rxUser.value.objectId;
     if (userId == null) return;
-    var newNote = Note(userId: userId);
+    var newNote = Note(ACL: {
+      userId: {'read': true, 'write': true}
+    });
     await Api.createNote(newNote);
     await getListNote();
   }
@@ -42,6 +45,7 @@ class MainLogic extends GetxController {
   deleteNote(String id) async {
     await Api.deleteNote(id);
     await getListNote();
+    Toast.show('Delete Note Success'.tr);
   }
 
   getListNote() async {
@@ -61,19 +65,23 @@ class MainLogic extends GetxController {
   createLabel(String labelName) async {
     var userId = Global.rxUser.value.objectId;
     if (userId == null) return;
-    var newLabel = Label(userId: userId, name: labelName);
+    var newLabel = Label(name: labelName, ACL: {
+      userId: {'read': true, 'write': true}
+    });
     bool isLabelExist = await Api.isLabelExist(newLabel);
     if (isLabelExist) {
-      Toast.show('Label already exist'.tr);
+      Toast.error('Label already exist'.tr);
       return;
     }
     await Api.createLabel(newLabel);
     await getListLabel();
+    Toast.show('Create Label Success'.tr);
   }
 
   deleteLabel(String id) async {
     await Api.deleteLabel(id);
     await getListLabel();
+    Toast.show('Delete Label Success'.tr);
   }
 
   addLabelToNote(Label label, Note note) async {
@@ -86,18 +94,19 @@ class MainLogic extends GetxController {
     var labelIds = note.labelIds ?? [];
     var relatedValues = note.relatedValues ?? [];
     var relatedNoteIds = note.relatedNoteIds ?? [];
-    if (labelIds.contains(labelId)) {
 
-    }
     labelIds.add(labelId);
     relatedValues.add(null);
     relatedNoteIds.add(null);
     await Api.updateNote({
-      'userId': note.userId,
       'labelIds': labelIds,
       'relatedValues': relatedValues,
       'relatedNoteIds': relatedNoteIds,
     }, noteId);
     await getListNote();
+  }
+
+  onLoginTap() {
+    Get.toNamed(AppRoute.loginPage);
   }
 }
