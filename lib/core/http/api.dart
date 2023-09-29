@@ -36,7 +36,7 @@ class Api {
     return await Http().put('users/$id', data: data);
   }
 
-  static Future<List<Note>> getNotes(String userId) async {
+  static Future<List<Note>> getNotes() async {
     var value = await Http().get('classes/note');
     return (Results.fromJson(value).results ?? [])
         .map((e) => Note.fromJson(e))

@@ -33,6 +33,7 @@ Widget createApp() {
     supportedLocales: Translation.supportLocale,
     translations: Translation(),
     fallbackLocale: Themes.fallbackLocale,
+    debugShowCheckedModeBanner: false,
     builder: (context, child) {
       Log.d('GetX builder called');
       Toast.init(context);
