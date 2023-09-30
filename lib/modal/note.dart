@@ -5,6 +5,7 @@ class Note {
     this.objectId,
     this.createdAt,
     this.updatedAt,
+    required this.name,
     this.labelIds,
     this.relatedValues,
     this.relatedNoteIds,
@@ -15,6 +16,7 @@ class Note {
       : objectId = json['objectId'],
         createdAt = json['createdAt'],
         updatedAt = json['updatedAt'],
+        name = json['name'],
         labelIds = json['labelIds'],
         relatedValues = json['relatedValues'],
         relatedNoteIds = json['relatedNoteIds'],
@@ -23,6 +25,7 @@ class Note {
   String? objectId;
   String? createdAt;
   String? updatedAt;
+  String? name;
   List<dynamic>? labelIds;
   List<dynamic>? relatedValues;
   List<dynamic>? relatedNoteIds;
@@ -33,6 +36,7 @@ class Note {
     map['objectId'] = objectId;
     map['createdAt'] = createdAt;
     map['updatedAt'] = updatedAt;
+    map['name'] = name;
     map['labelIds'] = labelIds;
     map['relatedValues'] = relatedValues;
     map['relatedNoteIds'] = relatedNoteIds;

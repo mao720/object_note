@@ -32,10 +32,10 @@ class MainLogic extends GetxController {
     super.onClose();
   }
 
-  createNote() async {
+  createNote(String name) async {
     var userId = Global.rxUser.value.objectId;
     if (userId == null) return;
-    var newNote = Note(ACL: {
+    var newNote = Note(name: name, ACL: {
       userId: {'read': true, 'write': true}
     });
     await Api.createNote(newNote);
@@ -108,7 +108,7 @@ class MainLogic extends GetxController {
     Get.toNamed(AppRoute.loginPage);
   }
 
-  addValueToLabel(Note note, Label label, String value) async {
+  addValueToLabel(Note note, Label label, int labelIndex, String value) async {
     var Note(objectId: noteId, :labelIds, :relatedValues, :relatedNoteIds) =
         note;
     var labelId = label.objectId;
@@ -116,10 +116,8 @@ class MainLogic extends GetxController {
       Toast.show('No Id Found'.tr);
       return;
     }
-
-    var indexOf = labelIds.indexOf(labelId);
-    (relatedValues ??= List.filled(labelIds.length, null))[indexOf] = value;
-    (relatedNoteIds ??= List.filled(labelIds.length, null))[indexOf] = null;
+    (relatedValues ??= List.filled(labelIds.length, null))[labelIndex] = value;
+    (relatedNoteIds ??= List.filled(labelIds.length, null))[labelIndex] = null;
     await Api.updateNote({
       'relatedValues': relatedValues,
       'relatedNoteIds': relatedNoteIds,
@@ -127,7 +125,8 @@ class MainLogic extends GetxController {
     await getListNote();
   }
 
-  addNoteIdToLabel(Note note, Label label, String? noteIdToAdd) async {
+  addNoteIdToLabel(
+      Note note, Label label, int labelIndex, String? noteIdToAdd) async {
     var Note(objectId: noteId, :labelIds, :relatedValues, :relatedNoteIds) =
         note;
     var labelId = label.objectId;
@@ -138,12 +137,30 @@ class MainLogic extends GetxController {
       Toast.show('No Id Found'.tr);
       return;
     }
-
-    var indexOf = labelIds.indexOf(labelId);
-    (relatedValues ??= List.filled(labelIds.length, null))[indexOf] = null;
-    (relatedNoteIds ??= List.filled(labelIds.length, null))[indexOf] =
+    (relatedValues ??= List.filled(labelIds.length, null))[labelIndex] = null;
+    (relatedNoteIds ??= List.filled(labelIds.length, null))[labelIndex] =
         noteIdToAdd;
     await Api.updateNote({
+      'relatedValues': relatedValues,
+      'relatedNoteIds': relatedNoteIds,
+    }, noteId);
+    await getListNote();
+  }
+
+  deleteNoteLabel(Note note, int labelIndex) async {
+    var Note(objectId: noteId, :labelIds, :relatedValues, :relatedNoteIds) =
+        note;
+    if (noteId == null || labelIds == null) {
+      Toast.show('No Id Found'.tr);
+      return;
+    }
+
+    labelIds.removeAt(labelIndex);
+    (relatedValues ??= List.filled(labelIds.length, null)).removeAt(labelIndex);
+    (relatedNoteIds ??= List.filled(labelIds.length, null))
+        .removeAt(labelIndex);
+    await Api.updateNote({
+      'labelIds': labelIds,
       'relatedValues': relatedValues,
       'relatedNoteIds': relatedNoteIds,
     }, noteId);

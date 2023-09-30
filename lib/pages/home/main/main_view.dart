@@ -37,20 +37,20 @@ class MainView extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(minWidth: double.infinity),
       child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
-            ...state.rxListNote.value
-                .map((note) => buildNoteItem(context, note))
-                .toList(),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
-                onPressed: () => logic.createNote(),
+                onPressed: () => buildNoteShowCreateDialog(context),
                 child: Text('Create Note'.tr),
               ),
             ),
+            ...state.rxListNote.value
+                .map((note) => buildNoteItem(context, note))
+                .toList(),
           ],
         ),
       ),
@@ -59,7 +59,7 @@ class MainView extends StatelessWidget {
 
   buildNoteItem(BuildContext context, Note note, [String? rootObjectId]) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -76,7 +76,7 @@ class MainView extends StatelessWidget {
                 ),
                 onPressed: () => buildShowSelectLabelDialog(context, note),
                 onLongPress: () => buildNoteShowDeleteDialog(context, note),
-                child: Text('${note.objectId}'),
+                child: Text('${note.name}'),
               ),
               const SizedBox(height: 10),
               createNoteContent(context, note, rootObjectId),
@@ -101,6 +101,35 @@ class MainView extends StatelessWidget {
                 );
               }).toList(),
             ));
+  }
+
+  buildNoteShowCreateDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Create Note'.tr),
+        content: TextField(
+          onChanged: (value) => state.rxNewNoteName.value = value,
+          onSubmitted: (value) => createNote(context),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'.tr),
+          ),
+          TextButton(
+            onPressed: () => createNote(context),
+            child: Text('Create'.tr),
+          ),
+        ],
+      ),
+    );
+  }
+
+  createNote(BuildContext context) {
+    logic
+        .createNote(state.rxNewNoteName.value)
+        .then((value) => Navigator.pop(context));
   }
 
   buildNoteShowDeleteDialog(BuildContext context, Note note) {
@@ -214,69 +243,111 @@ class MainView extends StatelessWidget {
             ...labelIds.asMap().keys.map((index) {
               Label? label = state.rxListLabel.value.firstWhereOrNull(
                   (label) => label.objectId == labelIds[index]);
-              return switch (label) {
-                null => const SizedBox.shrink(),
-                _ => Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => Theme.of(context)
-                                  .colorScheme
-                                  .tertiaryContainer),
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(0, 0)),
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.all(4)),
+              if (label == null || labelIds.indexOf(labelIds[index]) != index) {
+                return const SizedBox.shrink();
+              }
+              List<Widget> sameLabelRow = [];
+              var sameIndex = index;
+              while (labelIds.indexOf(labelIds[index], sameIndex) != -1) {
+                var currentIndex = labelIds.indexOf(labelIds[index], sameIndex);
+                sameLabelRow.add(buildNoteLabelRow(context, note, label,
+                    currentIndex, relatedValues, relatedNoteIds, rootObjectId));
+                sameIndex = currentIndex + 1;
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  sameLabelRow.length <= 1
+                      ? const SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Container(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            height: 1,
+                          ),
                         ),
-                        onPressed: () =>
-                            buildNoteShowAddValueDialog(context, note, label),
-                        child: Text(label.name ?? ''),
-                      ),
-                      const SizedBox(width: 10),
-                      switch (relatedValues?[index]) {
-                        null => switch (relatedNoteIds?[index]) {
-                            null => const SizedBox.shrink(),
-                            _ => relatedNoteIds?[index] == note.objectId ||
-                                    relatedNoteIds?[index] == rootObjectId
-                                ? TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .primaryContainer),
-                                      shape: MaterialStateProperty.all(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
-                                    ),
-                                    onPressed: () {},
-                                    child: Text('${relatedNoteIds?[index]}'),
-                                  )
-                                : Expanded(
-                                    child: buildNoteItem(
-                                        context,
-                                        state.rxListNote.value.firstWhereOrNull(
-                                                (noteToFind) =>
-                                                    noteToFind.objectId ==
-                                                    relatedNoteIds?[index]) ??
-                                            Note(ACL: {}),
-                                        note.objectId)),
-                          },
-                        _ => Expanded(child: Text(relatedValues?[index])),
-                      }
-                    ],
-                  ),
-              };
-            }).toList()
+                  ...sameLabelRow,
+                  sameLabelRow.length <= 1
+                      ? const SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Container(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            height: 1,
+                          ),
+                        ),
+                ],
+              );
+            }).toList(),
           ],
         )
     };
   }
 
-  buildNoteShowAddValueDialog(BuildContext context, Note note, Label label) {
+  buildNoteLabelRow(
+      BuildContext context,
+      Note note,
+      Label label,
+      int index,
+      List<dynamic>? relatedValues,
+      List<dynamic>? relatedNoteIds,
+      String? rootObjectId) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateColor.resolveWith(
+                (states) => Theme.of(context).colorScheme.tertiaryContainer),
+            minimumSize: MaterialStateProperty.all(const Size(1, 1)),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(4)),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          onPressed: () =>
+              buildNoteShowAddValueDialog(context, note, label, index),
+          onLongPress: () =>
+              buildNoteShowDeleteLabelDialog(context, note, index),
+          child: Text(label.name ?? ''),
+        ),
+        const SizedBox(width: 10),
+        switch (relatedValues?[index]) {
+          null => switch (relatedNoteIds?[index]) {
+              null => const SizedBox.shrink(),
+              _ => relatedNoteIds?[index] == note.objectId ||
+                      relatedNoteIds?[index] == rootObjectId
+                  ? TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.primaryContainer),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                      ),
+                      onPressed: () {},
+                      child: Text('${relatedNoteIds?[index]}'),
+                    )
+                  : Expanded(
+                      child: buildNoteItem(
+                          context,
+                          state.rxListNote.value.firstWhereOrNull(
+                                  (noteToFind) =>
+                                      noteToFind.objectId ==
+                                      relatedNoteIds?[index]) ??
+                              Note(name: 'NOT FOUND', ACL: {}),
+                          note.objectId)),
+            },
+          _ => Expanded(child: Text(relatedValues?[index])),
+        }
+      ],
+    );
+  }
+
+  buildNoteShowAddValueDialog(
+      BuildContext context, Note note, Label label, int labelIndex) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -291,7 +362,8 @@ class MainView extends StatelessWidget {
                   maxLines: 10,
                   decoration: InputDecoration(labelText: 'Input Value'.tr),
                   onChanged: (value) => state.rxNewLabelValue.value = value,
-                  onSubmitted: (value) => addValueToLabel(context, note, label),
+                  onSubmitted: (value) =>
+                      addValueToLabel(context, note, label, labelIndex),
                 ),
               ),
               const SizedBox(height: 20),
@@ -301,8 +373,8 @@ class MainView extends StatelessWidget {
               ),
               ...state.rxListNote.value.map((noteToAdd) => TextButton(
                     onPressed: () => addNoteIdToLabel(
-                        context, note, label, noteToAdd.objectId),
-                    child: Text(noteToAdd.objectId ?? ''),
+                        context, note, label, labelIndex, noteToAdd.objectId),
+                    child: Text(noteToAdd.name ?? ''),
                   ))
             ],
           ),
@@ -313,7 +385,7 @@ class MainView extends StatelessWidget {
             child: Text('Cancel'.tr),
           ),
           TextButton(
-            onPressed: () => addValueToLabel(context, note, label),
+            onPressed: () => addValueToLabel(context, note, label, labelIndex),
             child: Text('Create'.tr),
           ),
         ],
@@ -321,16 +393,39 @@ class MainView extends StatelessWidget {
     );
   }
 
-  addNoteIdToLabel(
-      BuildContext context, Note note, Label label, String? noteIdToAdd) {
+  addNoteIdToLabel(BuildContext context, Note note, Label label, int labelIndex,
+      String? noteIdToAdd) {
     logic
-        .addNoteIdToLabel(note, label, noteIdToAdd)
+        .addNoteIdToLabel(note, label, labelIndex, noteIdToAdd)
         .then((value) => Navigator.pop(context));
   }
 
-  addValueToLabel(BuildContext context, Note note, Label label) {
+  addValueToLabel(
+      BuildContext context, Note note, Label label, int labelIndex) {
     logic
-        .addValueToLabel(note, label, state.rxNewLabelValue.value)
+        .addValueToLabel(note, label, labelIndex, state.rxNewLabelValue.value)
         .then((value) => Navigator.pop(context));
+  }
+
+  buildNoteShowDeleteLabelDialog(
+      BuildContext context, Note note, int labelIndex) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Delete Note Label'.tr),
+          content: Text('Are you sure to delete this label?'.tr),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'.tr),
+            ),
+            TextButton(
+              onPressed: () => logic
+                  .deleteNoteLabel(note, labelIndex)
+                  .then((value) => Navigator.pop(context)),
+              child: Text('Delete'.tr),
+            ),
+          ]),
+    );
   }
 }
