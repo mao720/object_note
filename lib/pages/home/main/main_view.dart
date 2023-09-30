@@ -163,19 +163,27 @@ class MainView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: IconButton(
                 onPressed: () => buildLabelShowCreateDialog(context),
                 icon: const Icon(Icons.add),
               ),
             ),
             ...state.rxListLabel.value
-                .map((label) => TextButton(
-                      onPressed: () {},
-                      onLongPress: () =>
-                          buildLabelShowDeleteDialog(context, label),
-                      child: Text('${label.name}'),
-                    ))
+                .map(
+                  (label) => TextButton(
+                    style: ButtonStyle(
+                      padding:
+                          MaterialStateProperty.all(const EdgeInsets.all(10)),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () =>
+                        buildLabelShowCreateDialog(context, label: label),
+                    onLongPress: () =>
+                        buildLabelShowDeleteDialog(context, label),
+                    child: Text('${label.name}'),
+                  ),
+                )
                 .toList(),
           ],
         ),
@@ -204,14 +212,14 @@ class MainView extends StatelessWidget {
     );
   }
 
-  buildLabelShowCreateDialog(BuildContext context) {
+  buildLabelShowCreateDialog(BuildContext context, {Label? label}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Create Label'.tr),
+        title: Text(label == null ? 'Create Label'.tr : 'Update Label'.tr),
         content: TextField(
           onChanged: (value) => state.rxNewLabelName.value = value,
-          onSubmitted: (value) => createLabel(context),
+          onSubmitted: (value) => createLabel(context, label: label),
         ),
         actions: [
           TextButton(
@@ -219,18 +227,24 @@ class MainView extends StatelessWidget {
             child: Text('Cancel'.tr),
           ),
           TextButton(
-            onPressed: () => createLabel(context),
-            child: Text('Create'.tr),
+            onPressed: () => createLabel(context, label: label),
+            child: Text(label == null ? 'Create'.tr : 'Update'.tr),
           ),
         ],
       ),
     );
   }
 
-  createLabel(BuildContext context) {
-    logic
-        .createLabel(state.rxNewLabelName.value)
-        .then((value) => Navigator.pop(context));
+  createLabel(BuildContext context, {Label? label}) {
+    if (label == null) {
+      logic
+          .createLabel(state.rxNewLabelName.value)
+          .then((value) => Navigator.pop(context));
+    } else {
+      logic
+          .updateLabel(state.rxNewLabelName.value, label)
+          .then((value) => Navigator.pop(context));
+    }
   }
 
   createNoteContent(BuildContext context, Note note, String? rootObjectId) {

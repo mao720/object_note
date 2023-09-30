@@ -78,6 +78,17 @@ class MainLogic extends GetxController {
     Toast.show('Create Label Success'.tr);
   }
 
+  updateLabel(String labelName, Label label) async {
+    var Label(objectId: labelId) = label;
+    if (labelId == null) {
+      Toast.show('No Id Found'.tr);
+      return;
+    }
+    await Api.updateLabel({'name': labelName}, labelId);
+    await getListLabel();
+    Toast.show('Update Label Success'.tr);
+  }
+
   deleteLabel(String id) async {
     await Api.deleteLabel(id);
     await getListLabel();

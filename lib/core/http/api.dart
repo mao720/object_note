@@ -59,6 +59,10 @@ class Api {
     return await Http().post('classes/label', data: label.toJson());
   }
 
+  static Future updateLabel(Map label, String id) async {
+    return await Http().put('classes/label/$id', data: label);
+  }
+
   static Future<bool> isLabelExist(Label label) async {
     var value = await Http().get('classes/label', queryParameters: {
       'where': {'name': label.name},
