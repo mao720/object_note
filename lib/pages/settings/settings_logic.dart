@@ -10,7 +10,7 @@ class SettingsLogic extends GetxController {
     Global.setThemeMode(themeMode);
   }
 
-  onLocaleChanged(String locale) {
+  onLocaleChanged(String? locale) {
     Global.setLocale(locale);
   }
 }

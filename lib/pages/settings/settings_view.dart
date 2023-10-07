@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
               logic.onThemeChanged),
         ]),
         _createSettingCard(context, title: 'Language'.tr, items: [
-          _createItem(context, '${'System'.tr} - $deviceLocaleName', 'system',
+          _createItem(context, '${'System'.tr} - $deviceLocaleName', null,
               Themes.rxLocale, logic.onLocaleChanged),
           ...Translation.supportLocale
               .map((local) => _createItem(
@@ -71,7 +71,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _createItem<T>(BuildContext context, String? title, T value,
-      Rx<T> groupValue, void Function(T value) onChanged,
+      Rx<T?> groupValue, void Function(T value) onChanged,
       {String? subtitle}) {
     return Obx(() {
       return RadioListTile(
@@ -79,9 +79,7 @@ class SettingsPage extends StatelessWidget {
         dense: true,
         controlAffinity: ListTileControlAffinity.trailing,
         title: Text(title ?? '', style: const TextStyle(fontSize: 14)),
-        subtitle: subtitle == null
-            ? null
-            : Text(subtitle, style: const TextStyle(fontSize: 12)),
+        subtitle: Text(subtitle ?? '', style: const TextStyle(fontSize: 12)),
         value: value,
         groupValue: groupValue.value,
         onChanged: (v) => onChanged(value),

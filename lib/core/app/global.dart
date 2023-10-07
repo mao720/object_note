@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:object_note/core/app/app_route.dart';
@@ -26,15 +25,15 @@ class Global {
     SharedPreferences.getInstance().then((sharedPreferences) {
       prefs = sharedPreferences;
       //theme
-      String theme = prefs.getString(Constants.theme) ?? 'system';
-      setThemeMode(ThemeMode.values.firstWhere((e) => describeEnum(e) == theme,
-          orElse: () => ThemeMode.system));
+      String? theme = prefs.getString(Constants.theme);
+      setThemeMode(ThemeMode.values
+          .firstWhere((e) => e.name == theme, orElse: () => ThemeMode.system));
       //locale
-      String locale = prefs.getString(Constants.locale) ?? 'system';
+      String? locale = prefs.getString(Constants.locale);
       setLocale(locale);
       //User
-      String userJson = prefs.getString(Constants.user) ?? '';
-      if (userJson.isNotEmpty) {
+      String? userJson = prefs.getString(Constants.user);
+      if (userJson != null && userJson.isNotEmpty) {
         rxUser.value = User.fromJson(jsonDecode(userJson));
       }
     });
@@ -43,14 +42,16 @@ class Global {
   static Future<void> setThemeMode(ThemeMode themeMode) async {
     Themes.rxThemeMode.value = themeMode;
     Get.changeThemeMode(themeMode);
-    await prefs.setString(Constants.theme, describeEnum(themeMode));
+    await prefs.setString(Constants.theme, themeMode.name);
   }
 
-  static Future<void> setLocale(String localeString) async {
+  static Future<void> setLocale(String? localeString) async {
     Themes.rxLocale.value = localeString;
     Get.updateLocale(
         StringUtils.stringToLocale(localeString, Get.deviceLocale));
-    await prefs.setString(Constants.locale, localeString);
+    if (localeString != null) {
+      await prefs.setString(Constants.locale, localeString);
+    }
   }
 
   static Future<void> setUser(User user) async {

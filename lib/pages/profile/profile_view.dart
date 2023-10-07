@@ -23,9 +23,10 @@ class ProfilePage extends StatelessWidget {
             child: Hero(
               tag: 'profile_hero',
               child: Obx(() {
+                var avatarUrl = Global.rxUser.value.avatar;
                 return CircleAvatar(
                   foregroundImage:
-                      NetworkImage(Global.rxUser.value.avatar ?? ''),
+                      avatarUrl == null ? null : NetworkImage(avatarUrl),
                   radius: 36,
                 );
               }),

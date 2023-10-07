@@ -26,13 +26,15 @@ class MineView extends StatelessWidget {
                   GestureDetector(
                     onTap: logic.onUserHeaderPressed,
                     child: Obx(() {
+                      var avatarUrl = Global.rxUser.value.avatar;
                       return Hero(
                         tag: Global.rxUser.value.objectId == null
                             ? 'login'.tr
                             : 'profile_hero',
                         child: CircleAvatar(
-                          foregroundImage:
-                              NetworkImage(Global.rxUser.value.avatar ?? ''),
+                          foregroundImage: avatarUrl == null
+                              ? null
+                              : NetworkImage(avatarUrl),
                           radius: 36,
                           child: const Icon(Icons.account_circle, size: 72),
                         ),
