@@ -6,7 +6,7 @@ class Themes {
 
   static const fontFamily = 'LXGWWenKaiLite';
   static final rxThemeMode = ThemeMode.system.obs;
-  static final Rx<String?> rxLocale = null.obs;
+  static final rxLocale = Rx<String?>(null);
   static const fallbackLocale = Locale('en');
 
   static final lightThemeData = ThemeData(
