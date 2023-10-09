@@ -14,22 +14,26 @@ class MainLogic extends GetxController {
 
   @override
   onInit() {
+    super.onInit();
+    onUserChange();
     worker = ever(
       Global.rxUser,
       (user) {
-        getListLabel();
-        getListNote();
+        onUserChange();
       },
     );
-    getListLabel();
-    getListNote();
-    super.onInit();
   }
 
   @override
-  void onClose() {
+  onClose() {
     worker.dispose();
     super.onClose();
+  }
+
+  onUserChange() {
+    if (!Global.isLogin()) return;
+    getListLabel();
+    getListNote();
   }
 
   createNote(String name) async {
@@ -49,16 +53,12 @@ class MainLogic extends GetxController {
   }
 
   getListNote() async {
-    var userId = Global.rxUser.value.objectId;
-    if (userId == null) return;
     var value = await Api.getNotes();
     state.rxListNote.value = value;
   }
 
   getListLabel() async {
-    var userId = Global.rxUser.value.objectId;
-    if (userId == null) return;
-    var value = await Api.getLabels(userId);
+    var value = await Api.getLabels();
     state.rxListLabel.value = value;
   }
 

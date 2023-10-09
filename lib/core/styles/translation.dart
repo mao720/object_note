@@ -22,6 +22,7 @@ class Translation extends Translations {
     'Object Note': '对象笔记',
     // Home page Tabs
     'Home': '主页',
+    'Dashboard': '看板',
     'Mine': '我的',
     // Mine Tab
     'Splash Page': '启动页',
@@ -44,6 +45,7 @@ class Translation extends Translations {
     'Object Note': 'Object Note',
     // Home page Tabs
     'Home': 'Home',
+    'Dashboard': 'Dashboard',
     'Mine': 'Mine',
     // Mine tab
     'Splash Page': 'Splash Page',

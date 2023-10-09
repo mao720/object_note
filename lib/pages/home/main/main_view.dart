@@ -7,7 +7,7 @@ import 'package:object_note/modal/note.dart';
 import 'main_logic.dart';
 
 class MainView extends StatelessWidget {
-  MainView({Key? key}) : super(key: key);
+  MainView({super.key});
 
   final logic = Get.put(MainLogic());
   final state = Get.find<MainLogic>().state;
@@ -15,7 +15,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (Global.rxUser.value.objectId == null) {
+      if (!Global.isLogin()) {
         return Center(
           child: TextButton(
             onPressed: logic.onLoginTap,

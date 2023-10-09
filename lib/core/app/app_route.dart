@@ -33,7 +33,7 @@ class AppRoute {
 class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    if (Global.rxUser.value.objectId != null || route == AppRoute.loginPage) {
+    if (Global.isLogin() || route == AppRoute.loginPage) {
       return null;
     } else {
       return const RouteSettings(name: AppRoute.loginPage);

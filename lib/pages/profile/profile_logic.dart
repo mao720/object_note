@@ -42,10 +42,9 @@ class ProfileLogic extends GetxController {
 
   updateUserAvatar(String avatarUrl) async {
     var objectId = Global.rxUser.value.objectId;
-    if (objectId != null) {
-      await Api.updateUser(objectId, avatarUrl: avatarUrl);
-      Toast.success(text: 'Avatar Updated'.tr);
-      Global.setAvatarUrl(avatarUrl);
-    }
+    if (objectId == null) return;
+    await Api.updateUser(objectId, avatarUrl: avatarUrl);
+    Toast.success(text: 'Avatar Updated'.tr);
+    Global.setAvatarUrl(avatarUrl);
   }
 }

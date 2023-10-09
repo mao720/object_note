@@ -37,7 +37,9 @@ class Api {
   }
 
   static Future<List<Note>> getNotes() async {
-    var value = await Http().get('classes/note');
+    var value = await Http().get('classes/note', queryParameters: {
+      'order': '-createdAt',
+    });
     return (Results.fromJson(value).results ?? [])
         .map((e) => Note.fromJson(e))
         .toList();
@@ -71,7 +73,7 @@ class Api {
     return results != null && results.isNotEmpty;
   }
 
-  static Future<List<Label>> getLabels(String userId) async {
+  static Future<List<Label>> getLabels() async {
     var value = await Http().get('classes/label');
     return (Results.fromJson(value).results ?? [])
         .map((e) => Label.fromJson(e))

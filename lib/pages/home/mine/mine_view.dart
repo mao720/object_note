@@ -28,9 +28,7 @@ class MineView extends StatelessWidget {
                     child: Obx(() {
                       var avatarUrl = Global.rxUser.value.avatar;
                       return Hero(
-                        tag: Global.rxUser.value.objectId == null
-                            ? 'login'.tr
-                            : 'profile_hero',
+                        tag: !Global.isLogin() ? 'login'.tr : 'profile_hero',
                         child: CircleAvatar(
                           foregroundImage: avatarUrl == null
                               ? null

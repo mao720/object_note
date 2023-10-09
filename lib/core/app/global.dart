@@ -55,12 +55,12 @@ class Global {
   }
 
   static Future<void> setUser(User user) async {
-    Global.rxUser.value = user;
+    rxUser.value = user;
     await prefs.setString(Constants.user, jsonEncode(user));
   }
 
   static Future<void> setAvatarUrl(String avatarUrl) async {
-    Global.rxUser.update((user) {
+    rxUser.update((user) {
       user?.avatar = avatarUrl;
     });
     await prefs.setString(Constants.user, jsonEncode(Global.rxUser.value));
@@ -71,5 +71,9 @@ class Global {
     Toast.info('登录信息已过期，请重新登录'.tr);
     await Future.delayed(const Duration(milliseconds: 500));
     Get.toNamed(AppRoute.loginPage);
+  }
+
+  static bool isLogin() {
+    return Global.rxUser.value.objectId != null;
   }
 }

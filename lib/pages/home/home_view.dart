@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:object_note/pages/home/dashboard/dashboard_view.dart';
 import 'package:object_note/pages/home/home_logic.dart';
 import 'package:object_note/pages/home/main/main_view.dart';
 import 'package:object_note/pages/home/mine/mine_view.dart';
+import 'package:object_note/widgets/keep_alive_wrapper.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -18,8 +20,9 @@ class HomePage extends StatelessWidget {
           controller: logic.pageController,
           onPageChanged: logic.onPageChanged,
           children: [
-            MainView(),
-            MineView(),
+            KeepAliveWrapper(child: MainView()),
+            KeepAliveWrapper(child: DashboardView()),
+            KeepAliveWrapper(child: MineView()),
           ],
         ),
       ),
