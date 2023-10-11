@@ -8,6 +8,7 @@ class MainState {
   RxString rxNewNoteName = ''.obs;
   RxString rxNewLabelName = ''.obs;
   RxString rxNewLabelValue = ''.obs;
+  RxString rxFilterText = ''.obs;
 
   MainState() {
     ///Initialize variables

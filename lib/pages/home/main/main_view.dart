@@ -43,12 +43,29 @@ class MainView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: ElevatedButton(
-                onPressed: () => buildNoteShowCreateDialog(context),
-                child: Text('Create Note'.tr),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () => buildNoteShowCreateDialog(context),
+                    child: Text('Create Note'.tr),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          labelText: 'Search'.tr,
+                          border: const OutlineInputBorder()),
+                      onChanged: (value) => state.rxFilterText.value = value,
+                      onSubmitted: (value) {},
+                    ),
+                  )
+                ],
               ),
             ),
             ...state.rxListNote.value
+                .where((note) =>
+                    state.rxFilterText.value.isEmpty ||
+                    (note.name?.contains(state.rxFilterText.value) ?? false))
                 .map((note) => buildNoteItem(context, note))
                 .toList(),
           ],
