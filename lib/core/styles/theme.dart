@@ -17,7 +17,11 @@ class Themes {
     visualDensity: VisualDensity.standard,
   );
 
-  static final darkThemeData = lightThemeData.copyWith(
+  static final darkThemeData = ThemeData(
+    useMaterial3: true,
+    colorSchemeSeed: Colors.green,
     brightness: Brightness.dark,
+    fontFamily: Themes.fontFamily,
+    visualDensity: VisualDensity.standard,
   );
 }
